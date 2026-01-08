@@ -1,0 +1,206 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+/* Global */
+body {
+    font-family: "Poppins", sans-serif;
+    background: #fdf8f3;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    width: 100vw;
+    font-family: 'Dancing Script', cursive;
+    font-weight: 700;
+    font-size: clamp(28px, 6vw, 40pt);
+    background: linear-gradient(135deg, #7ecbff, #b9e3ff);
+    padding: 20px;
+    color: #003049;
+    text-align: center;
+    margin: 0 auto 25px;
+    border-bottom: 4px solid #5fa8d3;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+header > a{
+    text-decoration: none;
+}
+
+.board-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* center the header and board together */
+}
+
+
+/* Gameboard Grid */
+#gameboard {
+    background-color: #fff7e6;
+    display: grid;
+    grid-template-columns: 2fr repeat(9, 1fr) 2fr;
+    text-align: center;
+    border: 5px solid #c09f80;
+    width: 90%;
+    margin: auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Each tile */
+section {
+    border: 2px solid #444;
+    height: 100px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    box-sizing: border-box;
+    font-size: 12px;
+    background: #ffffff;
+    transition: background 0.2s ease;
+}
+
+section:hover {
+    background: #fff2d6;
+}
+
+/* Center area */
+.middle {
+    grid-column: 2/11;
+    grid-row: 2/11;
+    background: #fef3db;
+    border: 4px dashed #c09f80 !important;
+}
+
+/* Property Color Bars */
+.lightblue.top {
+    border-top: 28px solid #7ed6ff;
+}
+
+.brown.top {
+    border-top: 28px solid #a97155;
+}
+
+.purple.right {
+    border-right: 28px solid #ab47bc;
+}
+
+.orange.right {
+    border-right: 28px solid #ffa726;
+}
+
+.red.bottom {
+    border-bottom: 28px solid #ef5350;
+}
+
+.yellow.bottom {
+    border-bottom: 28px solid #f4d03f;
+}
+
+.green.left {
+    border-left: 28px solid #27ae60;
+}
+
+.blue.left {
+    border-left: 28px solid #2980b9;
+}
+
+/* Dice */
+.die {
+    width: 60px;
+    height: 60px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+/* Player Panels */
+#grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 90%;
+    margin: 20px auto;
+}
+
+#player1div,
+.p1 {
+    background-color: #dafbe1;
+    border-left: 5px solid #27ae60;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+#player2div,
+.p2 {
+    background-color: #f8d6ff;
+    border-left: 5px solid #ab47bc;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+/* Active Player */
+.active {
+    border: 5px dashed red !important;
+}
+
+/* Money Display */
+.amount {
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    text-align: center;
+    font-size: 16pt;
+    width: 200px;
+    height: 55px;
+    margin: 10px auto;
+    border-radius: 8px;
+    line-height: 55px;
+    font-weight: 600;
+}
+
+/* Player token images */
+img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+#diceroll {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    /* space between dice */
+    margin-top: 10px;
+}
+
+#RollDice,
+#LoadProperties,
+/* Your AJAX button */
+button {
+    background: #4b77ff;
+    padding: 10px 20px;
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#RollDice:hover,
+#LoadProperties:hover,
+button:hover {
+    background: #2c55e0;
+    transform: translateY(-2px);
+}
+
+#RollDice:disabled,
+#LoadProperties:disabled {
+    background: gray;
+    cursor: not-allowed;
+    box-shadow: none;
+}

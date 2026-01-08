@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+
+    <title>Kidah's Piano</title>
+</head>
+
+<body>
+    <h1>Kidah's Piano</h1>
+    <div class="controls">
+        <div class="kbd">Octave: <select id="octave">
+                <option value="3">3</option>
+                <option value="4" selected>4</option>
+                <option value="5">5</option>
+            </select></div>
+        <button class="btn" id="sustain">Sustain: off</button>
+        <div class="kbd">Wave: <select id="wave">
+                <option value="sine" selected>sine</option>
+                <option value="square">square</option>
+                <option value="triangle">triangle</option>
+            </select></div>
+    </div>
+
+    <div id="piano" class="piano" aria-hidden="false"></div>
+    <footer>Use your mouse or keyboard (z s x d c v g b h n j m ,) to play. Click keys or press & hold.</footer>
+</body>
+<script src="script.js"></script>
+
+</html>

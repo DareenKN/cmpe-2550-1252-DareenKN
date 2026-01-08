@@ -1,0 +1,227 @@
+/* Import fonts */
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+/* Body styling */
+body {
+    background: linear-gradient(to right, #c8aff7, #ffffff);
+    font-family: 'Poppins', monospace, sans-serif;
+    /* main font */
+}
+
+
+/* Anchor tags */
+a {
+    color: rgb(139, 139, 243);
+    font-size: 20px;
+    font-family: 'Fira Code', monospace;
+    text-decoration: none;
+}
+
+/* H1 and H2 */
+h1,
+h2 {
+    text-align: center;
+}
+
+/* Centered class for all images */
+.Centered {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Special id for last <a> in icas.html */
+#ALast {
+    letter-spacing: 10px;
+}
+
+/* Link states */
+a:link,
+a:visited {
+    color: green;
+}
+
+a:hover {
+    color: yellow;
+}
+
+a:active {
+    color: red;
+}
+
+/* Extra class for two paragraphs on home page */
+.HighlightBox {
+    border: 3px dashed teal;
+    height: auto;
+    background-color: #ffe4e1;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+
+#homeBody {
+    background: linear-gradient(to bottom right, #3b5998, #8b9dc3);
+
+}
+
+#title {
+    color: white;
+    font-family: 'Great Vibes', cursive;
+    font-size: 50px;
+    text-align: center;
+    margin: auto;
+    padding: 10px;
+    background-color: rgb(139, 139, 243);
+    border-radius: 7px;
+}
+
+.aboutMe {
+    color: white;
+    font-family: "Roboto Mono", monospace;
+}
+
+.homeLink {
+    margin: 20px;
+    border: 2px solid lavender;
+    border-radius: 7px;
+    color: rgb(139, 139, 243);
+    font-size: 32px;
+    font-weight: bold;
+    font-family: "caveat";
+    text-decoration: none;
+    display: inline-block;
+    padding: 5px;
+    transition: all 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.homeLink:hover {
+    transform: scale(1.05);
+    color: white;
+    background-color: rgb(139, 139, 243);
+}
+
+.imgLink {
+    border: 2px solid lavender;
+    border-radius: 7px;
+    width: 10em;
+    height: 150px;
+    transition: transform 0.3s ease;
+}
+
+.imgLink:hover {
+    transform: scale(1.05);
+    border-color: rgb(139, 139, 243);
+}
+
+
+#homeNav {
+    text-align: center;
+}
+
+.topRow {
+    display: flex;
+    justify-content: center;
+}
+
+.bottomRow {
+    display: auto;
+    margin: auto;
+    justify-content: center;
+}
+
+.landingLink {
+    color: aliceblue;
+    margin: 0px;
+}
+
+#footer {
+    color: aliceblue;
+}
+
+.navbar {
+    position: fixed;
+    top: 2em;
+    left: 1em;
+    width: 9em;
+}
+
+/* .contentSection {
+    font-family: serif;
+} */
+
+
+.aboutContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px;
+}
+
+
+.aboutPic {
+    width: 180px;
+    border-radius: 10px;
+    object-fit: cover;
+    border: 3px solid lavender;
+}
+
+
+.projectPic {
+    width: 180px;
+    height: 180px;
+    border-radius: 10px;
+    object-fit: cover;
+    border: 3px solid lavender;
+    transition: transform 0.3s ease;
+}
+
+
+.projectPic:hover {
+    transform: scale(1.05);
+    border-color: rgb(139, 139, 243);
+}
+
+
+.aboutText {
+    flex: 1;
+    text-align: justify;
+}
+
+
+
+@media screen and (max-width: 768px) {
+    .contentSection {
+        padding-top: 50px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .navbar {
+        position: absolute;
+        top: 2em;
+        left: 1em;
+        width: 9em;
+    }
+
+    .aboutContainer {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .projectPic {
+        width: 150px;
+        height: 150px;
+    }
+
+    .aboutText {
+        width: 100%;
+        text-align: left;
+    }
+}
+
+
