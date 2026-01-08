@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple-v1.css">
+
+    <script src="script.js"></script>
+</head>
+<body>
+    <form id="form1" action="" target="_blank" >
+        <input type="text" name="food_name" id="food_name" placeholder=" Food name">
+        <input type="text" name="calories" id="calories"  placeholder=" Calories">
+        <input type="text" name="portion" id="portion" placeholder=" Portion size">
+        <input type="text" name="quantity" id="quantity" placeholder="Quantity">
+
+        <fieldset>
+            <input type="radio" class="mealTypePicker" name="mealType" id="" value="BR" checked> Breakfast
+            <input type="radio" class="mealTypePicker" name="mealType" id="" value="LN"> Lunch
+            <input type="radio" class="mealTypePicker" name="mealType" id="" value="DN"> Dinner
+        </fieldset>
+
+        <fieldset>
+            <input type="checkbox" name="extraInfo" value="cheatDay">Cheat Day
+            <input type="checkbox" name="extraInfo" value="weekend">Weekend
+            <input type="checkbox" name="extraInfo" value="eatingOut">Eating Out
+            <input type="checkbox" name="extraInfo" value="delivery">Delivery
+            <input type="checkbox" name="extraInfo" value="mainMeal">Main Meal
+            <input type="checkbox" name="extraInfo" value="snack">Snack
+        </fieldset>
+        <button type="submit" id="saveFood"> Save food</button>
+    </form>
+
+    <div id="placeholder"></div>
+</body>
+</html>

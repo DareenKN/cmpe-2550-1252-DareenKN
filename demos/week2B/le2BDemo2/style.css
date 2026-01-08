@@ -1,0 +1,27 @@
+h1 {
+    background-color: blue;
+    border: 5px dashed red;
+    border-radius: 5px;
+    color: red;
+    font-size: 30px;
+    text-align: center;
+}
+
+th {
+    font-size: 1.5em;
+}
+
+th,
+td {
+    border: solid black 2px;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+tr:nth-child(1) {
+    background-color: green;
+    color: blue;
+    font: 1.5em;
+}

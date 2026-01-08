@@ -1,0 +1,29 @@
+h1 {
+  text-align: center;
+  background-color: bisque;
+  color: red;
+}
+
+#placeholder {
+  font-size: 1.5em;
+}
+
+button {
+  background-color: cyan;
+  font-size: 1.5em;
+  border-radius: 10px;
+}
+
+th,
+td {
+  border: 1px solid black;
+  text-align: center;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+img {
+  width: 400px;
+}

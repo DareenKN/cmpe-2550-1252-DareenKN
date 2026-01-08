@@ -1,0 +1,71 @@
+/*This CSS file is used for illustrating Styling with Grid
+Course: CMPE 2000- Fall 2022
+Author: Oveeyen Moonian
+*/
+
+/*Our container class is a grid with 3 columns (100px, 300px, 200px) and 2 rows(100px,200px*/
+.container {
+    display: grid;
+    grid-template-columns: repeat(5, 100px);
+    grid-template-rows: repeat(3, 150px);
+    gap: 10px 15px;
+}
+
+.item {
+    font-size: 3em;
+    text-align: center;
+    padding-top: 0.5em;
+    ;
+}
+
+#item1 {
+    background-color: #e9e9e9;
+    grid-column-start: 5;
+    grid-column-end: 6;
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+
+#item2 {
+    background-color: #c2c0c0;
+    grid-column-start: 2;
+    grid-column-end: span 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+
+#item3 {
+    background-color: #969393;
+    padding-top: 1em;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: end;
+}
+
+#item4 {
+    background-color: #7e7b7b;
+    padding-top: 1em;
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+
+#item5 {
+    background-color: #969393;
+    padding-top: 1em;
+    grid-column-start: 3;
+    grid-column-end: span 3;
+    grid-row-start: 2;
+    grid-row-end: 3;
+}
+
+#item6 {
+    background-color: #696666;
+    padding-top: 1em;
+    grid-column-start: 3;
+    grid-column-end: span 2;
+    grid-row-start: 3;
+    grid-row-end: end;
+}

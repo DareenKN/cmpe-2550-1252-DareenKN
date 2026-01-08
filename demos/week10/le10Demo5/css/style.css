@@ -1,0 +1,15 @@
+#placeholder {
+   font-size:1.5em;
+}
+
+button{
+  background-color:cyan;
+  font-size: 1.5em;
+  border-radius: 10px;
+}
+
+#changeStyle{
+  background-color:cyan;
+  font-size: 1.5em;
+  border-radius: 10px
+}

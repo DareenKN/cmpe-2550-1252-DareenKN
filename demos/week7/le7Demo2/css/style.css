@@ -1,0 +1,10 @@
+body {
+    font-size: 1.5em;
+}
+
+button {
+    background-color: cyan;
+    font-size: 1em;
+    border-radius: 15px;
+    height: 40px;
+}

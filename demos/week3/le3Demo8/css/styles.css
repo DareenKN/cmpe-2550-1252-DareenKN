@@ -1,0 +1,117 @@
+/*
+
+Stylye sheet for illustrating responsive design
+
+*/
+
+
+body {
+	font-family: 'Roboto', sans-serif;
+}
+
+h1,
+h2 {
+	border: 2px dashed red;
+}
+
+h1 {
+	background-color: aqua;
+}
+
+h2 {
+	background-color: aquamarine;
+}
+
+
+article {
+	border: 2px solid green;
+	background-color: bisque;
+	margin: 10px;
+}
+
+section {
+	border: 3px dashed blue;
+	background-color: ivory;
+	margin: 15px;
+}
+
+header,
+footer {
+	border: 3px solid darkred;
+	background-color: darkseagreen;
+}
+
+h1,
+h2 {
+	margin: 10px;
+}
+
+.navlinks {
+	list-style-type: none;
+
+}
+
+a {
+	text-decoration: none;
+
+}
+
+aside {
+
+	background-color: Cyan;
+	border: 1px solid black;
+}
+
+.container {
+	display: grid;
+	grid-template-rows: 150px 100px 800px 150px 200px;
+	grid-template-columns: 1fr 3fr 1fr;
+
+}
+
+header {
+	grid-column-start: 2;
+	grid-column-end: 3;
+	grid-row-start: 1;
+	grid-row-end: 2;
+}
+
+nav {
+	grid-column-start: 1;
+	grid-column-end: 3;
+	grid-row-start: 2;
+	grid-row-end: 3;
+}
+
+
+article {
+	grid-column-start: 1;
+	grid-column-end: 3;
+	grid-row-start: 3;
+	grid-row-end: 4;
+}
+
+
+
+footer {
+	grid-column-start: 2;
+	grid-column-end: 3;
+	grid-row-start: 5;
+	grid-row-end: end;
+}
+
+aside {
+	grid-column-start: 3;
+	grid-column-end: 4;
+	grid-row-start: 2;
+	grid-row-end: 4;
+}
+
+#specialDiv{
+	grid-column-start: 2;
+	grid-row: 4 / 5;
+	font-size: 1.5em;
+	border: 2px dotted red;
+	background-color: aqua;
+	margin: 5px;
+}

@@ -1,0 +1,17 @@
+button {
+    background-color: cyan;
+}
+
+
+main {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 100px)
+}
+section {
+    display: flex;
+    border: 2px solid black;
+    justify-content: center;
+    align-items: center;
+
+}

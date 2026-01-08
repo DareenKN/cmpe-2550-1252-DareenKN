@@ -1,0 +1,28 @@
+#placeholder {
+    font-size: 1.5em;
+}
+
+button {
+    background-color: cyan;
+    font-size: 1.5em;
+    border-radius: 10px;
+}
+
+#changeStyle {
+    background-color: cyan;
+    font-size: 1.5em;
+    border-radius: 10px
+}
+
+table {
+    border: 2px solid black;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    width: 2em;
+    border: 1px solid black;
+    text-align: center;
+
+}

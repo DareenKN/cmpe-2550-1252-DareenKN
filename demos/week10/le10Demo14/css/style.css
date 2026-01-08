@@ -1,0 +1,11 @@
+button {
+    background-color: cyan;
+    font-size: 1.5em;
+    border-radius: 10px;
+}
+
+.emphasized {
+    color: blue;
+    font-weight: bold;
+    font-size: 22px;
+}

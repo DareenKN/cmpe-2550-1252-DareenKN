@@ -1,0 +1,16 @@
+h1,
+h2,
+h3 {
+       color: blue;
+}
+
+button {
+       background-color: cyan;
+       font-size: 1.5em;
+}
+
+#studentPlaceHolder {
+       font-size: 1.5em;
+       font-weight: bold;
+       color: blue;
+}

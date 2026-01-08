@@ -1,0 +1,45 @@
+h1 {
+  background-color: blue;
+  color: yellow;
+  border: 10px solid black;
+  text-align: center;
+  font-weight: bold;
+  font-family: Arial;
+  margin: 50px;
+  padding: 15px;
+  font-size: 2em;
+}
+
+p {
+  font-size: 20px;
+  color: blue;
+  padding: 10px;
+  margin: 15px;
+  font-family: Courier;
+}
+
+/*
+img {
+  display:none;
+}
+*/
+#paragraph3 {
+  color: green;
+  font-family: Roboto;
+}
+
+
+/*
+@media screen and (min-width:800px){  
+
+  img {
+    width: 250px;
+    height:250px;
+    border: 10px dashed green;
+    padding:10px;
+    display: block;
+  }
+
+  
+  }
+  */

@@ -1,0 +1,22 @@
+#serverResult {
+    font-size: 1.5em;
+}
+
+button {
+    background-color: cyan;
+    font-size: 1.5em;
+    border-radius: 10px;
+}
+
+body {
+    font-size: 1.5em;
+}
+
+input {
+    font-size: 1em;
+}
+
+.Highlight {
+    background-color: yellow;
+    color: red;
+}

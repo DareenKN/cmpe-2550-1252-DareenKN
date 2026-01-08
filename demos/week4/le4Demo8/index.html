@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture4-Demo8 </title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<!--This forms demonstrates the use of the number and range control-->
+
+<body>
+    <!--
+        <form id="Form1" action="htpps://thor.net.nait.ca/~oveeyenm/CMPE2000/demos/week4/rangeHandler.php" method="post" >
+        -->
+    <form id="Form1" action="https://thor.cnt.sast.ca/~dkinganjatou1251/forms_server/rangeHandler.php" method="post"
+        target="_blank">
+        <label for="myemail">
+            Email:
+        </label>
+        <input type="email" id="myemail" placeholder="enter email">
+        <label for="investment">Monthly Investment</label>
+        <input type="number" id="investment" name="MonthlyInvestment" min="100" max="1000" step="100"
+            value="300"><br><br>
+        <label for="book">Rate This Book from 1 to 100</label>
+        <input type="range" id="book" name="BookRating" min="1" max="100" step="1" value="2"><br><br>
+        <input type="submit" id="submit" value="Submit Survey">
+    </form>
+</body>
+
+</html>

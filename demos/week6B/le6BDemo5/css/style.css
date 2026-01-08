@@ -1,0 +1,21 @@
+h1 {
+    text-align: center;
+}
+
+button {
+    background-color: cyan;
+}
+
+
+img {
+    width: 100px;
+    height: 100px;
+    padding: 50px;
+}
+
+#imageHolder {
+    width: 200px;
+    Height: 200px;
+    background-color: bisque;
+
+}

@@ -1,0 +1,74 @@
+<!--
+This HTML file together with the associated javascript file 
+are used to demonstrate how to access form controls
+from java script and also to respond to form control
+events such as onclick and onchange
+
+-->
+<!Doctype html>
+<html>
+
+<head>
+    <title>lecture7-Demo1 </title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="js/le7Demo1.js"></script>
+
+</head>
+
+<body>
+    <form name="myform" action="https://thor.cnt.sast.ca/~oveeyenm/public/cmpe2000/form1.php" method="get">
+
+       <!--Radio Buttons Group with name drink-->
+        <input type="radio" class="radio1" name="drink" value="Coffee" checked>Coffee <br>
+        <input type="radio" class="radio1" name="drink" value="Tea">Tea <br>
+        <input type="radio" class="radio1" name="drink" value="Juice">Juice <br>
+
+        <!-- The Button and Ouput Elements below together
+            with the event handlers demonstrate 
+          how we can access the states of form control elements
+          from Javascript and take actions based on the states-->
+        <button type="button" id="displayDrinkBtn">Display Drink Stall</button>
+        <output id="drinkStall" name="drMessage"></output> <br><br>
+
+        <button type="button" id="chosenRadioBtn">Display Chosen Radio Button</button>
+        <output id="chosenRadioDisplay"></output> <br><br>
+
+        <button type="button" id="nonChosenRadioBtn">Display Non-Chosen Radio Buttons</button><br><br>
+        <output id="nonChosenRadioDisplay"></output> <br><br>
+
+
+        <!--Checkboxes-->
+        <label>Contact me by</label><br>
+        <input type="checkbox" class="ckBox1" name="emailContact" value="email">email<br>
+        <input type="checkbox" class="ckBox1" name="phoneContact" value="phone">phone<br>
+        <input type="checkbox" class="ckBox1" name="postContact" value="post">post<br><br>
+
+        <!--Buttons to access and modify states of the checkboxes/radiobuttons-->
+        <button type="button" id="displayContactBtn">Display Chosen Contact Methods</button><br>
+        <output id="contactMethods" name="chosenContactMethods"></output><br><br>
+
+        <button type="button" id="uncheckRadioBtn">Uncheck Radio Buttons</button><br><br>
+        <button type="button" id="uncheckCheckBoxesBtn">Uncheck All
+            Checkboxes</button><br><br>
+        <button type="button" id="checkOptionsBtn">Click to Check 2nd radio and 1st 2
+            checkboxes</button> <br><br>
+
+
+        <!-- Selecting a Grade from below deonstrates the use of the onchange even for select elements-->
+        <Label> Select The Grade Obtained</Label>
+        <select name="LetterGrade" id="Grade" size="1">
+            <option value=" "> </option>
+            <option value="A">A-grade</option>
+            <option value="B">B-grade</option>
+            <option value="C">C-grade</option>
+            <option value="D">D-grade</option>
+            <option value="F">F-grade</option>
+        </select>
+        <br><br>
+        <output id="gradeOutput" name="gradeMessage"></output><br><br>
+    </form>
+
+</body>
+
+</html>
