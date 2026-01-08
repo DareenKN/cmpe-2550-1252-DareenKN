@@ -1,0 +1,98 @@
+/* Effect 3d on the font */
+header h1,
+header a {
+    text-align: center;
+    color: beige;
+    text-shadow: 1px 1px 0px #bbb,
+        2px 2px 0px #292828,
+        3px 3px 2px rgba(0, 0, 0, 0.3);
+
+}
+
+header a {
+    text-decoration: none;
+}
+
+header h1 {
+    font: 25px Comfortaa, sans-serif;
+    padding: 15px;
+    margin: 0px;
+}
+
+header {
+    text-align: center;
+    background-color: #eeeeee;
+    padding: 10px;
+}
+
+.innerPanel {
+    background-color: #e0e0e8;
+    padding: 10px;
+
+    grid-column: 2/ span 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 5px;
+}
+
+.toNext {
+    background-color: white;
+}
+
+.fullspan {
+    grid-column: 1/ span 2;
+}
+
+body {
+    background-color: #ffffff;
+
+    display: grid;
+    gap: 5px;
+}
+
+footer {
+    text-align: center;
+    background-color: #e0e0e8;
+}
+
+footer p {
+    margin: 0px;
+}
+
+#tablePlaceHolder {
+    margin: auto;
+}
+
+#tablePlaceHolder th,
+#tablePlaceHolder td {
+    padding: 3px 7px;
+    vertical-align: middle;
+    text-align: center !important;
+}
+
+#centerContent {
+    display: grid;
+    grid-template-columns: 0fr;
+    gap: 5px 0px;
+    }
+
+@media screen and (min-width:800px) {
+    body {
+        display: grid;
+        grid-template-columns: 1fr 3fr 1fr;
+    }
+
+    header {
+        grid-row: 1/ span 1;
+        grid-column: 1/ span 3;
+    }
+
+    #centerContent {
+        grid-column: 2/span 1
+    }
+
+    footer {
+        grid-row: 4;
+        grid-column: 1/span 3;
+    }
+}
