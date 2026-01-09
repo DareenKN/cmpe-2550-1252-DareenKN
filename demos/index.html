@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>In-Class Demos — Landing</title>
+    <style>
+        :root{--bg:#0f1724;--card:#0b1220;--accent:#06b6d4;--muted:#94a3b8;--glass:rgba(255,255,255,0.04)}
+        html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial}
+        body{background:linear-gradient(180deg,#071428 0%, #061427 50%, #042332 100%);color:#e6eef6;padding:32px}
+        .container{max-width:1100px;margin:0 auto}
+        header{display:flex;align-items:center;justify-content:space-between;gap:16px}
+        h1{margin:0;font-size:28px}
+        p.lead{margin:6px 0 0;color:var(--muted)}
+        .controls{display:flex;gap:12px;align-items:center}
+        .search{padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:var(--glass);color:inherit;min-width:240px}
+
+        .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:22px}
+        .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04);padding:16px;border-radius:12px;box-shadow:0 6px 20px rgba(2,6,23,0.6)}
+        .card h2{margin:0 0 8px;font-size:18px}
+        .links{display:flex;flex-direction:column;gap:8px}
+        .links a{display:block;padding:8px 10px;border-radius:8px;color:#dff6fb;text-decoration:none;background:transparent;border:1px solid transparent}
+        .links a:hover{background:linear-gradient(90deg, rgba(6,182,212,0.08), rgba(6,182,212,0.03));border-color:rgba(6,182,212,0.12);transform:translateY(-2px)}
+        .links a .topic{display:block;font-size:11px;color:var(--muted);margin-top:2px;font-weight:300}
+        .meta{font-size:12px;color:var(--muted);margin-top:10px}
+        footer{margin-top:28px;color:var(--muted);font-size:13px}
+        @media (max-width:640px){body{padding:18px}h1{font-size:20px}}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div>
+                <h1>In‑Class Demos</h1>
+                <p class="lead"> In class demos landing page</p>
+            </div>
+            <div class="controls">
+                <input id="search" class="search" placeholder="Filter demos (try: week4, le5, demo)" autofocus>
+            </div>
+        </header>
+
+        <nav>
+            <br><a href="../index.html" style="color: #e6eef6;">HOME Landing Page</a><br>
+        </nav>
+
+        <main id="cards" class="grid" aria-live="polite">
+            <section class="card" data-filter="week1">
+                <h2>week 1</h2>
+                <div class="links">
+                    <a href="week1/le1demo1a/index.php">le1demo1a</a>
+                </div>
+                <div class="meta"> Basic PHP </div>
+            </section>
+
+            <section class="card" data-filter="week2">
+                <h2>week 2</h2>
+                <div class="links">
+                </div>
+                <div class="meta"> ... </div>
+            </section>
+
+            <section class="card" data-filter="week3">
+                <h2>week 3</h2>
+                <div class="links">
+                </div>
+                <div class="meta"> ... </div>
+            </section>
+
+            <section class="card" data-filter="week4">
+                <h2>week 4</h2>
+                <div class="links">
+                </div>
+                <div class="meta"> ... </div>
+            </section>
+
+            <section class="card" data-filter="week6">
+                <h2>week 6</h2>
+                <div class="links">
+                </div>
+                <div class="meta"> ... </div>
+            </section>
+            
+            <section class="card" data-filter="week8">
+                <h2>week 8</h2>
+                <div class="links">
+                </div>
+                <div class="meta"> ... </div>
+            </section>
+
+            <section class="card" data-filter="week9">
+                <h2>week 9</h2>
+                <div class="links">
+                </div>
+                <div class="meta"> ... </div>
+            </section>
+
+            <section class="card" data-filter="week11">
+                <h2>week 11</h2>
+                <div class="links">
+                </div>
+                <div class="meta"> ... </div>
+            </section>
+
+            <section class="card" data-filter="week12">
+                <h2>week 12</h2>
+                <div class="links">
+                </div>
+                <div class="meta"> ... </div>
+            </section>
+
+            <section class="card" data-filter="week13">
+                <h2>week 13</h2>
+                <div class="links">
+                </div>
+                <div class="meta"> ... </div>
+            </section>
+
+            <section class="card" data-filter="week14">
+                <h2>week 14</h2>
+                <div class="links">
+                </div>
+                <div class="meta"> ... </div>
+            </section>
+        </main>
+    
+        <footer>
+            Tip: use the filter box to quickly find demos. If a link is broken, check the folder name casing or structure.
+        </footer>
+    </div>
+    
+    <script>
+        const search = document.getElementById('search');
+        const cards = Array.from(document.querySelectorAll('.card'));
+
+        function normalize(s) { return s.trim().toLowerCase() }
+
+        search.addEventListener('input', (e) => {
+            const q = normalize(e.target.value);
+            cards.forEach(card=>{
+                const text = normalize(card.textContent + ' ' + (card.getAttribute('data-filter')||''));
+                if(!q || text.includes(q)){
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
