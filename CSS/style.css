@@ -63,7 +63,9 @@ a:active {
 
 
 #homeBody {
-    background: linear-gradient(to bottom right, #3b5998, #8b9dc3);
+    /* background: linear-gradient(to bottom right, #3b5998, #8b9dc3); */
+    background-image: url(../images/Background.jpg);
+    background-size:contain;
 
 }
 
