@@ -27,7 +27,6 @@ header {
 
 .innerPanel {
     background-color: #e0e0e8;
-    padding: 10px;
 
     grid-column: 2/ span 1;
     display: grid;
@@ -40,14 +39,20 @@ header {
 }
 
 .fullspan {
+    text-align: center;
     grid-column: 1/ span 2;
 }
 
 body {
     background-color: #ffffff;
+    font-family: Calibri;
 
     display: grid;
     gap: 5px;
+}
+
+.right-align {
+    text-align: right;
 }
 
 footer {
@@ -55,19 +60,8 @@ footer {
     background-color: #e0e0e8;
 }
 
-footer p {
+p {
     margin: 0px;
-}
-
-#tablePlaceHolder {
-    margin: auto;
-}
-
-#tablePlaceHolder th,
-#tablePlaceHolder td {
-    padding: 3px 7px;
-    vertical-align: middle;
-    text-align: center !important;
 }
 
 #centerContent {
