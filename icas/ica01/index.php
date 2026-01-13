@@ -10,9 +10,9 @@ if (
     strlen($_GET['name']) > 0 &&
     strlen($_GET['hobby']) > 0
 ) {
-    $name = strip_tags($_GET['name']);
-    $hobby = strip_tags($_GET['hobby']);
-    $like = strip_tags($_GET['like']);
+    $name  = strip_tags($_GET['Name']);
+    $hobby = strip_tags($_GET['Hobby']);
+    $like  = strip_tags($_GET['HowMuch']);
 
     $formResult = "$name really really really likes $hobby (Level: $like)";
     $status .= "+ProcessForm";
@@ -74,16 +74,16 @@ if (
             <!-- Part II - Form Processing -->
             <b class="fullspan">Part II : Form Processing</b>
             $_GET Contents:
-            <p>
-            <ul>
-                <?php
-                foreach ($_GET as $key => $value) {
-                    echo "<li>[$key] = $value</li>";
-                }
-                $status .= "+GETData";
-                ?>
-            </ul>
-            </p>
+            <div>
+                <ul>
+                    <?php
+                    foreach ($_GET as $key => $value) {
+                        echo "<li>[$key] = $value</li>";
+                    }
+                    $status .= "+GETData";
+                    ?>
+                </ul>
+            </div>
 
         </div>
 
@@ -91,30 +91,30 @@ if (
             <!-- Part III – Array Generation -->
             <b class="fullspan">Part III : Array Generation</b>
             Array Generated:
-            <p>
+            <div>
                 <?php
                 $nums = GenerateNumbers();
                 echo MakeList($nums);
                 $status .= "+GenerateNumbers+MakeList+ShowArray";
                 ?>
-            </p>
+            </div>
 
         </div>
 
         <div class="innerPanel">
             <!-- Part IV - Form Processing -->
             <b class="fullspan">Part IV : Form Processing</b>
-            <form method="get" action="">
+            <form method="get" action="" class="fullspan innerPanel">
                 <label class="right-align">Name:</label>
-                <input type="text" name="name" id="nameInput">
+                <input type="text" name="Name">
 
                 <label class="right-align">Hobby:</label>
-                <input type="text" name="hobby" id="hobbyInput">
+                <input type="text" name="Hobby">
 
                 <label class="right-align">How Much I like it:</label>
-                <input type="range" name="like" value="8" min="1" max="13">
+                <input type="range" name="HowMuch" value="8" min="1" max="13">
 
-                <input type="submit" value="Go Now !" class="fullspan">
+                <input type="submit" name="submit" value="Go Now !" class="fullspan">
             </form>
         </div>
 
