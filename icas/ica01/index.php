@@ -20,7 +20,7 @@
     <!-- Link for Script File -->
     <script src="js/script.js"></script>
 
-    <title>ICA10</title>
+    <title>ICA01_PHP</title>
 </head>
 
 <body>
