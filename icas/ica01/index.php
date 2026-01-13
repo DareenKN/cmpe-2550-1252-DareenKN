@@ -1,3 +1,24 @@
+<?php
+require_once "util.php";
+
+$status = "";
+$formResult = "";
+
+/* ---------- PART IV : FORM PROCESSING ---------- */
+if (
+    isset($_GET['name'], $_GET['hobby']) &&
+    strlen($_GET['name']) > 0 &&
+    strlen($_GET['hobby']) > 0
+) {
+    $name = strip_tags($_GET['name']);
+    $hobby = strip_tags($_GET['hobby']);
+    $like = strip_tags($_GET['like']);
+
+    $formResult = "$name really really really likes $hobby (Level: $like)";
+    $status .= "+ProcessForm";
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,52 +54,84 @@
             <!-- Part I - Server Info -->
             <b class="fullspan">Part I : Server Info</b>
             Your IP Address is:
-            <p id=""></p>
+            <p>
+                <?= $_SERVER['REMOTE_ADDR']; ?>
+            </p>
 
             $_GET Evaluation:
-            <p id=""></p>
+            <p>
+                <?= "Found: " . count($_GET) . " entry in \$_GET"; ?>
+            </p>
 
             $_POST Evaluation:
-            <p id=""></p>
-
+            <p>
+                <?= "Found: " . count($_POST) . " entry in \$_POST"; ?>
+            </p>
+            <?php $status .= "+ServerInfo"; ?>
         </div>
-        
+
         <div class="innerPanel">
             <!-- Part II - Form Processing -->
             <b class="fullspan">Part II : Form Processing</b>
             $_GET Contents:
-            <p id=""></p>
+            <p>
+            <ul>
+                <?php
+                foreach ($_GET as $key => $value) {
+                    echo "<li>[$key] = $value</li>";
+                }
+                $status .= "+GETData";
+                ?>
+            </ul>
+            </p>
+
         </div>
 
         <div class="innerPanel">
             <!-- Part III – Array Generation -->
-             <b class="fullspan">Part III : Array Generation</b>
-             Array Generated:
-             <p id=""></p>
+            <b class="fullspan">Part III : Array Generation</b>
+            Array Generated:
+            <p>
+                <?php
+                $nums = GenerateNumbers();
+                echo MakeList($nums);
+                $status .= "+GenerateNumbers+MakeList+ShowArray";
+                ?>
+            </p>
+
         </div>
 
         <div class="innerPanel">
             <!-- Part IV - Form Processing -->
             <b class="fullspan">Part IV : Form Processing</b>
-            <label class="right-align">Name:</label>
-            <input type="text" name="" id="nameInput">
+            <form method="get" action="">
+                <label class="right-align">Name:</label>
+                <input type="text" name="name" id="nameInput">
 
-            <label class="right-align">Hobby:</label>
-            <input type="text" name="" id="hobbyInput">
+                <label class="right-align">Hobby:</label>
+                <input type="text" name="hobby" id="hobbyInput">
 
-            <label class="right-align">How Much I like it:</label>
-            <input type="range" value="8" min="1" max="13" id="likeRange">
+                <label class="right-align">How Much I like it:</label>
+                <input type="range" name="like" value="8" min="1" max="13">
 
-            <button id="callWithGet" class="fullspan">Go Now !</button>
-            <label for="result" id="result" class="fullspan"></label>
+                <input type="submit" value="Go Now !" class="fullspan">
+            </form>
+
+            <label id="result" class="fullspan">
+                <?= $formResult ?>
+            </label>
+
         </div>
-    
-        <div class="innerPanel"> 
-            <center class="fullspan">Whatever</center>        
+
+        <div class="innerPanel">
+            <center class="fullspan">
+                Status :
+                <?= $status ?>
+            </center>
         </div>
 
-        <div class="innerPanel"> 
-            <center class="fullspan">Whatever</center>        
+        <div class="innerPanel">
+            <center class="fullspan">Whatever</center>
         </div>
     </div>
 

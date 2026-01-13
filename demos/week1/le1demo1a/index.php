@@ -2,8 +2,8 @@
 //strip_tags();
 // require_once "stuff.php";
 
-$var = 98 + 54 + 100;
-error_log(json_encode($_GET));
+//$var = 98 + 54 + 100;
+//error_log(json_encode($_GET));
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,6 +20,6 @@ error_log(json_encode($_GET));
 
     <input type="text"/>
 
-    <form action="index.php" method="get"></form>
+    <!-- <form action="index.php" method="get"></form> -->
 </body>
 </html>
