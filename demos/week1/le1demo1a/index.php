@@ -1,6 +1,6 @@
 <?php
 //strip_tags();
-require_once "stuff.php";
+// require_once "stuff.php";
 
 $var = 98 + 54 + 100;
 error_log(json_encode($_GET));
@@ -18,7 +18,7 @@ error_log(json_encode($_GET));
     <?php echo "<br />The value is $var";?>
     <br />
 
-    <input type="text" value="<?php echo Blah();?>" />
+    <input type="text"/>
 
     <form action="index.php" method="get"></form>
 </body>
