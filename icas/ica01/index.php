@@ -1,22 +1,39 @@
-<?php
-require_once "util.php";
+<!-- Programmer's Block -->
+<!-- Dareen Kinga Njatou -->
+ <!--  -->
 
-$status = "";
-$formResult = "";
+<?php
+require_once "util.php";    // Include utility functions
+
+// Sanitize GET data
+$clean = array();
+foreach($_GET as $key => $value) 
+    $clean[trim(strip_tags($key))] = trim(strip_tags($value));
+
+$status = "";       // To track which parts were executed
+$formResult = "";   // To hold form processing result
+$hm = "";           // To build "really" string
 
 /* ---------- PART IV : FORM PROCESSING ---------- */
+// Initialize form variables
 if (
-    isset($_GET['name'], $_GET['hobby']) &&
-    strlen($_GET['name']) > 0 &&
-    strlen($_GET['hobby']) > 0
+    isset($clean['Name'], $clean['Hobby'], $clean['HowMuch']) &&
+    strlen($clean['Name']) > 0 &&
+    strlen($clean['Hobby']) > 0
 ) {
-    $name  = strip_tags($_GET['Name']);
-    $hobby = strip_tags($_GET['Hobby']);
-    $like  = strip_tags($_GET['HowMuch']);
+    $name  = $clean['Name'];            // Name from form
+    $hobby = $clean['Hobby'];           // Hobby from form
+    $howm  = (int) $clean['HowMuch'];   // How much from form
 
-    $formResult = "$name really really really likes $hobby (Level: $like)";
+    // Build "really" string based on HowMuch value
+    for ($i = 0; $i < $howm; $i++) {
+        $hm .= " really";
+    }
+
+    // Create form result string
+    $formResult = "$name $hm likes $hobby";
     $status .= "+ProcessForm";
-}
+    }
 ?>
 
 <!DOCTYPE html>
@@ -34,12 +51,6 @@ if (
 
     <!-- Link for Style Sheet -->
     <link rel="stylesheet" type="text/css" href="css/style.css">
-
-    <!-- Link for JQuery file -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-    <!-- Link for Script File -->
-    <script src="js/script.js"></script>
 
     <title>ICA01_PHP</title>
 </head>
@@ -77,7 +88,7 @@ if (
             <div>
                 <ul>
                     <?php
-                    foreach ($_GET as $key => $value) {
+                    foreach ($clean as $key => $value) {
                         echo "<li>[$key] = $value</li>";
                     }
                     $status .= "+GETData";
@@ -106,15 +117,15 @@ if (
             <b class="fullspan">Part IV : Form Processing</b>
             <form method="get" action="" class="fullspan innerPanel">
                 <label class="right-align">Name:</label>
-                <input type="text" name="Name">
+                <input type="text" name="Name" value="<?php echo $name?>">
 
                 <label class="right-align">Hobby:</label>
-                <input type="text" name="Hobby">
+                <input type="text" name="Hobby" value="<?php echo $hobby?>">
 
                 <label class="right-align">How Much I like it:</label>
-                <input type="range" name="HowMuch" value="8" min="1" max="13">
+                <input type="range" name="HowMuch" value="7" min="1" max="13">
 
-                <input type="submit" name="submit" value="Go Now !" class="fullspan">
+                <input type="submit" name="submit" value="Go Now !" id="submit">
             </form>
         </div>
 
@@ -128,7 +139,7 @@ if (
                 <?= $status ?>
             </center>
         </div>
-       
+
     </div>
 
 

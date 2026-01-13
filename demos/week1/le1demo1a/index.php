@@ -1,9 +1,13 @@
 <?php
-//strip_tags();
-// require_once "stuff.php";
+require_once "stuff.php";
 
-//$var = 98 + 54 + 100;
-//error_log(json_encode($_GET));
+error_log(json_encode($_GET));
+
+$clean = array();
+foreach($_GET as $key => $value) 
+    $clean[trim(strip_tags($key))] = trim(strip_tags($value));
+
+$var = 98 + 54 + 100;
 ?>
 <!DOCTYPE html>
 <html lang="en">

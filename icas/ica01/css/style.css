@@ -34,6 +34,10 @@ header {
     grid-gap: 5px;
 }
 
+form input {
+    width: 50%;
+}
+
 .toNext {
     background-color: white;
 }
@@ -41,6 +45,11 @@ header {
 .fullspan {
     text-align: center;
     grid-column: 1/ span 2;
+}
+
+#submit {
+    text-align: center;
+    width: 200%;
 }
 
 body {
