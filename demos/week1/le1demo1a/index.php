@@ -1,13 +1,14 @@
 <?php
-require_once "stuff.php";
+require_once "util.php";
 
 error_log(json_encode($_GET));
 
 $clean = array();
-foreach($_GET as $key => $value) 
+foreach($_GET as $key => $value)
     $clean[trim(strip_tags($key))] = trim(strip_tags($value));
 
-$var = 98 + 54 + 100;
+$var = 98 + 34 + 1000;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,13 +18,13 @@ $var = 98 + 54 + 100;
     <title>Document</title>
 </head>
 <body>
-    This is plain text as part of HTML 
+    This is HTML Text
 
-    <?php echo "<br />The value is $var";?>
-    <br />
+    <?php echo "<br />This is a PHP string : $var"; ?>
 
-    <input type="text"/>
-
-    <!-- <form action="index.php" method="get"></form> -->
+    <form action="index.php" method="get">
+        <input type="text" name="Stuff"  value="<?php echo Blah(); ?>"/>
+        <button type="submit">Go!</button>
+    </form> 
 </body>
 </html>
