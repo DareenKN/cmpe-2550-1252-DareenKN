@@ -116,11 +116,10 @@ if (
 
                 <input type="submit" value="Go Now !" class="fullspan">
             </form>
+        </div>
 
-            <label id="result" class="fullspan">
-                <?= $formResult ?>
-            </label>
-
+        <div class="innerPanel">
+            <center class="fullspan"><?= $formResult ?></center>
         </div>
 
         <div class="innerPanel">
@@ -129,10 +128,7 @@ if (
                 <?= $status ?>
             </center>
         </div>
-
-        <div class="innerPanel">
-            <center class="fullspan">Whatever</center>
-        </div>
+       
     </div>
 
 
