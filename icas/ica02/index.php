@@ -43,15 +43,21 @@ if (
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Link for google font preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Link for google fonts -->
+
     <!-- Link for Style Sheet -->
     <link rel="stylesheet" type="text/css" href="css/style.css">
 
-    <title>ICA01_PHP</title>
+    <title>ICA02</title>
 </head>
 
 <body>
     <header>
-        <h1><a href="../index.html">ICA1</a> - PHP</h1>
+        <h1><a href="../index.html">ICA2</a> - PHP</h1>
     </header>
 
     <div id="centerContent">
@@ -89,6 +95,7 @@ if (
                     ?>
                 </ul>
             </div>
+
         </div>
 
         <div class="innerPanel">
@@ -102,6 +109,7 @@ if (
                 $status .= "+GenerateNumbers+MakeList+ShowArray";
                 ?>
             </div>
+
         </div>
 
         <div class="innerPanel">
@@ -126,7 +134,10 @@ if (
         </div>
 
         <div class="innerPanel">
-            <center class="fullspan">Status :<?= $status ?></center>
+            <center class="fullspan">
+                Status :
+                <?= $status ?>
+            </center>
         </div>
 
     </div>
