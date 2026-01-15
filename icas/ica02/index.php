@@ -1,6 +1,9 @@
-<!-- Programmer's Block -->
-<!-- Dareen Kinga Njatou -->
- <!--  -->
+<!-- CMPE2550 - Web Applications
+    Name: Dareen Kinga Njatou
+    ICA1 - PHP Intro 
+    Description: This is a PHP introduction exercise in which I implement PHP basics
+                 such as arrays, loops, and functions
+    Date: January 12, 2026 -->
 
 <?php
 require_once "util.php";    // Include utility functions
@@ -15,7 +18,7 @@ $formResult = "";   // To hold form processing result
 $hm = "";           // To build "really" string
 
 /* PART IV : FORM PROCESSING */
-// Initialize form variables
+// Process form data if Name and Hobby are provided
 if (
     isset($clean['Name'], $clean['Hobby'], $clean['HowMuch']) &&
     strlen($clean['Name']) > 0 &&
@@ -43,21 +46,15 @@ if (
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Link for google font preconnect -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <!-- Link for google fonts -->
-
     <!-- Link for Style Sheet -->
     <link rel="stylesheet" type="text/css" href="css/style.css">
 
-    <title>ICA02</title>
+    <title>ICA01_PHP</title>
 </head>
 
 <body>
     <header>
-        <h1><a href="../index.html">ICA2</a> - PHP</h1>
+        <h1><a href="../index.html">ICA1</a> - PHP</h1>
     </header>
 
     <div id="centerContent">
@@ -95,7 +92,6 @@ if (
                     ?>
                 </ul>
             </div>
-
         </div>
 
         <div class="innerPanel">
@@ -109,7 +105,6 @@ if (
                 $status .= "+GenerateNumbers+MakeList+ShowArray";
                 ?>
             </div>
-
         </div>
 
         <div class="innerPanel">
@@ -134,10 +129,7 @@ if (
         </div>
 
         <div class="innerPanel">
-            <center class="fullspan">
-                Status :
-                <?= $status ?>
-            </center>
+            <center class="fullspan">Status :<?= $status ?></center>
         </div>
 
     </div>
