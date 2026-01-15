@@ -43,8 +43,9 @@ form input {
 }
 
 #submit {
+    margin: auto;
     text-align: center;
-    width: 200%;
+    width: 201.5%;
 }
 
 body {
