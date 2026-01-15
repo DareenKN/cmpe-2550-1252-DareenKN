@@ -1,6 +1,9 @@
-<!-- Programmer's Block -->
-<!-- Dareen Kinga Njatou -->
- <!--  -->
+<!-- CMPE2550 - Web Applications
+    Name: Dareen Kinga Njatou
+    ICA1 - PHP Intro 
+    Description: This is a PHP introduction exercise in which I implement PHP basics
+                 such as arrays, loops, and functions
+    Date: January 12, 2026 -->
 
 <?php
 require_once "util.php";    // Include utility functions
@@ -15,7 +18,7 @@ $formResult = "";   // To hold form processing result
 $hm = "";           // To build "really" string
 
 /* PART IV : FORM PROCESSING */
-// Initialize form variables
+// Process form data if Name and Hobby are provided
 if (
     isset($clean['Name'], $clean['Hobby'], $clean['HowMuch']) &&
     strlen($clean['Name']) > 0 &&
