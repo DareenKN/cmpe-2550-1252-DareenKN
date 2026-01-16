@@ -5,142 +5,81 @@
                  such as arrays, loops, and functions
     Date: January 12, 2026 -->
 
-<?php
-require_once "util.php";    // Include utility functions
-
-// Sanitize GET data
-$clean = array();
-foreach($_GET as $key => $value) 
-    $clean[trim(strip_tags($key))] = trim(strip_tags($value));
-
-$status = "";       // To track which parts were executed
-$formResult = "";   // To hold form processing result
-$hm = "";           // To build "really" string
-
-/* PART IV : FORM PROCESSING */
-// Process form data if Name and Hobby are provided
-if (
-    isset($clean['Name'], $clean['Hobby'], $clean['HowMuch']) &&
-    strlen($clean['Name']) > 0 &&
-    strlen($clean['Hobby']) > 0
-) {
-    $name  = $clean['Name'];            // Name from form
-    $hobby = $clean['Hobby'];           // Hobby from form
-    $howm  = (int) $clean['HowMuch'];   // How much from form
-
-    // Build "really" string based on HowMuch value
-    for ($i = 0; $i < $howm; $i++) {
-        $hm .= " really";
-    }
-
-    // Create form result string
-    $formResult = "$name $hm likes $hobby";
-    $status .= "+ProcessForm";
-    }
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CMPE2550 - Assignment 02 - Tic Tac Toe</title>
 
-    <!-- Link for Style Sheet -->
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-
-    <title>ICA01_PHP</title>
+    <link rel="stylesheet" href="style.css" />
+    <!-- Your JS later:
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script defer src="TicTacToe.js"></script>
+  -->
 </head>
 
 <body>
-    <header>
-        <h1><a href="../index.html">ICA1</a> - PHP</h1>
-    </header>
+    <main class="app">
+        <header class="app__header">
+            <h1>CMPE2550 - Assignment 02 - Tic Tac Toe</h1>
+        </header>
 
-    <div id="centerContent">
-        <div class="innerPanel">
-            <!-- Part I - Server Info -->
-            <b class="fullspan">Part I : Server Info</b>
-            Your IP Address is:
-            <p>
-                <?= $_SERVER['REMOTE_ADDR']; ?>
-            </p>
+        <section class="panel">
+            <div class="panel__inner">
 
-            $_GET Evaluation:
-            <p>
-                <?= "Found: " . count($_GET) . " entry in \$_GET"; ?>
-            </p>
+                <!-- Status / messaging label -->
+                <!-- Swap classes: msg--info | msg--error | msg--success -->
+                <div id="statusMsg" class="msg msg--info">
+                    Enter your names below:
+                </div>
 
-            $_POST Evaluation:
-            <p>
-                <?= "Found: " . count($_POST) . " entry in \$_POST"; ?>
-            </p>
-            <?php $status .= "+ServerInfo"; ?>
-        </div>
+                <!-- Player controls (form posts back to index.php in your PHP version) -->
+                <form id="playerForm" class="controls" method="post" action="">
+                    <div class="controls__row">
+                        <input type="text" id="p1Name" name="p1Name" placeholder="Player one name here!"
+                            autocomplete="off" />
+                        <input type="text" id="p2Name" name="p2Name" placeholder="Player two name here!"
+                            autocomplete="off" />
+                    </div>
+                    <br>
+                    <div class="controls__row controls__row--buttons">
+                        <button type="submit" id="btnNewGame">New Game</button>
+                        <button type="submit" id="btnQuitGame" name="quit" value="1">Quit Game</button>
+                    </div>
+                </form>
 
-        <div class="innerPanel">
-            <!-- Part II - Form Processing -->
-            <b class="fullspan">Part II : Form Processing</b>
-            $_GET Contents:
-            <div>
-                <ul>
-                    <?php
-                    foreach ($clean as $key => $value) {
-                        echo "<li>[$key] = $value</li>";
-                    }
-                    $status .= "+GETData";
-                    ?>
-                </ul>
+                <hr class="divider" />
+
+                <!-- Gameboard container -->
+                <!-- You can hide/show by toggling .is-hidden -->
+                <div id="boardWrap" class="board-wrap">
+                    <div id="gameBoard" class="board" aria-label="Tic Tac Toe Board">
+
+                        <!-- 3x3 readonly inputs (50x50) -->
+                        <input class="cell" id="0_0" type="text" readonly />
+                        <input class="cell" id="0_1" type="text" readonly />
+                        <input class="cell" id="0_2" type="text" readonly />
+
+                        <input class="cell" id="1_0" type="text" readonly />
+                        <input class="cell" id="1_1" type="text" readonly />
+                        <input class="cell" id="1_2" type="text" readonly />
+
+                        <input class="cell" id="2_0" type="text" readonly />
+                        <input class="cell" id="2_1" type="text" readonly />
+                        <input class="cell" id="2_2" type="text" readonly />
+
+                    </div>
+                </div>
+
             </div>
-        </div>
+        </section>
 
-        <div class="innerPanel">
-            <!-- Part III – Array Generation -->
-            <b class="fullspan">Part III : Array Generation</b>
-            Array Generated:
-            <div>
-                <?php
-                $nums = GenerateNumbers();
-                echo MakeList($nums);
-                $status .= "+GenerateNumbers+MakeList+ShowArray";
-                ?>
-            </div>
-        </div>
-
-        <div class="innerPanel">
-            <!-- Part IV - Form Processing -->
-            <b class="fullspan">Part IV : Form Processing</b>
-            <form method="get" action="" class="fullspan innerPanel">
-                <label class="right-align">Name:</label>
-                <input type="text" name="Name" value="<?php echo $name?>">
-
-                <label class="right-align">Hobby:</label>
-                <input type="text" name="Hobby" value="<?php echo $hobby?>">
-
-                <label class="right-align">How Much I like it:</label>
-                <input type="range" name="HowMuch" value="7" min="1" max="13">
-
-                <input type="submit" name="submit" value="Go Now !" id="submit">
-            </form>
-        </div>
-
-        <div class="innerPanel">
-            <center class="fullspan"><?= $formResult ?></center>
-        </div>
-
-        <div class="innerPanel">
-            <center class="fullspan">Status :<?= $status ?></center>
-        </div>
-
-    </div>
-
-
-    <footer>
-        <p>&copy Copyright 2026 by Dareen Njatou <br>
-            Last modified on
-            <script>document.write(document.lastModified)</script>
-        </p>
-    </footer>
+        <footer class="app__footer">
+            <div class="footer-bar">© 2023</div>            
+        </footer>
+    </main>
 </body>
 
 </html>
