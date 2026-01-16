@@ -11,6 +11,12 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <div>
+        <input type="text" name="radius" id="radius" />
+        <button type="button" id="submit">Get result</button>
+    </div>
+
+    <div id="result"></div>
+    <div id="status"></div>
 </body>
 </html>

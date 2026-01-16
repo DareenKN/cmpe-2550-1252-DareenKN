@@ -19,6 +19,9 @@ $hm = "";           // To build "really" string
 
 /* PART IV : FORM PROCESSING */
 // Process form data if Name and Hobby are provided
+$name  = "";
+$hobby = "";
+$howm  = 7;     // Default value for HowMuch
 if (
     isset($clean['Name'], $clean['Hobby'], $clean['HowMuch']) &&
     strlen($clean['Name']) > 0 &&
@@ -118,7 +121,7 @@ if (
                 <input type="text" name="Hobby" value="<?php echo $hobby?>">
 
                 <label class="right-align">How Much I like it:</label>
-                <input type="range" name="HowMuch" value="7" min="1" max="13">
+                <input type="range" name="HowMuch" value="<?php echo $howm ?>" min="1" max="13">
 
                 <input type="submit" name="submit" value="Go Now !" id="submit">
             </form>

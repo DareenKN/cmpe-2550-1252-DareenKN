@@ -1,4 +1,9 @@
 <?php
+// Create a session if one does not already exist, or join the existing session
+session_start();
+
+// NOTE: Session variables may be set or retrieved by indexing the $_SESSION superglobal
+//       $SESSION is available any time after session_start() has been used, in all scopes
 
 error_log(json_encode($_GET));
 
@@ -8,28 +13,54 @@ foreach ($_GET as $key => $value)
     $clean[trim(strip_tags(htmlspecialchars($key)))] =
         trim(strip_tags(htmlspecialchars($value)));
 
+error_log(json_encode($clean));
+
 $output = array();  // Create an array for output data to be send to the client
 
 // Perform the action requested by the client if it exist
 if (isset($clean["action"])) {
+
+    // Perform the action requested by the client if it exists
     if ($clean["action"] == "CalcArea") 
     {
+        // Populate the data object to be returned if neccessary
         $output["area"] = CalculateArea();
         $output["status"] = "Area calculation successful";
+
+        // Preserve a value in the session to be made accessible next time
+        // the session is joined.  Can be ANY data type, simple or complex.
+        $_SESSION["lastAreaCalc"] = $output["area"];
     } 
     else if ($clean["action"] == "CalcVol") 
     {
         $output["volume"] = CalculateVolume();
         $output["status"] = "Volume calculation successful";
     } 
+    else if ($clean["action"] == "GetLastArea") 
+    {
+        // Check if a particular session variable exists
+        if (isset($_SESSION["lastAreaCalc"])) 
+        {
+            // Retrieve the session and load it into the object to be returned
+            // You could of course do other things with the retrieved session value
+            $output["area"] = $_SESSION["lastAreaCalc"];
+            $output["status"] = "Last area retrieved successfully";
+        } 
+        else 
+        {
+            $output["status"] = "No previous area calculation available";
+        }
+    }
     else 
     {
         $output["status"] = "The requested action is not supported";
     }
 }
 
+// json encode and return the output data to the client and echo it as the return to the ajax call
 echo json_encode($output);
-die();
+die();  // This will ensure that no further executable code is reached, but 
+        // functions defined below will still be available
 
 /**
  * FunctionName:    CalculateArea
