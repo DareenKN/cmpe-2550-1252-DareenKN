@@ -12,8 +12,9 @@
 </head>
 <body>
     <div>
-        <input type="text" name="radius" id="radius" />
-        <button type="button" id="submit">Get result</button>
+        <input type="text" id="radius" />
+        <button type="button" id="getVolume">Get Volume</button>
+        <button type="button" id="getArea">Get Area</button>
     </div>
 
     <div id="result"></div>

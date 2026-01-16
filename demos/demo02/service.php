@@ -9,7 +9,7 @@ error_log(json_encode($_GET));
 
 // Clean all input data
 $clean = array();
-foreach ($_GET as $key => $value)
+foreach ($_POST as $key => $value)
     $clean[trim(strip_tags(htmlspecialchars($key)))] =
         trim(strip_tags(htmlspecialchars($value)));
 

@@ -1,7 +1,8 @@
 $(document).ready(function () {
 
     // create a listener for the "submit" button
-    $('#submit)').click(GetVolume);
+    $('#getVolume').click(GetVolume);
+    $('#getArea').click(GetArea);
 });
 
 /**
@@ -19,6 +20,23 @@ function GetVolume() {
     console.log(getData);
 
     CallAJAX("service.php", "post", getData, "json", CalcVolumeSuccess, ErrorMethod);
+}
+
+/**
+ * FunctionName:    GetArea
+ * Inputs:          None
+ * Outputs:         None
+ * Decription:      Extract and prepare data from the HTML page, prepare and execute
+ *                  the AJAX call
+ */
+function GetArea() {
+    let getData = {};
+    getData["action"] = "CalcArea";
+    getData["radius"] = $('#radius').val();
+
+    console.log(getData);
+
+    CallAJAX("service.php", "post", getData, "json", CalcAreaSuccess, ErrorMethod);
 }
 
 /**
@@ -61,6 +79,17 @@ function CalcVolumeSuccess(returnedData, returnedStatus, sentRequest) {
 
     // Insert the returned volume into the "result" div
     $('#result').html("Calculated Volume: " + returnedData.volume);
+    $('#status').html("Status: " + returnedData.status);
+}
+
+function CalcAreaSuccess(returnedData, returnedStatus, sentRequest) {
+    // For testing.  See the data returned from the server.  Discard once app is functioning
+    console.log(returnedData);
+    console.log(returnedStatus);
+    console.log(sentRequest);
+
+    // Insert the returned area into the "result" div
+    $('#result').html("Calculated Area: " + returnedData.area);
     $('#status').html("Status: " + returnedData.status);
 }
 
