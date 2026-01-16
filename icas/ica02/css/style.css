@@ -1,97 +1,179 @@
-/* Effect 3d on the font */
-header h1,
-header a {
-    text-align: center;
-    color: beige;
-    text-shadow: 1px 1px 0px #bbb,
-        2px 2px 0px #292828,
-        3px 3px 2px rgba(0, 0, 0, 0.3);
+:root {
+  --bg: #bfbfbf;
+  --panel: #cfcfcf;
+  --border-dark: #2b2b2b;
+  --border-accent: #d09a3a;
+  --blue: #1b33ff;
+  --greenbar: #21c400;
+  --text: #111;
+  --muted: #444;
 }
 
-header a {
-    text-decoration: none;
-}
-
-header h1 {
-    font: 25px Comfortaa, sans-serif;
-    padding: 15px;
-    margin: 0px;
-}
-
-header {
-    text-align: center;
-    background-color: #eeeeee;
-    padding: 10px;
-}
-
-.innerPanel {
-    background-color: #e0e0e8;
-
-    grid-column: 2/ span 1;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 5px;
-}
-
-form input {
-    width: 50%;
-}
-
-.fullspan {
-    text-align: center;
-    grid-column: 1/ span 2;
-}
-
-#submit {
-    margin: auto;
-    text-align: center;
-    width: 201.5%;
-}
+* { box-sizing: border-box; }
 
 body {
-    background-color: #ffffff;
-    font-family: Calibri;
-
-    display: grid;
-    gap: 5px;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
 }
 
-.right-align {
-    text-align: right;
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 10px 28px;
 }
 
-footer {
-    text-align: center;
-    background-color: #e0e0e8;
+/* Header title box */
+.app__header {
+  width: min(520px, 95vw);
+  background: var(--panel);
+  border: 2px solid var(--border-dark);
+  border-radius: 8px;
+  padding: 14px 12px;
+  text-align: center;
 }
 
-p {
-    margin: 0px;
+.app__header h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
 }
 
-#centerContent {
-    display: grid;
-    grid-template-columns: 0fr;
-    gap: 5px 0px;
-    }
+/* Main panel with orange outline */
+.panel {
+  width: min(520px, 95vw);
+  background: var(--panel);
+  border: 2px solid var(--border-accent);
+  border-radius: 6px;
+  padding: 18px 12px 22px;
+  display: flex;
+  justify-content: center;
+}
 
-@media screen and (min-width:800px) {
-    body {
-        display: grid;
-        grid-template-columns: 1fr 3fr 1fr;
-    }
+.panel__inner {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
 
-    header {
-        grid-row: 1/ span 1;
-        grid-column: 1/ span 3;
-    }
+/* Status message box */
+.msg {
+  width: min(280px, 90%);
+  border: 2px solid var(--blue);
+  background: #eee;
+  padding: 8px 10px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+}
 
-    #centerContent {
-        grid-column: 2/span 1
-    }
+/* Message types your JS/PHP can toggle */
+.msg--info { color: #111; }
+.msg--error { color: #b10000; }
+.msg--success { color: #0a6d00; }
 
-    footer {
-        grid-row: 4;
-        grid-column: 1/span 3;
-    }
+/* Controls box like sample image */
+.controls {
+  display: inline-block;        /* 🔑 shrink-wrap */
+  padding: 10px;
+  border: 2px solid var(--blue);
+  background: #d9d9d9;
+}
+
+.controls__row {
+  display: grid;
+  grid-template-columns: auto auto; /* 🔑 hug content */
+  gap: 10px;
+}
+
+.controls input[type="text"],
+.controls button {
+  width: 150px;
+  height: 26px;
+  font-size: 12px;
+}
+
+.controls button:active {
+  transform: translateY(1px);
+}
+
+.divider {
+  width: 100%;
+  border: none;
+  border-top: 1px solid #9b9b9b;
+  margin: 2px 0 6px;
+}
+
+/* Board wrapper */
+.board-wrap {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding-top: 4px;
+}
+
+/* Optional: hide board until New Game */
+.is-hidden { display: none; }
+
+/* 3x3 board (no table) */
+.board {
+  border: 2px solid var(--blue);
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 50px);
+  grid-template-rows: repeat(3, 50px);
+  gap: 0;
+  background: #fff;
+}
+
+/* Cells: use single borders (avoid double lines) */
+.cell {
+  width: 50px;
+  height: 50px;
+  border: 1px solid var(--blue);
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  background: #fff;
+  cursor: pointer;
+}
+
+/* Remove outer duplicate borders so the board border is clean */
+.cell:nth-child(1),
+.cell:nth-child(2),
+.cell:nth-child(3) { border-top: 0; }
+
+.cell:nth-child(1),
+.cell:nth-child(4),
+.cell:nth-child(7) { border-left: 0; }
+
+.cell:nth-child(3),
+.cell:nth-child(6),
+.cell:nth-child(9) { border-right: 0; }
+
+.cell:nth-child(7),
+.cell:nth-child(8),
+.cell:nth-child(9) { border-bottom: 0; }
+
+/* Footer bar */
+.app__footer {
+  width: min(520px, 95vw);
+  text-align: center;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.footer-bar {
+  height: 16px;
+  background: var(--greenbar);
+  border-radius: 4px;
+  margin-bottom: 6px;
 }

@@ -14,10 +14,9 @@
     <title>CMPE2550 - Assignment 02 - Tic Tac Toe</title>
 
     <link rel="stylesheet" href="style.css" />
-    <!-- Your JS later:
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script defer src="TicTacToe.js"></script>
-  -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script defer src="script.js"></script>
 </head>
 
 <body>
@@ -77,7 +76,7 @@
         </section>
 
         <footer class="app__footer">
-            <div class="footer-bar">© 2023</div>            
+            <div class="footer-bar">© 2023</div>
         </footer>
     </main>
 </body>
