@@ -1,0 +1,7 @@
+C:\Users\harsimrana\OneDrive - NAIT\Documents\NaitWebDemo1\1242\2550\CMPE2550ClassWork1242\CMPE2550A01\ASPDEMO01\ASPDemo01\ASPDemo01\obj\Release\net8.0\PubTmp\Out\ASPDemo01.exe
+C:\Users\harsimrana\OneDrive - NAIT\Documents\NaitWebDemo1\1242\2550\CMPE2550ClassWork1242\CMPE2550A01\ASPDEMO01\ASPDemo01\ASPDemo01\obj\Release\net8.0\PubTmp\Out\appsettings.Development.json
+C:\Users\harsimrana\OneDrive - NAIT\Documents\NaitWebDemo1\1242\2550\CMPE2550ClassWork1242\CMPE2550A01\ASPDEMO01\ASPDemo01\ASPDemo01\obj\Release\net8.0\PubTmp\Out\appsettings.json
+C:\Users\harsimrana\OneDrive - NAIT\Documents\NaitWebDemo1\1242\2550\CMPE2550ClassWork1242\CMPE2550A01\ASPDEMO01\ASPDemo01\ASPDemo01\obj\Release\net8.0\PubTmp\Out\ASPDemo01.dll
+C:\Users\harsimrana\OneDrive - NAIT\Documents\NaitWebDemo1\1242\2550\CMPE2550ClassWork1242\CMPE2550A01\ASPDEMO01\ASPDemo01\ASPDemo01\obj\Release\net8.0\PubTmp\Out\ASPDemo01.deps.json
+C:\Users\harsimrana\OneDrive - NAIT\Documents\NaitWebDemo1\1242\2550\CMPE2550ClassWork1242\CMPE2550A01\ASPDEMO01\ASPDemo01\ASPDemo01\obj\Release\net8.0\PubTmp\Out\ASPDemo01.runtimeconfig.json
+C:\Users\harsimrana\OneDrive - NAIT\Documents\NaitWebDemo1\1242\2550\CMPE2550ClassWork1242\CMPE2550A01\ASPDEMO01\ASPDemo01\ASPDemo01\obj\Release\net8.0\PubTmp\Out\ASPDemo01.pdb

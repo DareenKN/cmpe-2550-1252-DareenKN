@@ -1,0 +1,11 @@
+body
+{
+    background-color: aqua;
+}
+input
+{
+    display: block;
+    margin: 1%;
+    background-color: black;
+    color: aqua;
+}

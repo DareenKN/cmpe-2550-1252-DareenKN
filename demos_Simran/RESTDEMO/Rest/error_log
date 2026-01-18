@@ -1,0 +1,213 @@
+[24-Mar-2025 18:26:38 UTC] Inside API.php GET:{"request":"example\/place\/40","GETtest":"This is data in the GET object."}
+[24-Mar-2025 18:26:38 UTC] Inside API.php Request:"example\/place\/40"
+[24-Mar-2025 18:26:38 UTC] Inside Constructor function 
+[24-Mar-2025 18:26:38 UTC] Inside constructor: GET
+[24-Mar-2025 18:26:38 UTC] Request: example/place/40
+[24-Mar-2025 18:26:38 UTC] GET: {"request":"example\/place\/40","GETtest":"This is data in the GET object."}
+[24-Mar-2025 18:26:38 UTC] Post: []
+[24-Mar-2025 18:26:38 UTC] 
+[24-Mar-2025 18:26:38 UTC] Inside Parse Request method
+[24-Mar-2025 18:26:38 UTC] Mehtod: "GET"
+[24-Mar-2025 18:26:38 UTC] Endpoint: "example"
+[24-Mar-2025 18:26:38 UTC] Verb: "place"
+[24-Mar-2025 18:26:38 UTC] Arguments: ["40"]
+[24-Mar-2025 18:26:38 UTC] File: null
+[24-Mar-2025 18:26:38 UTC] 
+[24-Mar-2025 18:26:38 UTC] Inside API.PHP after constructor call
+[24-Mar-2025 18:26:38 UTC] Before calling Example function
+[24-Mar-2025 18:26:38 UTC] Inside Example function
+[24-Mar-2025 18:26:38 UTC] Inside Response function
+[24-Mar-2025 18:26:38 UTC] Inside Response Status  function
+[24-Mar-2025 18:31:56 UTC] Inside API.php GET:{"request":"example\/place\/10\/"}
+[24-Mar-2025 18:31:56 UTC] Inside API.php Request:"example\/place\/10\/"
+[24-Mar-2025 18:31:56 UTC] Inside Constructor function 
+[24-Mar-2025 18:31:56 UTC] Inside constructor: DELETE
+[24-Mar-2025 18:31:56 UTC] Request: example/place/10/
+[24-Mar-2025 18:31:56 UTC] GET: {"request":"example\/place\/10\/"}
+[24-Mar-2025 18:31:56 UTC] Post: []
+[24-Mar-2025 18:31:56 UTC] 
+[24-Mar-2025 18:31:56 UTC] Inside Parse Request method
+[24-Mar-2025 18:31:56 UTC] Mehtod: "DELETE"
+[24-Mar-2025 18:31:56 UTC] Endpoint: "example"
+[24-Mar-2025 18:31:56 UTC] Verb: "place"
+[24-Mar-2025 18:31:56 UTC] Arguments: ["10"]
+[24-Mar-2025 18:31:56 UTC] File: {"DELETEtest":"My Test DELETE data."}
+[24-Mar-2025 18:31:56 UTC] 
+[24-Mar-2025 18:31:56 UTC] Inside API.PHP after constructor call
+[24-Mar-2025 18:31:56 UTC] Before calling Example function
+[24-Mar-2025 18:31:56 UTC] Inside Example function
+[24-Mar-2025 18:31:56 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function MyDELETEMethod() in /home/aulakhha/public_html/1242/2550/CMPE2550ClassWork1242/CMPE2550A01/RESTDEMO/Rest/apiDef.php:137
+Stack trace:
+#0 /home/aulakhha/public_html/1242/2550/CMPE2550ClassWork1242/CMPE2550A01/RESTDEMO/Rest/apiDef.php(154): MyAPI->example(Array)
+#1 /home/aulakhha/public_html/1242/2550/CMPE2550ClassWork1242/CMPE2550A01/RESTDEMO/Rest/api.php(11): MyAPI->processAPI()
+#2 {main}
+  thrown in /home/aulakhha/public_html/1242/2550/CMPE2550ClassWork1242/CMPE2550A01/RESTDEMO/Rest/apiDef.php on line 137
+[24-Mar-2025 18:32:50 UTC] Inside API.php GET:{"request":"example\/place\/40","GETtest":"This is data in the GET object."}
+[24-Mar-2025 18:32:50 UTC] Inside API.php Request:"example\/place\/40"
+[24-Mar-2025 18:32:50 UTC] Inside Constructor function 
+[24-Mar-2025 18:32:50 UTC] Inside constructor: GET
+[24-Mar-2025 18:32:50 UTC] Request: example/place/40
+[24-Mar-2025 18:32:50 UTC] GET: {"request":"example\/place\/40","GETtest":"This is data in the GET object."}
+[24-Mar-2025 18:32:50 UTC] Post: []
+[24-Mar-2025 18:32:50 UTC] 
+[24-Mar-2025 18:32:50 UTC] Inside Parse Request method
+[24-Mar-2025 18:32:50 UTC] Mehtod: "GET"
+[24-Mar-2025 18:32:50 UTC] Endpoint: "example"
+[24-Mar-2025 18:32:50 UTC] Verb: "place"
+[24-Mar-2025 18:32:50 UTC] Arguments: ["40"]
+[24-Mar-2025 18:32:50 UTC] File: null
+[24-Mar-2025 18:32:50 UTC] 
+[24-Mar-2025 18:32:50 UTC] Inside API.PHP after constructor call
+[24-Mar-2025 18:32:50 UTC] Before calling Example function
+[24-Mar-2025 18:32:50 UTC] Inside Example function
+[24-Mar-2025 18:32:50 UTC] Inside Response function
+[24-Mar-2025 18:32:50 UTC] Inside Response Status  function
+[24-Mar-2025 18:32:55 UTC] Inside API.php GET:{"request":"example\/place\/10\/"}
+[24-Mar-2025 18:32:55 UTC] Inside API.php Request:"example\/place\/10\/"
+[24-Mar-2025 18:32:55 UTC] Inside Constructor function 
+[24-Mar-2025 18:32:55 UTC] Inside constructor: DELETE
+[24-Mar-2025 18:32:55 UTC] Request: example/place/10/
+[24-Mar-2025 18:32:55 UTC] GET: {"request":"example\/place\/10\/"}
+[24-Mar-2025 18:32:55 UTC] Post: []
+[24-Mar-2025 18:32:55 UTC] 
+[24-Mar-2025 18:32:55 UTC] Inside Parse Request method
+[24-Mar-2025 18:32:55 UTC] Mehtod: "DELETE"
+[24-Mar-2025 18:32:55 UTC] Endpoint: "example"
+[24-Mar-2025 18:32:55 UTC] Verb: "place"
+[24-Mar-2025 18:32:55 UTC] Arguments: ["10"]
+[24-Mar-2025 18:32:55 UTC] File: {"DELETEtest":"My Test DELETE data."}
+[24-Mar-2025 18:32:55 UTC] 
+[24-Mar-2025 18:32:55 UTC] Inside API.PHP after constructor call
+[24-Mar-2025 18:32:55 UTC] Before calling Example function
+[24-Mar-2025 18:32:55 UTC] Inside Example function
+[24-Mar-2025 18:32:55 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function MyDELETEMethod() in /home/aulakhha/public_html/1242/2550/CMPE2550ClassWork1242/CMPE2550A01/RESTDEMO/Rest/apiDef.php:137
+Stack trace:
+#0 /home/aulakhha/public_html/1242/2550/CMPE2550ClassWork1242/CMPE2550A01/RESTDEMO/Rest/apiDef.php(154): MyAPI->example(Array)
+#1 /home/aulakhha/public_html/1242/2550/CMPE2550ClassWork1242/CMPE2550A01/RESTDEMO/Rest/api.php(11): MyAPI->processAPI()
+#2 {main}
+  thrown in /home/aulakhha/public_html/1242/2550/CMPE2550ClassWork1242/CMPE2550A01/RESTDEMO/Rest/apiDef.php on line 137
+[24-Mar-2025 18:33:31 UTC] Inside API.php GET:{"request":"example\/place\/10\/"}
+[24-Mar-2025 18:33:31 UTC] Inside API.php Request:"example\/place\/10\/"
+[24-Mar-2025 18:33:31 UTC] Inside Constructor function 
+[24-Mar-2025 18:33:31 UTC] Inside constructor: DELETE
+[24-Mar-2025 18:33:31 UTC] Request: example/place/10/
+[24-Mar-2025 18:33:31 UTC] GET: {"request":"example\/place\/10\/"}
+[24-Mar-2025 18:33:31 UTC] Post: []
+[24-Mar-2025 18:33:31 UTC] 
+[24-Mar-2025 18:33:31 UTC] Inside Parse Request method
+[24-Mar-2025 18:33:31 UTC] Mehtod: "DELETE"
+[24-Mar-2025 18:33:31 UTC] Endpoint: "example"
+[24-Mar-2025 18:33:31 UTC] Verb: "place"
+[24-Mar-2025 18:33:31 UTC] Arguments: ["10"]
+[24-Mar-2025 18:33:31 UTC] File: {"DELETEtest":"My Test DELETE data."}
+[24-Mar-2025 18:33:31 UTC] 
+[24-Mar-2025 18:33:31 UTC] Inside API.PHP after constructor call
+[24-Mar-2025 18:33:31 UTC] Before calling Example function
+[24-Mar-2025 18:33:31 UTC] Inside Example function
+[24-Mar-2025 18:33:31 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function MyDELETEMethod() in /home/aulakhha/public_html/1242/2550/CMPE2550ClassWork1242/CMPE2550A01/RESTDEMO/Rest/apiDef.php:137
+Stack trace:
+#0 /home/aulakhha/public_html/1242/2550/CMPE2550ClassWork1242/CMPE2550A01/RESTDEMO/Rest/apiDef.php(154): MyAPI->example(Array)
+#1 /home/aulakhha/public_html/1242/2550/CMPE2550ClassWork1242/CMPE2550A01/RESTDEMO/Rest/api.php(11): MyAPI->processAPI()
+#2 {main}
+  thrown in /home/aulakhha/public_html/1242/2550/CMPE2550ClassWork1242/CMPE2550A01/RESTDEMO/Rest/apiDef.php on line 137
+[24-Mar-2025 18:34:09 UTC] Inside API.php GET:{"request":"example\/place\/10\/"}
+[24-Mar-2025 18:34:09 UTC] Inside API.php Request:"example\/place\/10\/"
+[24-Mar-2025 18:34:09 UTC] Inside Constructor function 
+[24-Mar-2025 18:34:09 UTC] Inside constructor: DELETE
+[24-Mar-2025 18:34:09 UTC] Request: example/place/10/
+[24-Mar-2025 18:34:09 UTC] GET: {"request":"example\/place\/10\/"}
+[24-Mar-2025 18:34:09 UTC] Post: []
+[24-Mar-2025 18:34:09 UTC] 
+[24-Mar-2025 18:34:09 UTC] Inside Parse Request method
+[24-Mar-2025 18:34:09 UTC] Mehtod: "DELETE"
+[24-Mar-2025 18:34:09 UTC] Endpoint: "example"
+[24-Mar-2025 18:34:09 UTC] Verb: "place"
+[24-Mar-2025 18:34:09 UTC] Arguments: ["10"]
+[24-Mar-2025 18:34:09 UTC] File: {"DELETEtest":"My Test DELETE data."}
+[24-Mar-2025 18:34:09 UTC] 
+[24-Mar-2025 18:34:09 UTC] Inside API.PHP after constructor call
+[24-Mar-2025 18:34:09 UTC] Before calling Example function
+[24-Mar-2025 18:34:09 UTC] Inside Example function
+[24-Mar-2025 18:34:09 UTC] Inside delete function
+[24-Mar-2025 18:34:09 UTC] Inside Response function
+[24-Mar-2025 18:34:09 UTC] Inside Response Status  function
+[24-Mar-2025 18:34:45 UTC] Inside API.php GET:{"request":"example\/place\/10\/"}
+[24-Mar-2025 18:34:45 UTC] Inside API.php Request:"example\/place\/10\/"
+[24-Mar-2025 18:34:45 UTC] Inside Constructor function 
+[24-Mar-2025 18:34:45 UTC] Inside constructor: DELETE1
+[24-Mar-2025 18:34:45 UTC] Request: example/place/10/
+[24-Mar-2025 18:34:45 UTC] GET: {"request":"example\/place\/10\/"}
+[24-Mar-2025 18:34:45 UTC] Post: []
+[24-Mar-2025 18:34:45 UTC] 
+[24-Mar-2025 18:34:45 UTC] Inside Parse Request method
+[24-Mar-2025 18:34:45 UTC] Inside Response function
+[24-Mar-2025 18:34:45 UTC] Inside Response Status  function
+[24-Mar-2025 18:34:45 UTC] Mehtod: "DELETE1"
+[24-Mar-2025 18:34:45 UTC] Endpoint: "example"
+[24-Mar-2025 18:34:45 UTC] Verb: "place"
+[24-Mar-2025 18:34:45 UTC] Arguments: ["10"]
+[24-Mar-2025 18:34:45 UTC] File: null
+[24-Mar-2025 18:34:45 UTC] 
+[24-Mar-2025 18:34:45 UTC] Inside API.PHP after constructor call
+[24-Mar-2025 18:34:45 UTC] Before calling Example function
+[24-Mar-2025 18:34:45 UTC] Inside Example function
+[24-Mar-2025 18:34:45 UTC] Inside Response function
+[24-Mar-2025 18:34:45 UTC] Inside Response Status  function
+[24-Mar-2025 18:37:25 UTC] Inside API.php GET:{"request":"example1\/place\/10\/"}
+[24-Mar-2025 18:37:25 UTC] Inside API.php Request:"example1\/place\/10\/"
+[24-Mar-2025 18:37:25 UTC] Inside Constructor function 
+[24-Mar-2025 18:37:25 UTC] Inside constructor: DELETE
+[24-Mar-2025 18:37:25 UTC] Request: example1/place/10/
+[24-Mar-2025 18:37:25 UTC] GET: {"request":"example1\/place\/10\/"}
+[24-Mar-2025 18:37:25 UTC] Post: []
+[24-Mar-2025 18:37:25 UTC] 
+[24-Mar-2025 18:37:25 UTC] Inside Parse Request method
+[24-Mar-2025 18:37:25 UTC] Mehtod: "DELETE"
+[24-Mar-2025 18:37:25 UTC] Endpoint: "example1"
+[24-Mar-2025 18:37:25 UTC] Verb: "place"
+[24-Mar-2025 18:37:25 UTC] Arguments: ["10"]
+[24-Mar-2025 18:37:25 UTC] File: {"DELETEtest":"My Test DELETE data."}
+[24-Mar-2025 18:37:25 UTC] 
+[24-Mar-2025 18:37:25 UTC] Inside API.PHP after constructor call
+[24-Mar-2025 18:37:25 UTC] Inside Response function
+[24-Mar-2025 18:37:25 UTC] Inside Response Status  function
+[24-Mar-2025 18:38:58 UTC] Inside API.php GET:{"request":"example\/place\/40","GETtest":"This is data in the GET object."}
+[24-Mar-2025 18:38:58 UTC] Inside API.php Request:"example\/place\/40"
+[24-Mar-2025 18:38:58 UTC] Inside Constructor function 
+[24-Mar-2025 18:38:58 UTC] Inside constructor: GET
+[24-Mar-2025 18:38:58 UTC] Request: example/place/40
+[24-Mar-2025 18:38:58 UTC] GET: {"request":"example\/place\/40","GETtest":"This is data in the GET object."}
+[24-Mar-2025 18:38:58 UTC] Post: []
+[24-Mar-2025 18:38:58 UTC] 
+[24-Mar-2025 18:38:58 UTC] Inside Parse Request method
+[24-Mar-2025 18:38:58 UTC] Mehtod: "GET"
+[24-Mar-2025 18:38:58 UTC] Endpoint: "example"
+[24-Mar-2025 18:38:58 UTC] Verb: "place"
+[24-Mar-2025 18:38:58 UTC] Arguments: ["40"]
+[24-Mar-2025 18:38:58 UTC] File: null
+[24-Mar-2025 18:38:58 UTC] 
+[24-Mar-2025 18:38:58 UTC] Inside API.PHP after constructor call
+[24-Mar-2025 18:38:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function getMessage() in /home/aulakhha/public_html/1242/2550/CMPE2550ClassWork1242/CMPE2550A01/RESTDEMO/Rest/api.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/aulakhha/public_html/1242/2550/CMPE2550ClassWork1242/CMPE2550A01/RESTDEMO/Rest/api.php on line 16
+[24-Mar-2025 18:39:14 UTC] Inside API.php GET:{"request":"example1\/place\/10\/"}
+[24-Mar-2025 18:39:14 UTC] Inside API.php Request:"example1\/place\/10\/"
+[24-Mar-2025 18:39:14 UTC] Inside Constructor function 
+[24-Mar-2025 18:39:14 UTC] Inside constructor: DELETE
+[24-Mar-2025 18:39:14 UTC] Request: example1/place/10/
+[24-Mar-2025 18:39:14 UTC] GET: {"request":"example1\/place\/10\/"}
+[24-Mar-2025 18:39:14 UTC] Post: []
+[24-Mar-2025 18:39:14 UTC] 
+[24-Mar-2025 18:39:14 UTC] Inside Parse Request method
+[24-Mar-2025 18:39:14 UTC] Mehtod: "DELETE"
+[24-Mar-2025 18:39:14 UTC] Endpoint: "example1"
+[24-Mar-2025 18:39:14 UTC] Verb: "place"
+[24-Mar-2025 18:39:14 UTC] Arguments: ["10"]
+[24-Mar-2025 18:39:14 UTC] File: {"DELETEtest":"My Test DELETE data."}
+[24-Mar-2025 18:39:14 UTC] 
+[24-Mar-2025 18:39:14 UTC] Inside API.PHP after constructor call
+[24-Mar-2025 18:39:14 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function getMessage() in /home/aulakhha/public_html/1242/2550/CMPE2550ClassWork1242/CMPE2550A01/RESTDEMO/Rest/api.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/aulakhha/public_html/1242/2550/CMPE2550ClassWork1242/CMPE2550A01/RESTDEMO/Rest/api.php on line 16

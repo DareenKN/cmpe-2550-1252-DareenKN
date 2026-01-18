@@ -1,0 +1,28 @@
+[20-Jan-2025 20:12:16 UTC] Inside server side
+[20-Jan-2025 20:15:09 UTC] Inside server side
+[20-Jan-2025 20:17:14 UTC] Inside server side
+[20-Jan-2025 20:21:40 UTC] Inside server side
+[20-Jan-2025 20:21:44 UTC] Inside server side
+[20-Jan-2025 20:21:51 UTC] Inside server side
+[20-Jan-2025 20:22:25 UTC] Inside server side
+[20-Jan-2025 20:22:30 UTC] Inside server side
+[20-Jan-2025 20:22:56 UTC] Inside server side
+[20-Jan-2025 20:22:56 UTC] Inside server side
+[20-Jan-2025 20:23:09 UTC] Inside server side
+[20-Jan-2025 20:23:30 UTC] Inside server side
+[20-Jan-2025 20:29:00 UTC] Inside server side
+[20-Jan-2025 20:29:04 UTC] Inside server side
+[20-Jan-2025 20:34:26 UTC] Inside server side
+[20-Jan-2025 20:38:47 UTC] Inside server side
+[20-Jan-2025 20:38:50 UTC] Inside server side
+[20-Jan-2025 20:38:52 UTC] Inside server side
+[20-Jan-2025 20:38:52 UTC] PHP Fatal error:  Uncaught Error: Object of class stdClass could not be converted to string in /home/aulakhha/public_html/1242/2550/CMPE2550ClassWork1242/CMPE2550A01/Demo02b/server.php:25
+Stack trace:
+#0 {main}
+  thrown in /home/aulakhha/public_html/1242/2550/CMPE2550ClassWork1242/CMPE2550A01/Demo02b/server.php on line 25
+[20-Jan-2025 20:41:19 UTC] Inside server side
+[20-Jan-2025 20:41:19 UTC] PHP Fatal error:  Uncaught TypeError: error_log(): Argument #1 ($message) must be of type string, stdClass given in /home/aulakhha/public_html/1242/2550/CMPE2550ClassWork1242/CMPE2550A01/Demo02b/server.php:24
+Stack trace:
+#0 /home/aulakhha/public_html/1242/2550/CMPE2550ClassWork1242/CMPE2550A01/Demo02b/server.php(24): error_log(Object(stdClass))
+#1 {main}
+  thrown in /home/aulakhha/public_html/1242/2550/CMPE2550ClassWork1242/CMPE2550A01/Demo02b/server.php on line 24

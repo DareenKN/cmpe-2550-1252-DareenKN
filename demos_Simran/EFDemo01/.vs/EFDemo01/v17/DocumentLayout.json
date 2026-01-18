@@ -1,0 +1,57 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\harsimrana\\OneDrive - NAIT\\Documents\\NaitWebDemo1\\1242\\2550\\CMPE2550ClassWork1242\\CMPE2550A01\\EFDemo01\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{0B1F501D-C881-45AB-9A0D-B98FA4FF5517}|EFDemo01\\EFDemo01.csproj|c:\\users\\harsimrana\\onedrive - nait\\documents\\naitwebdemo1\\1242\\2550\\cmpe2550classwork1242\\cmpe2550a01\\efdemo01\\efdemo01\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0B1F501D-C881-45AB-9A0D-B98FA4FF5517}|EFDemo01\\EFDemo01.csproj|solutionrelative:efdemo01\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B1F501D-C881-45AB-9A0D-B98FA4FF5517}|EFDemo01\\EFDemo01.csproj|c:\\users\\harsimrana\\onedrive - nait\\documents\\naitwebdemo1\\1242\\2550\\cmpe2550classwork1242\\cmpe2550a01\\efdemo01\\efdemo01\\modelsnwd\\demodb2550northwindcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0B1F501D-C881-45AB-9A0D-B98FA4FF5517}|EFDemo01\\EFDemo01.csproj|solutionrelative:efdemo01\\modelsnwd\\demodb2550northwindcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DemoDb2550NorthwindContext.cs",
+              "DocumentMoniker": "C:\\Users\\harsimrana\\OneDrive - NAIT\\Documents\\NaitWebDemo1\\1242\\2550\\CMPE2550ClassWork1242\\CMPE2550A01\\EFDemo01\\EFDemo01\\ModelsNWD\\DemoDb2550NorthwindContext.cs",
+              "RelativeDocumentMoniker": "EFDemo01\\ModelsNWD\\DemoDb2550NorthwindContext.cs",
+              "ToolTip": "C:\\Users\\harsimrana\\OneDrive - NAIT\\Documents\\NaitWebDemo1\\1242\\2550\\CMPE2550ClassWork1242\\CMPE2550A01\\EFDemo01\\EFDemo01\\ModelsNWD\\DemoDb2550NorthwindContext.cs",
+              "RelativeToolTip": "EFDemo01\\ModelsNWD\\DemoDb2550NorthwindContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-03T18:17:49.628Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\harsimrana\\OneDrive - NAIT\\Documents\\NaitWebDemo1\\1242\\2550\\CMPE2550ClassWork1242\\CMPE2550A01\\EFDemo01\\EFDemo01\\Program.cs",
+              "RelativeDocumentMoniker": "EFDemo01\\Program.cs",
+              "ToolTip": "C:\\Users\\harsimrana\\OneDrive - NAIT\\Documents\\NaitWebDemo1\\1242\\2550\\CMPE2550ClassWork1242\\CMPE2550A01\\EFDemo01\\EFDemo01\\Program.cs",
+              "RelativeToolTip": "EFDemo01\\Program.cs",
+              "ViewState": "AgIAAGoAAAAAAAAAAAAkwHgAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-03T18:07:16.078Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

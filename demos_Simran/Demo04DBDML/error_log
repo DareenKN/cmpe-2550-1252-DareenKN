@@ -1,0 +1,9 @@
+[06-Feb-2025 19:48:40 UTC] In DB util file
+[06-Feb-2025 19:48:40 UTC] Connection is successful
+[06-Feb-2025 19:48:40 UTC] Query delete from Studentswhere Sid = 1
+[06-Feb-2025 19:48:40 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Sid = 1' at line 1 in /home/aulakhha/public_html/1242/2550/CMPE2550ClassWork1242/CMPE2550A01/Demo04DBDML/dbUtil.php:94
+Stack trace:
+#0 /home/aulakhha/public_html/1242/2550/CMPE2550ClassWork1242/CMPE2550A01/Demo04DBDML/dbUtil.php(94): mysqli->query('delete from Stu...')
+#1 /home/aulakhha/public_html/1242/2550/CMPE2550ClassWork1242/CMPE2550A01/Demo04DBDML/index.php(35): mysqlNonQuery('delete from Stu...')
+#2 {main}
+  thrown in /home/aulakhha/public_html/1242/2550/CMPE2550ClassWork1242/CMPE2550A01/Demo04DBDML/dbUtil.php on line 94
