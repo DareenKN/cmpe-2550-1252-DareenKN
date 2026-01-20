@@ -93,17 +93,33 @@ body {
     border: 1px solid blue;
     background-color: #fff;
     font-size: 32px;
+
+    font-family: 'timi', cursive;
     font-weight: bold;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    
+    text-align: center;
     cursor: pointer;
+
     user-select: none;
+}
+
+.x-cell {
+    color: #1b33ff;
+    text-shadow: 0 0 4px rgba(27, 51, 255, 0.6);
+}
+
+.o-cell {
+    color: #21c400;
+    text-shadow: 0 0 4px rgba(33, 196, 0, 0.6);
 }
 
 .cell:hover {
     background-color: #e6f0ff;
+}
+
+.board.locked {
+    opacity: 0.5;
+    pointer-events: none;
 }
 
 /* Footer */
@@ -115,12 +131,4 @@ footer {
     max-width: 700px;
     margin: 0 auto;
     font-size: 14px;
-}
-
-.playerX {
-    color: #09C372;
-}
-
-.playerO {
-    color: #498AFB;
 }

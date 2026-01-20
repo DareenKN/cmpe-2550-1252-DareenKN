@@ -1,3 +1,5 @@
+let gameOver = false;
+
 $(document).ready(function () {
 
     $('#newGame').click(function (e) {
@@ -20,6 +22,9 @@ function StartGame() {
     data["player1"] = $('input[name="nameX"]').val();
     data["player2"] = $('input[name="nameO"]').val();
 
+    gameOver = false;
+    $('.board').removeClass('locked');
+
     CallAJAX(
         "gameFlow.php",
         "post",
@@ -35,6 +40,11 @@ function StartGame() {
  */
 function CellClicked() {
 
+    if (gameOver) {
+        UpdateStatus("Game over. Start a new game.");
+        return;
+    }
+
     let data = {};
     data["action"] = "move";
     data["row"] = $(this).data("row");
@@ -49,6 +59,7 @@ function CellClicked() {
         ErrorMethod
     );
 }
+
 
 /**
  * FunctionName: CallAJAX
@@ -77,7 +88,18 @@ function GameSuccess(returnedData) {
     }
 
     UpdateStatus(returnedData.message);
+
+    // 🔒 lock game if over
+    gameOver = returnedData.gameOver === true;
+
+    if (gameOver) {
+        $('.board').addClass('locked');
+    } else {
+        $('.board').removeClass('locked');
+    }
+
 }
+
 
 /**
  * FunctionName: UpdateBoard
@@ -88,9 +110,23 @@ function UpdateBoard(board) {
         let r = $(this).data("row");
         let c = $(this).data("col");
 
-        $(this).val(board[r][c] === 0 ? "" : board[r][c]);
+        // reset
+        $(this).removeClass("x-cell o-cell");
+
+        if (board[r][c] === "X") {
+            $(this).val("X");
+            $(this).addClass("x-cell");
+        }
+        else if (board[r][c] === "O") {
+            $(this).val("O");
+            $(this).addClass("o-cell");
+        }
+        else {
+            $(this).val("");
+        }
     });
 }
+
 
 /**
  * FunctionName: UpdateStatus

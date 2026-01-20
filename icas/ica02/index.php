@@ -76,7 +76,7 @@ if (isset($clean['quit'])) {
 
                 <div class="controls">
                     <button type="submit" name="newGame" id="newGame">New Game</button>
-                    <button type="submit" name="quit">Quit Game</button>
+                    <button type="button" name="quit">Quit Game</button>
                 </div>
             </div>
         </form>
