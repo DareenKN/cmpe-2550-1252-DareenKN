@@ -15,17 +15,22 @@ foreach ($_POST as $key => $value)
 
 $status = "Enter your names below:";
 $nameX = $nameO = "";
+ "";
 
 if (isset($_SESSION['players'])) {
-    [$nameX, $nameO] = $_SESSION['players'];
+    $nameX = $_SESSION['players'][0];
+    $nameO = $_SESSION['players'][1];
 }
 
 if (isset($clean['newGame'])) {
-    if ($clean['nameX'] === "" || $clean['nameO'] === "") {
+    $x = $clean['nameX'] ?? "";
+    $o = $clean['nameO'] ?? "";
+
+    if ($x === "" || $o === "") {
         $status = "Names must be at least one character!";
     } else {
-        $_SESSION['players'] = [$clean['nameX'], $clean['nameO']];
-        $status = "{$clean['nameX']} will go first (X)";
+        $_SESSION['players'] = [$x, $o];
+        $status = "$x will go first (X)";
     }
 }
 
