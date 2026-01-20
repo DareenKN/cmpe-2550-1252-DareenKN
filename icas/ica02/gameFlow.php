@@ -37,4 +37,9 @@ if (($clean['action'] ?? '') === 'move') {
     }
 }
 
+if (isset($_SESSION['board'])) {
+    $return['board'] = $_SESSION['board'];
+}
+
 echo json_encode($return);
+
