@@ -18,18 +18,22 @@ foreach ($data ?? [] as $k => $v) {
 
 $return = [];
 
-if (($clean['action'] ?? '') === 'init') {
-    $_SESSION['board'] = array_fill(0, 3, array_fill(0, 3, ""));
-    $return['board'] = $_SESSION['board'];
-}
-
 if (($clean['action'] ?? '') === 'move') {
-    $r = (int) $clean['row'];
-    $c = (int) $clean['col'];
+    $r = (int) ($clean['row'] ?? -1);
+    $c = (int) ($clean['col'] ?? -1);
 
-    if ($_SESSION['board'][$r][$c] === "") {
-        $_SESSION['board'][$r][$c] = "X";
-        $return['board'] = $_SESSION['board'];
+    if ($r >= 0 && $r <= 2 && $c >= 0 && $c <= 2) {
+        if ($_SESSION['board'][$r][$c] === "") {
+
+            $mark = $_SESSION['turn'];
+            $_SESSION['board'][$r][$c] = $mark;
+
+            // switch turn
+            $_SESSION['turn'] = ($mark === "X") ? "O" : "X";
+
+            $return['board'] = $_SESSION['board'];
+            $return['message'] = "$mark placed at $r,$c";
+        }
     }
 }
 
