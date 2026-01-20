@@ -2,6 +2,9 @@ let gameOver = false;
 
 $(document).ready(function () {
 
+    // 🔒 board disabled on initial load
+    $('.board').addClass('locked');
+
     $('#newGame').click(function (e) {
         e.preventDefault();
         StartGame();
