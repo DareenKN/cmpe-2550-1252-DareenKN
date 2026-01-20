@@ -7,6 +7,11 @@ $(document).ready(function () {
         StartGame();
     });
 
+    $('#quit').click(function (e) {
+        e.preventDefault();
+        QuitGame();
+    });
+
     $('.cell').click(CellClicked);
 });
 
@@ -142,4 +147,25 @@ function ErrorMethod(req, status, error) {
     console.log("AJAX ERROR");
     console.log(status);
     console.log(error);
+}
+
+function QuitGame() {
+
+    let data = {};
+    data["action"] = "quit";
+
+    CallAJAX(
+        "gameFlow.php",
+        "post",
+        data,
+        "json",
+        QuitSuccess,
+        ErrorMethod
+    );
+}
+
+function QuitSuccess(returnedData) {
+
+    location.reload();
+
 }

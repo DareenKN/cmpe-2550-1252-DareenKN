@@ -104,4 +104,18 @@ elseif ($action === "move") {
     $response["board"] = $_SESSION["board"];
 }
 
+elseif ($action === "quit") {
+
+    session_unset();
+    session_destroy();
+
+    $response["board"] = [
+        [0,0,0],
+        [0,0,0],
+        [0,0,0]
+    ];
+    $response["message"] = "Game quit. Enter names to start a new game.";
+    $response["gameOver"] = true;
+}
+
 echo json_encode($response);
