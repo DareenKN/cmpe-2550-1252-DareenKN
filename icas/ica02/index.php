@@ -1,8 +1,7 @@
 <!-- CMPE2550 - Web Applications
     Name: Dareen Kinga Njatou
     ICA2 - Tic Tac Toe
-    Description: This is a PHP introduction exercise in which I implement PHP basics
-                 such as arrays, loops, and functions
+    Description: Tic Tac Toe game with PHP backend and AJAX frontend
     Date: January 12, 2026 -->
 
 <?php
@@ -14,6 +13,7 @@ foreach ($_POST as $key => $value) {
     $clean[trim(strip_tags($key))] = trim(strip_tags($value));
 }
 
+// Initialize status and names
 $status = "Enter your names below:";
 $nameX = $nameO = "";
 
@@ -31,11 +31,12 @@ if (isset($clean["newGame"])) {
     }
 }
 
+// Handle quit action destroying the session
 if (isset($clean['quit'])) {
     session_unset();
     session_destroy();
-    header("Location: index.php");
-    exit;
+    // header("Location: index.php");
+    // exit;
 }
 ?>
 
@@ -50,7 +51,7 @@ if (isset($clean['quit'])) {
     <link rel="stylesheet" href="css/style.css" />
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script defer src="script.js"></script>
+    <script defer src="TicTacToe.js"></script>
 </head>
 
 <body>
@@ -89,7 +90,6 @@ if (isset($clean['quit'])) {
             for ($r = 0; $r < 3; $r++):
                 for ($c = 0; $c < 3; $c++): ?>
                     <input class="cell" data-row="<?= $r ?>" data-col="<?= $c ?>" readonly>
-
                     <?php
                 endfor;
             endfor; ?>

@@ -1,14 +1,15 @@
-let gameOver = false;
+let gameOver = false;   // Global variable to track game state
+
+/**
+ * Document Ready
+ */
 
 $(document).ready(function () {
 
-    // 🔒 board disabled on initial load
+    // board disabled on initial load
     $('.board').addClass('locked');
 
-    $('#newGame').click(function (e) {
-        e.preventDefault();
-        StartGame();
-    });
+    $('#newGame').click(StartGame());
 
     $('#quit').click(function (e) {
         e.preventDefault();
@@ -20,10 +21,18 @@ $(document).ready(function () {
 
 /**
  * FunctionName: StartGame
+ * Description: Initializes a new game
  */
 function StartGame() {
 
     console.log("Starting new game...");
+
+    if ($('input[name="nameX"]').val().trim() === "" ||
+        $('input[name="nameO"]').val().trim() === "") {
+        UpdateStatus("Please enter names for both players.");
+        $('.board').addClass('locked');
+        return;
+    }
 
     let data = {};
     data["action"] = "init";
@@ -45,9 +54,11 @@ function StartGame() {
 
 /**
  * FunctionName: CellClicked
+ * Description: Handles cell click events
  */
 function CellClicked() {
 
+    // Prevent moves if game is over
     if (gameOver) {
         UpdateStatus("Game over. Start a new game.");
         return;
@@ -71,6 +82,7 @@ function CellClicked() {
 
 /**
  * FunctionName: CallAJAX
+ * Description: Generic AJAX call function
  */
 function CallAJAX(url, method, data, dataType, successMethod, errorMethod) {
 
@@ -86,6 +98,7 @@ function CallAJAX(url, method, data, dataType, successMethod, errorMethod) {
 
 /**
  * FunctionName: GameSuccess
+ * Description: Handles successful game actions 
  */
 function GameSuccess(returnedData) {
 
@@ -97,7 +110,7 @@ function GameSuccess(returnedData) {
 
     UpdateStatus(returnedData.message);
 
-    // 🔒 lock game if over
+    // Lock game if over
     gameOver = returnedData.gameOver === true;
 
     if (gameOver) {
@@ -111,6 +124,7 @@ function GameSuccess(returnedData) {
 
 /**
  * FunctionName: UpdateBoard
+ * Description: Updates the game board UI
  */
 function UpdateBoard(board) {
 
@@ -138,6 +152,7 @@ function UpdateBoard(board) {
 
 /**
  * FunctionName: UpdateStatus
+ * Description: Updates the status message UI
  */
 function UpdateStatus(message) {
     $('.status-message').html(message);
@@ -145,6 +160,7 @@ function UpdateStatus(message) {
 
 /**
  * FunctionName: ErrorMethod
+ * Description: Handles AJAX errors
  */
 function ErrorMethod(req, status, error) {
     console.log("AJAX ERROR");
@@ -167,8 +183,10 @@ function QuitGame() {
     );
 }
 
+/**
+ * FunctionName: QuitSuccess
+ * Description: Handles successful quit action
+ */
 function QuitSuccess(returnedData) {
-
     location.reload();
-
 }

@@ -91,7 +91,7 @@ body {
 
 .cell {
     border: 1px solid blue;
-    background-color: #fff;
+    background-color: #000;
     font-size: 32px;
 
     font-family: 'timi', cursive;
