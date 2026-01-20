@@ -8,31 +8,24 @@
 <?php
 session_start();
 
-include_once("gameFlow.php");
-
 // Sanitize GET data
 $clean = array();
 foreach ($_POST as $key => $value)
     $clean[trim(strip_tags($key))] = trim(strip_tags($value));
 
 $status = "Enter your names below:";
-$nameX = "";
-$nameO = "";
+$nameX = $nameO = "";
 
 if (isset($_SESSION['players'])) {
-    $nameX = $_SESSION['players'][0];
-    $nameO = $_SESSION['players'][1];
+    [$nameX, $nameO] = $_SESSION['players'];
 }
 
 if (isset($clean['newGame'])) {
-    $x = $clean['nameX'] ?? "";
-    $o = $clean['nameO'] ?? "";
-
-    if ($x === "" || $o === "") {
+    if ($clean['nameX'] === "" || $clean['nameO'] === "") {
         $status = "Names must be at least one character!";
     } else {
-        $_SESSION['players'] = [$x, $o];
-        $status = "$x will go first (X)";
+        $_SESSION['players'] = [$clean['nameX'], $clean['nameO']];
+        $status = "{$clean['nameX']} will go first (X)";
     }
 }
 
