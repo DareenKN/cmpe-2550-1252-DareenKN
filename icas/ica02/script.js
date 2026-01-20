@@ -1,70 +1,109 @@
-document.addEventListener("DOMContentLoaded", () => {
-    initGame();
-    wireCells();
+$(document).ready(function () {
+
+    $('#newGame').click(function (e) {
+        e.preventDefault();
+        StartGame();
+    });
+
+    $('.cell').click(CellClicked);
 });
 
-/* ---------- INIT GAME ---------- */
-function initGame() {
-    fetch("gameFlow.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "init" })
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.board) {
-            updateBoard(data.board);
-        }
-        if (data.message) {
-            updateStatus(data.message);
-        }
+/**
+ * FunctionName: StartGame
+ */
+function StartGame() {
+
+    console.log("Starting new game...");
+
+    let data = {};
+    data["action"] = "init";
+    data["player1"] = $('input[name="nameX"]').val();
+    data["player2"] = $('input[name="nameO"]').val();
+
+    CallAJAX(
+        "gameFlow.php",
+        "post",
+        data,
+        "json",
+        GameSuccess,
+        ErrorMethod
+    );
+}
+
+/**
+ * FunctionName: CellClicked
+ */
+function CellClicked() {
+
+    let data = {};
+    data["action"] = "move";
+    data["row"] = $(this).data("row");
+    data["col"] = $(this).data("col");
+
+    CallAJAX(
+        "gameFlow.php",
+        "post",
+        data,
+        "json",
+        GameSuccess,
+        ErrorMethod
+    );
+}
+
+/**
+ * FunctionName: CallAJAX
+ */
+function CallAJAX(url, method, data, dataType, successMethod, errorMethod) {
+
+    $.ajax({
+        url: url,
+        method: method,
+        data: data,
+        dataType: dataType,
+        success: successMethod,
+        error: errorMethod
     });
 }
 
-/* ---------- CELL CLICK ---------- */
-function wireCells() {
-    document.querySelectorAll(".cell").forEach(cell => {
-        cell.addEventListener("click", () => {
-            let parts = cell.id.split("_");
-            let row = parts[0];
-            let col = parts[1];
+/**
+ * FunctionName: GameSuccess
+ */
+function GameSuccess(returnedData) {
 
-            makeMove(row, col);
-        });
-    });
-}
+    console.log(returnedData);
 
-/* ---------- SEND MOVE ---------- */
-function makeMove(row, col) {
-    fetch("gameFlow.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            action: "move",
-            row: row,
-            col: col
-        })
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.board) {
-            updateBoard(data.board);
-        }
-        if (data.message) {
-            updateStatus(data.message);
-        }
-    });
-}
-
-/* ---------- UPDATE UI ---------- */
-function updateBoard(board) {
-    for (let r = 0; r < 3; r++) {
-        for (let c = 0; c < 3; c++) {
-            document.getElementById(`${r}_${c}`).value = board[r][c];
-        }
+    if (returnedData.board && returnedData.board.length === 3) {
+        UpdateBoard(returnedData.board);
     }
+
+    UpdateStatus(returnedData.message);
 }
 
-function updateStatus(msg) {
-    document.querySelector(".status-message").innerText = msg;
+/**
+ * FunctionName: UpdateBoard
+ */
+function UpdateBoard(board) {
+
+    $('.cell').each(function () {
+        let r = $(this).data("row");
+        let c = $(this).data("col");
+
+        $(this).val(board[r][c] === 0 ? "" : board[r][c]);
+    });
+}
+
+/**
+ * FunctionName: UpdateStatus
+ */
+function UpdateStatus(message) {
+    $('.status-message').html(message);
+}
+
+/**
+ * FunctionName: ErrorMethod
+ */
+function ErrorMethod(req, status, error) {
+    console.log("AJAX ERROR");
+    console.log(status);
+    console.log(error);
 }

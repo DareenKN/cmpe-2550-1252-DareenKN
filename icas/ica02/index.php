@@ -8,29 +8,26 @@
 <?php
 session_start();
 
-// Sanitize GET data
-$clean = array();
-foreach ($_POST as $key => $value)
+// Sanitize POST data
+$clean = [];
+foreach ($_POST as $key => $value) {
     $clean[trim(strip_tags($key))] = trim(strip_tags($value));
+}
 
 $status = "Enter your names below:";
 $nameX = $nameO = "";
- "";
 
-if (isset($_SESSION['players'])) {
-    $nameX = $_SESSION['players'][0];
-    $nameO = $_SESSION['players'][1];
-}
-
-if (isset($clean['newGame'])) {
-    $x = $clean['nameX'] ?? "";
-    $o = $clean['nameO'] ?? "";
+if (isset($clean["newGame"])) {
+    $x = $clean["nameX"] ?? "";
+    $o = $clean["nameO"] ?? "";
 
     if ($x === "" || $o === "") {
         $status = "Names must be at least one character!";
     } else {
-        $_SESSION['players'] = [$x, $o];
-        $status = "$x will go first (X)";
+        $_SESSION['players'] = ["X" => $x, "O" => $o];
+        $nameX = $x;
+        $nameO = $o;
+        $status = "Game ready — press a cell to begin";
     }
 }
 
@@ -66,42 +63,36 @@ if (isset($clean['quit'])) {
     <div class="outer-container">
 
         <!-- Status Panel -->
-        <form method="post">
+        <form method="post" action="index.php">
             <div class="status-panel">
                 <div class="status-message">
                     <?php echo "$status" ?>
                 </div>
 
                 <div class="name-inputs">
-                    <input type="text" name="nameX" value="<?= $nameX ?>">
-                    <input type="text" name="nameO" value="<?= $nameO ?>">
+                    <input type="text" name="nameX" placeholder="Player X name" value="<?= $nameX ?>">
+                    <input type="text" name="nameO" placeholder="Player O name" value="<?= $nameO ?>">
                 </div>
 
                 <div class="controls">
-                    <button type="submit" name="newGame">New Game</button>
+                    <button type="submit" name="newGame" id="newGame">New Game</button>
                     <button type="submit" name="quit">Quit Game</button>
                 </div>
             </div>
         </form>
 
-
         <hr class="divider">
 
         <!-- Tic Tac Toe Board -->
         <div class="board">
-            <!-- 3x3 readonly inputs (50x50) -->
-            <input class="cell" id="0_0" type="text" readonly />
-            <input class="cell" id="0_1" type="text" readonly />
-            <input class="cell" id="0_2" type="text" readonly />
+            <?php
+            for ($r = 0; $r < 3; $r++):
+                for ($c = 0; $c < 3; $c++): ?>
+                    <input class="cell" data-row="<?= $r ?>" data-col="<?= $c ?>" readonly>
 
-            <input class="cell" id="1_0" type="text" readonly />
-            <input class="cell" id="1_1" type="text" readonly />
-            <input class="cell" id="1_2" type="text" readonly />
-
-            <input class="cell" id="2_0" type="text" readonly />
-            <input class="cell" id="2_1" type="text" readonly />
-            <input class="cell" id="2_2" type="text" readonly />
-
+                    <?php
+                endfor;
+            endfor; ?>
         </div>
     </div>
 
@@ -110,7 +101,6 @@ if (isset($clean['quit'])) {
         Last modified on
         <script>document.write(document.lastModified)</script>
     </footer>
-    </main>
 </body>
 
 </html>
