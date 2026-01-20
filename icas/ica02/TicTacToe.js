@@ -183,5 +183,5 @@ function QuitGame() {
  * Description: Handles successful quit action
  */
 function QuitSuccess(returnedData) {
-    location.reload();
+    //location.reload();
 }
