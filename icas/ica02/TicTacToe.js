@@ -10,12 +10,7 @@ $(document).ready(function () {
     $('.board').addClass('locked');
 
     $('#newGame').click(StartGame());
-
-    $('#quit').click(function (e) {
-        e.preventDefault();
-        QuitGame();
-    });
-
+    $('#quit').click(QuitGame());
     $('.cell').click(CellClicked);
 });
 

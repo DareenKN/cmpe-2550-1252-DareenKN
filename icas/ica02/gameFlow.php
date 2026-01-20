@@ -63,25 +63,22 @@ elseif ($action === "move") {
     // Validate move
     if ($r < 0 || $r > 2 || $c < 0 || $c > 2) {
         $response["message"] = "Invalid cell."; // Out of bounds
-    }
-    elseif ($_SESSION["board"][$r][$c] != 0) {
+    } elseif ($_SESSION["board"][$r][$c] != 0) {
         $response["message"] = "Cell already taken.";   // Cell occupied
-    }
-    else {
+    } else {
         $mark = $_SESSION["current"];
         $_SESSION["board"][$r][$c] = $mark; // Place the mark
-    
+
         // Check for win or draw
-        if (CheckWin($_SESSION["board"], $mark)) {
+        $hasAWinner = CheckWin($_SESSION["board"], $mark);
+        if ($hasAWinner !== "") {
             $name = $_SESSION["players"][$mark];    // Get winner's name
-            $response["message"] = "$name wins!";   // Win message
+            $response["message"] = "$name wins! $hasAWinner";   // Win message
             $response["gameOver"] = true;           // Game over
-        }
-        elseif (BoardFull($_SESSION["board"])) {
+        } elseif (BoardFull($_SESSION["board"])) {
             $response["message"] = "CATS! Board full. It's a Draw."; // Draw message
             $response["gameOver"] = true;                            // Game over    
-        }
-        else {
+        } else {
             $_SESSION["current"] = ($mark === "X") ? "O" : "X";     // Switch turn
             $next = $_SESSION["players"][$_SESSION["current"]];     // Next player's name
             $response["message"] = "$next's turn ({$_SESSION["current"]})"; // Next turn message
@@ -89,17 +86,15 @@ elseif ($action === "move") {
     }
 
     $response["board"] = $_SESSION["board"];    // Return updated board
-}
-
-elseif ($action === "quit") {
+} elseif ($action === "quit") {
 
     session_unset();
     session_destroy();
 
     $response["board"] = [
-        [0,0,0],
-        [0,0,0],
-        [0,0,0]
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]
     ];
     $response["message"] = "Game quit. Enter names to start a new game.";
     $response["gameOver"] = true;
@@ -109,11 +104,12 @@ echo json_encode($response);
 die();
 
 /* HELPERS */
-function NewBoard() {
+function NewBoard()
+{
     return [
-        [0,0,0],
-        [0,0,0],
-        [0,0,0]
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]
     ];
 }
 
@@ -121,26 +117,34 @@ function NewBoard() {
  * FunctionName: CheckWin
  * Description: Checks if the given mark has won the game
  */
-function CheckWin($b, $m) {
+function CheckWin($b, $m)
+{
     for ($i = 0; $i < 3; $i++) {
-        if ($b[$i][0] == $m && $b[$i][1] == $m && $b[$i][2] == $m) return true;
-        if ($b[0][$i] == $m && $b[1][$i] == $m && $b[2][$i] == $m) return true;
+        if ($b[$i][0] == $m && $b[$i][1] == $m && $b[$i][2] == $m) {
+            return "win on row $i"; // Check rows
+        }
+        if ($b[0][$i] == $m && $b[1][$i] == $m && $b[2][$i] == $m)
+            return "win on column $i"; // Check rows
     }
 
-    if ($b[0][0] == $m && $b[1][1] == $m && $b[2][2] == $m) return true;
-    if ($b[0][2] == $m && $b[1][1] == $m && $b[2][0] == $m) return true;
+    if ($b[0][0] == $m && $b[1][1] == $m && $b[2][2] == $m)
+        return "win on main diagonal";        // Check main diagonal
+    if ($b[0][2] == $m && $b[1][1] == $m && $b[2][0] == $m)
+        return "wins on anti diagonal";        // Check anti diagonal
 
-    return false;
+    return "";
 }
 
 /**
  * FunctionName: BoardFull
  * Description: Checks if the board is full (no empty cells)
  */
-function BoardFull($b) {
+function BoardFull($b)
+{
     foreach ($b as $row)
         foreach ($row as $cell)
-            if ($cell == 0) return false;
+            if ($cell == 0)
+                return false;
     return true;
 }
 
