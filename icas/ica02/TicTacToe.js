@@ -109,9 +109,11 @@ function GameInitSuccess(returnedData) {
 
     console.log("INIT RESPONSE:", returnedData);
 
-    // ❌ Init failed → no board, just message
+    // Just message
     if (!returnedData.board || returnedData.board.length === 0) {
         UpdateStatus(returnedData.message);
+        //$("#game-area").hide();
+        $('.board').addClass('locked');
         return;
     }
 
@@ -137,6 +139,7 @@ function GameSuccess(returnedData) {
 
     if (returnedData.board && returnedData.board.length === 3) {
         UpdateBoard(returnedData.board);
+        UpdateStatus(returnedData.message);
     }
 
     // Lock game if over
@@ -147,6 +150,8 @@ function GameSuccess(returnedData) {
     } else {
         $('.board').removeClass('locked');
     }
+
+    UpdateStatus(returnedData.message);
 
 }
 
@@ -185,6 +190,15 @@ function UpdateBoard(board) {
  */
 function UpdateStatus(message) {
     $('.status-message').html(message);
+    if (message.includes("wins")) {
+        $('.status-message').css("color", "green");
+    }
+    else if (message.includes("CATS")) {
+        $('.status-message').css("color", "yellow");
+    }
+    else {
+        $('.status-message').css("color", "black");
+    }
 }
 
 /**
@@ -219,8 +233,11 @@ function QuitGame() {
 function QuitSuccess(returnedData) {
 
     gameOver = true;
+    
+    $('input[name="Player1"]').val('');
+    $('input[name="Player2"]').val('');
 
-    $('#game-area').hide();
+    $('#game-area').fadeOut(200);
     $('.board').addClass('locked');
 
     UpdateStatus("Game quit. Enter names to start a new game.");

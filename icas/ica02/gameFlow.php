@@ -77,6 +77,7 @@ elseif ($action === "move") {
     // Game must be initialized first
     if (!isset($_SESSION["board"], $_SESSION["current"], $_SESSION["players"])) {
         $response["message"] = "Game not initialized. Please start a new game.";
+        $response["board"] = [];
         echo json_encode($response);
         exit;
     }
@@ -97,8 +98,8 @@ elseif ($action === "move") {
         $hasAWinner = CheckWin($_SESSION["board"], $mark);
         if ($hasAWinner !== "") {
             $name = $_SESSION["players"][$mark];    // Get winner's name
-            $response["message"] = "$name wins $hasAWinner";   // Win message
-            $response["gameOver"] = true;           // Game over
+            $response["message"] = "$name wins with $mark"."s on the $hasAWinner!";   // Win message
+            $response["gameOver"] = true;                            // Game over
         } elseif (BoardFull($_SESSION["board"])) {
             $response["message"] = "CATS! (means board full. No winner)"; // Draw message
             $response["gameOver"] = true;                            // Game over    
@@ -150,22 +151,22 @@ function CheckWin($b, $m)
 
         // Check rows
         if ($b[$i][0] == $m && $b[$i][1] == $m && $b[$i][2] == $m) {
-            return "on the {$rowNames[$i]} row";
+            return "{$rowNames[$i]} row";
         }
 
         // Check columns
         if ($b[0][$i] == $m && $b[1][$i] == $m && $b[2][$i] == $m) {
-            return "on the {$colNames[$i]} column";
+            return "{$colNames[$i]} column";
         }
     }
 
     // Diagonals
     if ($b[0][0] == $m && $b[1][1] == $m && $b[2][2] == $m) {
-        return "on the main diagonal";
+        return "main diagonal";
     }
 
     if ($b[0][2] == $m && $b[1][1] == $m && $b[2][0] == $m) {
-        return "on the anti-diagonal";
+        return "anti-diagonal";
     }
 
     return "";
