@@ -7,8 +7,9 @@ const BOARD_SIZE = 3; // change to 8 later 👀
  */
 
 $(document).ready(function () {
-
+    CreateBoard(BOARD_SIZE);    
     $('.board').addClass('locked');
+    $('#game-area').fadeIn(200);
 
     $('#newGame').click(StartGame);
     $('#quit').click(QuitGame);

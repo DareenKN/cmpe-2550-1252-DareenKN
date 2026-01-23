@@ -7,9 +7,8 @@
  * Date: January 20, 2026 */
 
 session_start();
-header("Content-Type: application/json");
 
-/* CLEAN INPUT */
+// Cleaning data
 $clean = [];
 foreach ($_POST as $key => $value) {
     $clean[trim(strip_tags($key))] = trim(strip_tags($value));
@@ -18,14 +17,14 @@ foreach ($_POST as $key => $value) {
 // Determine action
 $action = $clean["action"] ?? "";
 
-/* DEFAULT RESPONSE */
+// Default response
 $response = [
     "board" => [],
     "message" => "",
     "gameOver" => false
 ];
 
-/* ACTION HANDLING */
+
 // Handle init action
 if ($action === "init") {
 
@@ -68,7 +67,6 @@ if ($action === "init") {
     // Build fair message
     $starterName = $_SESSION["players"]["X"];
     $response["message"] = "$starterName goes first (X)";
-
 }
 
 // Handle move action
@@ -86,27 +84,27 @@ elseif ($action === "move") {
     $c = intval($clean["col"] ?? -1);   // Column index
 
     // Validate move
-    if ($r < 0 || $r > 2 || $c < 0 || $c > 2) {
-        $response["message"] = "Invalid cell."; // Out of bounds
-    } elseif ($_SESSION["board"][$r][$c] != 0) {
+    if ($r < 0 || $r > 2 || $c < 0 || $c > 2)
+        $response["message"] = "Invalid cell.";         // Out of bounds
+    elseif ($_SESSION["board"][$r][$c] != 0)
         $response["message"] = "Cell already taken.";   // Cell occupied
-    } else {
+    else {
         $mark = $_SESSION["current"];
-        $_SESSION["board"][$r][$c] = $mark; // Place the mark
+        $_SESSION["board"][$r][$c] = $mark;             // Place the mark
 
         // Check for win or draw
         $hasAWinner = CheckWin($_SESSION["board"], $mark);
         if ($hasAWinner !== "") {
-            $name = $_SESSION["players"][$mark];    // Get winner's name
-            $response["message"] = "$name wins with $mark"."s on the $hasAWinner!";   // Win message
-            $response["gameOver"] = true;                            // Game over
+            $name = $_SESSION["players"][$mark];                                    // Get winner's name
+            $response["message"] = "$name wins with $mark" . "s on the $hasAWinner!"; // Win message
+            $response["gameOver"] = true;                                           // Game over
         } elseif (BoardFull($_SESSION["board"])) {
-            $response["message"] = "CATS! (means board full. No winner)"; // Draw message
-            $response["gameOver"] = true;                            // Game over    
+            $response["message"] = "CATS! (means board full. No winner)";           // Draw message
+            $response["gameOver"] = true;                                           // Game over    
         } else {
-            $_SESSION["current"] = ($mark === "X") ? "O" : "X";     // Switch turn
-            $next = $_SESSION["players"][$_SESSION["current"]];     // Next player's name
-            $response["message"] = "$next's turn ({$_SESSION["current"]})"; // Next turn message
+            $_SESSION["current"] = ($mark === "X") ? "O" : "X";                     // Switch turn
+            $next = $_SESSION["players"][$_SESSION["current"]];                     // Next player's name
+            $response["message"] = "$next's turn ({$_SESSION["current"]})";         // Next turn message
         }
     }
 
@@ -116,11 +114,7 @@ elseif ($action === "move") {
     session_unset();
     session_destroy();
 
-    $response["board"] = [
-        [0, 0, 0],
-        [0, 0, 0],
-        [0, 0, 0]
-    ];
+    $response["board"] = NewBoard();
     $response["message"] = "Game quit. Enter names to start a new game.";
     $response["gameOver"] = true;
 }
@@ -128,7 +122,10 @@ elseif ($action === "move") {
 echo json_encode($response);
 die();
 
-/* HELPERS */
+/**
+ * FunctionName: NewBoard
+ * Description:  Initializes a new board
+ */
 function NewBoard()
 {
     return [
@@ -139,8 +136,8 @@ function NewBoard()
 }
 
 /**
- * FunctionName: CheckWin
- * Description: Checks if the given mark has won the game
+ * FunctionName:    CheckWin
+ * Description:     Checks if the given mark has won the game
  */
 function CheckWin($b, $m)
 {
@@ -150,24 +147,20 @@ function CheckWin($b, $m)
     for ($i = 0; $i < 3; $i++) {
 
         // Check rows
-        if ($b[$i][0] == $m && $b[$i][1] == $m && $b[$i][2] == $m) {
+        if ($b[$i][0] == $m && $b[$i][1] == $m && $b[$i][2] == $m)
             return "{$rowNames[$i]} row";
-        }
 
         // Check columns
-        if ($b[0][$i] == $m && $b[1][$i] == $m && $b[2][$i] == $m) {
+        if ($b[0][$i] == $m && $b[1][$i] == $m && $b[2][$i] == $m)
             return "{$colNames[$i]} column";
-        }
+
     }
 
     // Diagonals
-    if ($b[0][0] == $m && $b[1][1] == $m && $b[2][2] == $m) {
+    if ($b[0][0] == $m && $b[1][1] == $m && $b[2][2] == $m)
         return "main diagonal";
-    }
-
-    if ($b[0][2] == $m && $b[1][1] == $m && $b[2][0] == $m) {
+    if ($b[0][2] == $m && $b[1][1] == $m && $b[2][0] == $m)
         return "anti-diagonal";
-    }
 
     return "";
 }
