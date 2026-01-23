@@ -38,9 +38,3 @@ function mySqlQuery($query)
     return $results;
 }
 
-$output = NULL;
-$query = "SELECT * FROM titles";
-if ($output = mySqlQuery($query))
-    error_log(json_encode($output->fetch_all()));
-else
-    error_log("Something went wrong with the query!");
