@@ -33,28 +33,52 @@ if ($action === "init") {
     $p2 = $clean["player2"] ?? "";  // Player O name
 
     // Validate names
-    if ($p1 === "" || $p2 === "") {
-        $response["message"] = "Names must be at least one character!";
+    if ($p1 === "" && $p2 === "") {
+        $response["message"] = "Player 1 and Player 2 must enter their names.";
         echo json_encode($response);
         exit;
     }
 
-    $_SESSION["players"] = ["X" => $p1, "O" => $p2];    // Store player names
-    $_SESSION["board"] = NewBoard();                    // Initialize new board
-    $_SESSION["current"] = "X";                         // X starts first
+    if ($p1 === "") {
+        $response["message"] = "Player 1 must enter a name.";
+        echo json_encode($response);
+        exit;
+    }
 
-    $response["board"] = $_SESSION["board"];            // Return initial board
-    $response["message"] = "$p1 goes first (X)";        // Initial message
+    if ($p2 === "") {
+        $response["message"] = "Player 2 must enter a name.";
+        echo json_encode($response);
+        exit;
+    }
+
+    // Randomly assign X and O
+    $marks = ["X", "O"];
+    shuffle($marks);
+
+    $_SESSION["players"] = [
+        $marks[0] => $p1,
+        $marks[1] => $p2
+    ];
+
+    $_SESSION["board"] = NewBoard();        // Initialize new board
+    $_SESSION["current"] = "X";             // X always starts
+
+    $response["board"] = $_SESSION["board"];
+
+    // Build fair message
+    $starterName = $_SESSION["players"]["X"];
+    $response["message"] = "$starterName goes first (X)";
+
 }
 
 // Handle move action
 elseif ($action === "move") {
-    // Ensure game is initialized
-    if (!isset($_SESSION["board"], $_SESSION["current"])) {
-        $_SESSION["board"] = NewBoard();    // Initialize new board
-        // Chosing a random player to start
-        $players = ["X", "O"];              // Available players   
-        $_SESSION["current"] = $players[array_rand($players)];  // Randomly select starting player
+
+    // Game must be initialized first
+    if (!isset($_SESSION["board"], $_SESSION["current"], $_SESSION["players"])) {
+        $response["message"] = "Game not initialized. Please start a new game.";
+        echo json_encode($response);
+        exit;
     }
 
     $r = intval($clean["row"] ?? -1);   // Row index
@@ -73,10 +97,10 @@ elseif ($action === "move") {
         $hasAWinner = CheckWin($_SESSION["board"], $mark);
         if ($hasAWinner !== "") {
             $name = $_SESSION["players"][$mark];    // Get winner's name
-            $response["message"] = "$name wins! $hasAWinner";   // Win message
+            $response["message"] = "$name wins $hasAWinner";   // Win message
             $response["gameOver"] = true;           // Game over
         } elseif (BoardFull($_SESSION["board"])) {
-            $response["message"] = "CATS! Board full. It's a Draw."; // Draw message
+            $response["message"] = "CATS! (means board full. No winner)"; // Draw message
             $response["gameOver"] = true;                            // Game over    
         } else {
             $_SESSION["current"] = ($mark === "X") ? "O" : "X";     // Switch turn
@@ -119,21 +143,34 @@ function NewBoard()
  */
 function CheckWin($b, $m)
 {
+    $rowNames = ["top", "middle", "bottom"];
+    $colNames = ["left", "center", "right"];
+
     for ($i = 0; $i < 3; $i++) {
+
+        // Check rows
         if ($b[$i][0] == $m && $b[$i][1] == $m && $b[$i][2] == $m) {
-            return "win on row $i"; // Check rows
+            return "on the {$rowNames[$i]} row";
         }
-        if ($b[0][$i] == $m && $b[1][$i] == $m && $b[2][$i] == $m)
-            return "win on column $i"; // Check rows
+
+        // Check columns
+        if ($b[0][$i] == $m && $b[1][$i] == $m && $b[2][$i] == $m) {
+            return "on the {$colNames[$i]} column";
+        }
     }
 
-    if ($b[0][0] == $m && $b[1][1] == $m && $b[2][2] == $m)
-        return "win on main diagonal";        // Check main diagonal
-    if ($b[0][2] == $m && $b[1][1] == $m && $b[2][0] == $m)
-        return "wins on anti diagonal";        // Check anti diagonal
+    // Diagonals
+    if ($b[0][0] == $m && $b[1][1] == $m && $b[2][2] == $m) {
+        return "on the main diagonal";
+    }
+
+    if ($b[0][2] == $m && $b[1][1] == $m && $b[2][0] == $m) {
+        return "on the anti-diagonal";
+    }
 
     return "";
 }
+
 
 /**
  * FunctionName: BoardFull

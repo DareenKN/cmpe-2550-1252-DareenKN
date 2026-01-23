@@ -1,48 +1,62 @@
 let gameOver = false;   // Global variable to track game state
 
+const BOARD_SIZE = 3; // change to 8 later 👀
+
 /**
  * Document Ready
  */
 
 $(document).ready(function () {
 
-    // board disabled on initial load
     $('.board').addClass('locked');
 
-    $('#newGame').click(StartGame());
-    $('#quit').click(QuitGame());
-    $('.cell').click(CellClicked);
+    $('#newGame').click(StartGame);
+    $('#quit').click(QuitGame);
+
+    // Event delegation (important!)
+    $(document).on('click', '.cell', CellClicked);
 });
+
+
+function CreateBoard(size) {
+
+    const board = $('#board');
+    board.empty(); // clear previous board
+
+    for (let r = 0; r < size; r++) {
+        for (let c = 0; c < size; c++) {
+
+            const cell = $('<input>', {
+                class: 'cell',
+                readonly: true
+            });
+
+            cell.attr('data-row', r);
+            cell.attr('data-col', c);
+
+            board.append(cell);
+        }
+    }
+}
 
 /**
  * FunctionName: StartGame
  * Description: Initializes a new game
  */
 function StartGame() {
-
     console.log("Starting new game...");
-
-    if ($('input[name="nameX"]').val().trim() === "" ||
-        $('input[name="nameO"]').val().trim() === "") {
-        UpdateStatus("Please enter names for both players.");
-        $('.board').addClass('locked');
-        return;
-    }
 
     let data = {};
     data["action"] = "init";
-    data["player1"] = $('input[name="nameX"]').val();
-    data["player2"] = $('input[name="nameO"]').val();
-
-    gameOver = false;
-    $('.board').removeClass('locked');
+    data["player1"] = $('input[name="Player1"]').val();
+    data["player2"] = $('input[name="Player2"]').val();
 
     CallAJAX(
         "gameFlow.php",
         "post",
         data,
         "json",
-        GameSuccess,
+        GameInitSuccess,
         ErrorMethod
     );
 }
@@ -91,6 +105,28 @@ function CallAJAX(url, method, data, dataType, successMethod, errorMethod) {
     });
 }
 
+function GameInitSuccess(returnedData) {
+
+    console.log("INIT RESPONSE:", returnedData);
+
+    // ❌ Init failed → no board, just message
+    if (!returnedData.board || returnedData.board.length === 0) {
+        UpdateStatus(returnedData.message);
+        return;
+    }
+
+    // ✅ Init succeeded → NOW we create the board
+    CreateBoard(BOARD_SIZE);
+
+    gameOver = false;
+
+    $('#game-area').fadeIn(200);
+    $('.board').removeClass('locked');
+
+    UpdateStatus(returnedData.message);
+}
+
+
 /**
  * FunctionName: GameSuccess
  * Description: Handles successful game actions 
@@ -102,8 +138,6 @@ function GameSuccess(returnedData) {
     if (returnedData.board && returnedData.board.length === 3) {
         UpdateBoard(returnedData.board);
     }
-
-    UpdateStatus(returnedData.message);
 
     // Lock game if over
     gameOver = returnedData.gameOver === true;
@@ -183,5 +217,13 @@ function QuitGame() {
  * Description: Handles successful quit action
  */
 function QuitSuccess(returnedData) {
-    //location.reload();
+
+    gameOver = true;
+
+    $('#game-area').hide();
+    $('.board').addClass('locked');
+
+    UpdateStatus("Game quit. Enter names to start a new game.");
 }
+
+

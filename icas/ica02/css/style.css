@@ -72,6 +72,10 @@ body {
     cursor: pointer;
 }
 
+#game-area {
+    display: none;
+}
+
 /* Divider */
 .divider {
     border: none;
