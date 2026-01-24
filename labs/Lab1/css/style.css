@@ -94,7 +94,7 @@ body {
 .cell {
     border: 1px solid blue;
     background-color: #000;
-    font-size: 32px;
+    font-size: 40px;
 
     font-family: 'timi', cursive;
     font-weight: bold;
@@ -106,12 +106,12 @@ body {
 }
 
 .x-cell {
-    color: #1b33ff;
+    color: #a5292a;
     text-shadow: 0 0 4px rgba(27, 51, 255, 0.6);
 }
 
 .o-cell {
-    color: #21c400;
+    color: #d2b58b;
     text-shadow: 0 0 4px rgba(33, 196, 0, 0.6);
 }
 

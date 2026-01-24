@@ -1,0 +1,64 @@
+<!-- CMPE2550 - Web Applications
+    Name: Dareen Kinga Njatou
+    ICA2 - Tic Tac Toe
+    Description: Tic Tac Toe game with PHP backend and AJAX frontend
+    Date: January 12, 2026 -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CMPE2550 - Assignment 02 - Tic Tac Toe</title>
+
+    <link rel="stylesheet" href="css/style.css" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script defer src="index.js"></script>
+</head>
+
+<body>
+    <!-- Header -->
+    <div class="header">
+        CMPE2550 - Assignment 02 - Tic Tac Toe
+    </div>
+
+    <!-- Main Container -->
+    <div class="outer-container">
+
+        <!-- Status Panel -->
+        <form onsubmit="return false;">
+            <div class="status-panel">
+                <div class="status-message">
+                    Enter your names below:
+                </div>
+
+                <div class="name-inputs">
+                    <input type="text" name="Player1" placeholder="Player 1 name">
+                    <input type="text" name="Player2" placeholder="Player 2 name">
+                </div>
+
+                <div class="controls">
+                    <button type="submit" name="newGame" id="newGame">New Game</button>
+                    <button type="button" name="quit" id="quit">Quit Game</button>
+                </div>
+            </div>
+        </form>
+
+        <div id="game-area">
+            <hr class="divider">
+
+            <!-- Tic Tac Toe Board -->
+            <div class="board" id="board"></div>
+        </div>
+    </div>
+
+    <footer>
+        &copy Copyright 2026 by Dareen Njatou <br>
+        Last modified on
+        <script>document.write(document.lastModified)</script>
+    </footer>
+</body>
+
+</html>

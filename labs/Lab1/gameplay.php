@@ -78,7 +78,7 @@ function handleMove($clean, &$response)
     $r = intval($clean["row"] ?? -1);
     $c = intval($clean["col"] ?? -1);
 
-    if ($r < 0 || $r > 2 || $c < 0 || $c > 2) {
+    if ($r < 0 || $r > 7 || $c < 0 || $c > 7) {
         $response["message"] = "Invalid cell.";
     }
     elseif ($_SESSION["board"][$r][$c] != 0) {
@@ -143,14 +143,23 @@ function assignPlayers($p1, $p2)
  * FunctionName: NewBoard
  * Description:  Initializes a new board
  */
-function NewBoard()
+function NewBoard($size = 8)
 {
-    return [
-        [0, 0, 0],
-        [0, 0, 0],
-        [0, 0, 0]
-    ];
+    $board = [];
+
+    for ($r = 0; $r < $size; $r++) {
+        $row = [];
+
+        for ($c = 0; $c < $size; $c++) 
+            $row[] = 0;        
+
+        $board[] = $row;
+    }
+
+    return $board;
 }
+
+
 
 /**
  * FunctionName: validateNames

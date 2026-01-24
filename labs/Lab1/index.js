@@ -1,13 +1,13 @@
 let gameOver = false;   // Global variable to track game state
 
-const BOARD_SIZE = 3;
+const BOARD_SIZE = 8; // change to 8 later 👀
 
 /**
  * Document Ready
  */
 
 $(document).ready(function () {
-    CreateBoard(BOARD_SIZE);    
+    CreateBoard(BOARD_SIZE);
     $('.board').addClass('locked');
     $('#game-area').fadeIn(200);
 
@@ -23,7 +23,7 @@ function CreateBoard(size) {
 
     const board = $('#board');
     board.empty(); // clear previous board
-    
+
     $('.board').css("grid-template-columns", "repeat(" + size + ", 60px)");
     $('.board').css("grid-template-rows", "repeat(" + size + ", 60px)");
 
@@ -56,7 +56,7 @@ function StartGame() {
     data["player2"] = $('input[name="Player2"]').val();
 
     CallAJAX(
-        "gameFlow.php",
+        "gameplay.php",
         "post",
         data,
         "json",
@@ -83,7 +83,7 @@ function CellClicked() {
     data["col"] = $(this).data("col");
 
     CallAJAX(
-        "gameFlow.php",
+        "gameplay.php",
         "post",
         data,
         "json",
@@ -141,7 +141,7 @@ function GameSuccess(returnedData) {
 
     console.log(returnedData);
 
-    if (returnedData.board && returnedData.board.length === 3) {
+    if (returnedData.board && returnedData.board.length === BOARD_SIZE) {
         UpdateBoard(returnedData.board);
         UpdateStatus(returnedData.message);
     }
@@ -166,27 +166,31 @@ function GameSuccess(returnedData) {
  */
 function UpdateBoard(board) {
 
+    const size = board.length;
+
     $('.cell').each(function () {
         let r = $(this).data("row");
         let c = $(this).data("col");
 
+        // safety guard
+        if (
+            r === undefined || c === undefined ||
+            r < 0 || c < 0 ||
+            r >= size || c >= size
+        ) return;
+
+        const value = board[r][c];
+
         // reset
         $(this).removeClass("x-cell o-cell");
 
-        if (board[r][c] === "X") {
-            $(this).val("X");
-            $(this).addClass("x-cell");
-        }
-        else if (board[r][c] === "O") {
-            $(this).val("O");
-            $(this).addClass("o-cell");
-        }
-        else {
-            $(this).val("");
+        switch (value) {
+            case "X": $(this).val("❁").addClass("x-cell");  break;
+            case "O": $(this).val("✪").addClass("o-cell");  break;
+            default:  $(this).val("");                      break;
         }
     });
 }
-
 
 /**
  * FunctionName: UpdateStatus
@@ -221,7 +225,7 @@ function QuitGame() {
     data["action"] = "quit";
 
     CallAJAX(
-        "gameFlow.php",
+        "gameplay.php",
         "post",
         data,
         "json",
@@ -237,7 +241,7 @@ function QuitGame() {
 function QuitSuccess(returnedData) {
 
     gameOver = true;
-    
+
     $('input[name="Player1"]').val('');
     $('input[name="Player2"]').val('');
 

@@ -6,59 +6,84 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CMPE2550 - Assignment 02 - Tic Tac Toe</title>
-
-    <link rel="stylesheet" href="css/style.css" />
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script defer src="TicTacToe.js"></script>
+    <meta charset="UTF-8">
+    <title>Assignment 03 – MySQL Data Retrieval</title>
+    <link rel="stylesheet" href="CSS/style.css">
 </head>
-
 <body>
-    <!-- Header -->
-    <div class="header">
-        CMPE2550 - Assignment 02 - Tic Tac Toe
-    </div>
 
-    <!-- Main Container -->
-    <div class="outer-container">
+    <header>
+        <h1>Assignment 03 – MySQL Data Retrieval</h1>
+    </header>
 
-        <!-- Status Panel -->
-        <form onsubmit="return false;">
-            <div class="status-panel">
-                <div class="status-message">
-                    Enter your names below:
-                </div>
+    <main>
 
-                <div class="name-inputs">
-                    <input type="text" name="Player1" placeholder="Player 1 name">
-                    <input type="text" name="Player2" placeholder="Player 2 name">
-                </div>
+        <!-- AUTHORS SECTION -->
+        <section class="data-section">
+            <h2>Authors</h2>
 
-                <div class="controls">
-                    <button type="submit" name="newGame" id="newGame">New Game</button>
-                    <button type="button" name="quit" id="quit">Quit Game</button>
-                </div>
-            </div>
-        </form>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Get Books</th>
+                        <th>Author ID</th>
+                        <th>Last Name</th>
+                        <th>First Name</th>
+                        <th>Phone</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- PHP will generate rows here -->
+                    <tr>
+                        <td><button class="btn">Retrieve</button></td>
+                        <td>409-56-7008</td>
+                        <td>Bennet</td>
+                        <td>Abraham</td>
+                        <td>415-658-9932</td>
+                    </tr>
+                </tbody>
+            </table>
 
-        <div id="game-area">
-            <hr class="divider">
+            <p class="status">Retrieved: 23 author records</p>
+        </section>
 
-            <!-- Tic Tac Toe Board -->
-            <div class="board" id="board"></div>
-        </div>
-    </div>
+        <!-- BOOKS SECTION -->
+        <section class="data-section">
+            <h2>Books</h2>
+
+            <!-- Show table ONLY if books exist -->
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Title ID</th>
+                        <th>Title</th>
+                        <th>Type</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- PHP will generate rows here -->
+                    <tr>
+                        <td>MC3021</td>
+                        <td>The Gourmet Microwave</td>
+                        <td>mod_cook</td>
+                        <td>19.99</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- OR show this instead -->
+            <!-- <p class="status">No books found for this author.</p> -->
+
+            <p class="status">Retrieved: 2 title records</p>
+        </section>
+
+    </main>
 
     <footer>
-        &copy Copyright 2026 by Dareen Njatou <br>
-        Last modified on
-        <script>document.write(document.lastModified)</script>
+        <p>Last modified: 29-Sep-2022 15:47:46</p>
     </footer>
-</body>
 
+</body>
 </html>
