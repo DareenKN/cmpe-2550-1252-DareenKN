@@ -70,7 +70,8 @@ main {
     background-color: #cfcfcf;
 }
 
-.status {
+.status, .book-status {
+    text-align: center;
     margin-top: 8px;
     font-size: 14px;
     font-style: italic;

@@ -14,6 +14,8 @@ if (isset($clean["action"])) {
         GetAllTitles();
     if ($clean["action"] == "GetAllAuthors")
         GetAllAuthors();
+    if ($clean["action"] == "GetBooksByAuthor")
+        GetBooksByAuthor();
 }
 echo (json_encode($output));
 die();
@@ -55,5 +57,30 @@ function GetAllTitleAuthors()
         error_log(json_encode($output["titleauthor"]));
     } else
         error_log("Something went wrong with the query!");
+}
+
+function GetBooksByAuthor()
+{
+    global $output, $clean;
+
+    if (!isset($clean["au_id"])) {
+        $output["error"] = "Missing author ID";
+        return;
+    }
+
+    $au_id = $clean["au_id"];
+
+    $query = "
+        SELECT t.title_id, t.title, t.type, t.price
+        FROM titles t
+        JOIN titleauthor ta ON t.title_id = ta.title_id
+        WHERE ta.au_id = '$au_id'
+    ";
+
+    if ($queryOutput = mySqlQuery($query)) {
+        $output["books"] = $queryOutput->fetch_all();
+    } else {
+        $output["error"] = "Failed to retrieve books";
+    }
 }
 

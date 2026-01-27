@@ -1,16 +1,21 @@
 <!-- CMPE2550 - Web Applications
     Name: Dareen Kinga Njatou
-    ICA2 - Tic Tac Toe
-    Description: Tic Tac Toe game with PHP backend and AJAX frontend
-    Date: January 12, 2026 -->
+    ICA3 - My SQL Data Retrieval
+    Description: 
+    Date: January 25, 2026 -->
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Assignment 03 – MySQL Data Retrieval</title>
-    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script defer src="dataRetrieval.js"></script>
 </head>
+
 <body>
 
     <header>
@@ -20,7 +25,7 @@
     <main>
 
         <!-- AUTHORS SECTION -->
-        <section class="data-section">
+        <section class="authors-section">
             <h2>Authors</h2>
 
             <table class="data-table">
@@ -33,26 +38,17 @@
                         <th>Phone</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <!-- PHP will generate rows here -->
-                    <tr>
-                        <td><button class="btn">Retrieve</button></td>
-                        <td>409-56-7008</td>
-                        <td>Bennet</td>
-                        <td>Abraham</td>
-                        <td>415-658-9932</td>
-                    </tr>
+                <tbody id="authors-body">
                 </tbody>
             </table>
 
-            <p class="status">Retrieved: 23 author records</p>
+            <p class="status"></p>
         </section>
 
         <!-- BOOKS SECTION -->
         <section class="data-section">
             <h2>Books</h2>
 
-            <!-- Show table ONLY if books exist -->
             <table class="data-table">
                 <thead>
                     <tr>
@@ -62,28 +58,21 @@
                         <th>Price</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <!-- PHP will generate rows here -->
-                    <tr>
-                        <td>MC3021</td>
-                        <td>The Gourmet Microwave</td>
-                        <td>mod_cook</td>
-                        <td>19.99</td>
-                    </tr>
+                <tbody id="books-body">
                 </tbody>
             </table>
 
-            <!-- OR show this instead -->
-            <!-- <p class="status">No books found for this author.</p> -->
-
-            <p class="status">Retrieved: 2 title records</p>
+            <p class="book-status"></p>
         </section>
 
     </main>
 
     <footer>
-        <p>Last modified: 29-Sep-2022 15:47:46</p>
+        &copy Copyright 2026 by Dareen Njatou <br>
+        Last modified on
+        <script>document.write(document.lastModified)</script>
     </footer>
 
 </body>
+
 </html>

@@ -1,4 +1,10 @@
 <?php
+/* CMPE2550 - Web Applications
+ * Name: Dareen Kinga Njatou
+ * ICA3 - MySQL Data Retrieval
+ * db.php
+ * Description: Database connection and query functions
+ * Date: January 20, 2026 */
 
 $connection = null;
 mySQLConnect();
