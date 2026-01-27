@@ -7,55 +7,28 @@ $(document).ready(function () {
     $('.data-section').hide();
 
     GetAllAuthors();
-    //$('.btn-retrieve').on('click', GetBooksByAuthor); 
 });
 
 
 /**
- * Get all authors
+ * FunctionName:    GetAllAuthors
+ * Description:     Retrieves all authors from the database via AJAX call
  */
 function GetAllAuthors() {
-
     let data = {};
     data["action"] = "GetAllAuthors";
 
-    CallAJAX(
-        "service.php",
-        "get",
-        data,
-        "json",
-        GetAllAuthorsSuccess,
-        ErrorMethod
-    );
+    CallAJAX("service.php", "get", data, "json", GetAllAuthorsSuccess, ErrorMethod);
 }
 
+// Event delegation for dynamically created buttons
 $(document).on('click', '.btn-retrieve', GetBooksByAuthor);
 
-/**
- * Button click → get books for one author
- */
-function GetBooksByAuthor() {
 
-    let au_id = $(this).data("author");
-
-    let data = {};
-    data["action"] = "GetBooksByAuthor";
-    data["au_id"] = au_id;
-
-    CallAJAX(
-        "service.php",
-        "get",
-        data,
-        "json",
-        GetBooksByAuthorSuccess,
-        ErrorMethod
-    );
-}
-
-
-/**
- * Generic AJAX call
- */
+/** 
+*FunctionName:    CallAJAX
+*Description:     Generic AJAX call function 
+*/
 function CallAJAX(url, method, data, dataType, successMethod, errorMethod) {
 
     $.ajax({
@@ -68,10 +41,10 @@ function CallAJAX(url, method, data, dataType, successMethod, errorMethod) {
     });
 }
 
-
-/**
- * Populate authors table
- */
+/** 
+*FunctionName:    GetAllAuthorsSuccess
+*Description:     Success method for GetAllAuthors AJAX call 
+*/
 function GetAllAuthorsSuccess(returnedData) {
 
     let tbody = $("#authors-body");
@@ -99,14 +72,30 @@ function GetAllAuthorsSuccess(returnedData) {
         `;
 
         tbody.append(row);
-        $('.status').html(`Retrieved: ${returnedData.authors.length} author records`);
+        let record_label = (returnedData.authors.length > 1) ? 'records' : 'record';
+        $('#status').html(`Retrieved: ${returnedData.authors.length} author ${record_label}`);
     });
 
 }
 
+/**
+ * FunctionName:    GetBooksByAuthor
+ * Description:     Retrieves all books by a specific author via AJAX call
+ */
+function GetBooksByAuthor() {;
+    let au_id = $(this).data("author");
+    console.log("Author ID:", au_id);
+    
+    let data = {};
+    data["action"] = "GetBooksByAuthor";
+    data["au_id"] = au_id;
+
+    CallAJAX("service.php", "get", data, "json", GetBooksByAuthorSuccess, ErrorMethod);
+}
 
 /**
- * Populate books table (filtered)
+ * FunctionName:    GetBooksByAuthorSuccess
+ * Description:     Success method for GetBooksByAuthor AJAX call
  */
 function GetBooksByAuthorSuccess(returnedData) {
 
@@ -117,10 +106,11 @@ function GetBooksByAuthorSuccess(returnedData) {
 
     if (!returnedData.books || returnedData.books.length === 0) {
         $('.data-section').hide();
+        $('#ifnobooks').html(`No books found for this author.`);
         return;
     }
-
-    $('.data-section').show();    
+    $('#ifnobooks').empty();
+    $('.data-section').show();
     returnedData.books.forEach(book => {
 
         let row = `
@@ -135,15 +125,16 @@ function GetBooksByAuthorSuccess(returnedData) {
         tbody.append(row);
     });
 
-    $('.book-status').html(`Retrieved: ${returnedData.books.length} title records`);
+    let title_label = (returnedData.books.length > 1) ? 'records' : 'record';
+    $('#book-status').html(`Retrieved: ${returnedData.books.length} title ${title_label}`);
 }
 
-
 /**
- * Error handler
+ * FunctionName:    ErrorMethod
+ * Description:     Generic error method for AJAX calls
  */
 function ErrorMethod(req, status, error) {
     console.log("AJAX ERROR", status, error);
-    
-    $('.status').html(`An error occurred.`);
+
+    $('#status').html(`An error occurred.`);
 }
