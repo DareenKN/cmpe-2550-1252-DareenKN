@@ -56,11 +56,11 @@ function initGame($clean, &$response)
 
     $_SESSION["players"] = assignPlayers($p1, $p2);
     $_SESSION["board"]   = NewBoard();
-    $_SESSION["current"] = "X";
+    $_SESSION["current"] = "";
 
     $response["board"] = $_SESSION["board"];
-    $starterName = $_SESSION["players"]["X"];
-    $response["message"] = "$starterName goes first (X)";
+    $starterName = $_SESSION["players"]["❁"];
+    $response["message"] = "$starterName goes first (❁)";
 }
 
 /**
@@ -85,7 +85,7 @@ function handleMove($clean, &$response)
         $response["message"] = "Cell already taken.";
     }
     else {
-        $mark = $_SESSION["current"];
+        $mark = ($_SESSION["current"] === "❁") ? "❁" : "✪";
         $_SESSION["board"][$r][$c] = $mark;
 
         $hasAWinner = CheckWin($_SESSION["board"], $mark);
@@ -100,7 +100,7 @@ function handleMove($clean, &$response)
             $response["gameOver"] = true;
         }
         else {
-            $_SESSION["current"] = ($mark === "X") ? "O" : "X";
+            $_SESSION["current"] = ($mark === "❁") ? "✪" : "❁";
             $next = $_SESSION["players"][$_SESSION["current"]];
             $response["message"] = "$next's turn ({$_SESSION["current"]})";
         }
@@ -130,7 +130,7 @@ function quitGame(&$response)
  */
 function assignPlayers($p1, $p2)
 {
-    $marks = ["X", "O"];
+    $marks = ["❁", "✪"];
     shuffle($marks);
 
     return [
@@ -154,6 +154,21 @@ function NewBoard($size = 8)
             $row[] = 0;        
 
         $board[] = $row;
+    }
+
+    // Place the four starting pieces
+    $mid = $size / 2;
+    for ($i = 0; $i < $size; $i++) {
+        for ($j = 0; $j < $size; $j++) {
+            if ($i == $mid - 1 && $j == $mid - 1)
+                $board[$i][$j] = "✪";
+            elseif ($i == $mid - 1 && $j == $mid)
+                $board[$i][$j] = "❁";
+            elseif ($i == $mid && $j == $mid - 1)
+                $board[$i][$j] = "❁";
+            elseif ($i == $mid && $j == $mid)
+                $board[$i][$j] = "✪";
+        }
     }
 
     return $board;

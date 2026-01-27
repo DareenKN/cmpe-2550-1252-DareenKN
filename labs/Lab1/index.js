@@ -123,6 +123,7 @@ function GameInitSuccess(returnedData) {
 
     // ✅ Init succeeded → NOW we create the board
     CreateBoard(BOARD_SIZE);
+    UpdateBoard(returnedData.board);
 
     gameOver = false;
 
@@ -185,8 +186,8 @@ function UpdateBoard(board) {
         $(this).removeClass("x-cell o-cell");
 
         switch (value) {
-            case "X": $(this).val("❁").addClass("x-cell");  break;
-            case "O": $(this).val("✪").addClass("o-cell");  break;
+            case "❁": $(this).val("❁").addClass("x-cell");  break;
+            case "✪": $(this).val("✪").addClass("o-cell");  break;
             default:  $(this).val("");                      break;
         }
     });

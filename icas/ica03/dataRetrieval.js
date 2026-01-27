@@ -60,7 +60,7 @@ function GetAllAuthorsSuccess(returnedData) {
     }
 
     returnedData.authors.forEach(author => {
-
+        // Create table row for each author
         let row = `
             <tr>
                 <td>
@@ -101,17 +101,18 @@ function GetTitlesByAuthor() {;
  * Description:     Success method for GetTitlesByAuthor AJAX call
  */
 function GetTitlesByAuthorSuccess(returnedData) {
-
     console.log(returnedData);
 
     let tbody = $("#books-body");
     tbody.empty();
 
+    // If no titles returned, show message and hide table
     if (!returnedData.titles || returnedData.titles.length === 0) {
         $('.data-section').hide();
         $('#ifnobooks').html(returnedData.message);
         return;
     }
+    // Populate titles table
     $('#ifnobooks').empty();
     $('.data-section').show();
     returnedData.titles.forEach(book => {
@@ -127,7 +128,7 @@ function GetTitlesByAuthorSuccess(returnedData) {
 
         tbody.append(row);
     });
-
+    // Update status message
     $('#book-status').html(returnedData.message);
 }
 
