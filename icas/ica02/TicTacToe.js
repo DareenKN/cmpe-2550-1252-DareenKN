@@ -1,20 +1,16 @@
 let gameOver = false;   // Global variable to track game state
 
-const BOARD_SIZE = 3;
-
-/**
- * Document Ready
- */
+const BOARD_SIZE = 3;   // Tic Tac Toe board size
 
 $(document).ready(function () {
-    CreateBoard(BOARD_SIZE);    
+    CreateBoard(BOARD_SIZE);
     $('.board').addClass('locked');
     $('#game-area').fadeIn(200);
 
     $('#newGame').click(StartGame);
     $('#quit').click(QuitGame);
 
-    // Event delegation (important!)
+    // Event delegation for dynamically created cells
     $(document).on('click', '.cell', CellClicked);
 });
 
@@ -23,17 +19,14 @@ function CreateBoard(size) {
 
     const board = $('#board');
     board.empty(); // clear previous board
-    
+
     $('.board').css("grid-template-columns", "repeat(" + size + ", 60px)");
     $('.board').css("grid-template-rows", "repeat(" + size + ", 60px)");
 
     for (let r = 0; r < size; r++) {
         for (let c = 0; c < size; c++) {
 
-            const cell = $('<input>', {
-                class: 'cell',
-                readonly: true
-            });
+            const cell = $('<input>', {class: 'cell', readonly: true});
 
             cell.attr('data-row', r);
             cell.attr('data-col', c);
@@ -55,14 +48,7 @@ function StartGame() {
     data["player1"] = $('input[name="Player1"]').val();
     data["player2"] = $('input[name="Player2"]').val();
 
-    CallAJAX(
-        "gameFlow.php",
-        "post",
-        data,
-        "json",
-        GameInitSuccess,
-        ErrorMethod
-    );
+    CallAJAX("gameFlow.php", "post", data, "json", GameInitSuccess, ErrorMethod);
 }
 
 /**
@@ -70,7 +56,6 @@ function StartGame() {
  * Description: Handles cell click events
  */
 function CellClicked() {
-
     // Prevent moves if game is over
     if (gameOver) {
         UpdateStatus("Game over. Start a new game.");
@@ -82,14 +67,7 @@ function CellClicked() {
     data["row"] = $(this).data("row");
     data["col"] = $(this).data("col");
 
-    CallAJAX(
-        "gameFlow.php",
-        "post",
-        data,
-        "json",
-        GameSuccess,
-        ErrorMethod
-    );
+    CallAJAX("gameFlow.php", "post", data, "json", GameSuccess, ErrorMethod);
 }
 
 
@@ -121,7 +99,7 @@ function GameInitSuccess(returnedData) {
         return;
     }
 
-    // ✅ Init succeeded → NOW we create the board
+    // Create the board
     CreateBoard(BOARD_SIZE);
 
     gameOver = false;
@@ -138,7 +116,6 @@ function GameInitSuccess(returnedData) {
  * Description: Handles successful game actions 
  */
 function GameSuccess(returnedData) {
-
     console.log(returnedData);
 
     if (returnedData.board && returnedData.board.length === 3) {
@@ -148,15 +125,14 @@ function GameSuccess(returnedData) {
 
     // Lock game if over
     gameOver = returnedData.gameOver === true;
-
     if (gameOver) {
         $('.board').addClass('locked');
     } else {
         $('.board').removeClass('locked');
     }
 
+    // Just message
     UpdateStatus(returnedData.message);
-
 }
 
 
@@ -173,16 +149,18 @@ function UpdateBoard(board) {
         // reset
         $(this).removeClass("x-cell o-cell");
 
-        if (board[r][c] === "X") {
-            $(this).val("X");
-            $(this).addClass("x-cell");
-        }
-        else if (board[r][c] === "O") {
-            $(this).val("O");
-            $(this).addClass("o-cell");
-        }
-        else {
-            $(this).val("");
+        switch (board[r][c]) {
+            case "X":
+                $(this).val("X");
+                $(this).addClass("x-cell");
+                break;
+            case "O":
+                $(this).val("O");
+                $(this).addClass("o-cell");
+                break;
+            default:
+                $(this).val("");
+                break;
         }
     });
 }
@@ -215,19 +193,16 @@ function ErrorMethod(req, status, error) {
     console.log(error);
 }
 
+/**
+ * FunctionName: QuitGame
+ * Description: Handles quitting the game
+ */
 function QuitGame() {
 
     let data = {};
     data["action"] = "quit";
 
-    CallAJAX(
-        "gameFlow.php",
-        "post",
-        data,
-        "json",
-        QuitSuccess,
-        ErrorMethod
-    );
+    CallAJAX("gameFlow.php", "post", data, "json", QuitSuccess, ErrorMethod);
 }
 
 /**
@@ -237,7 +212,7 @@ function QuitGame() {
 function QuitSuccess(returnedData) {
 
     gameOver = true;
-    
+
     $('input[name="Player1"]').val('');
     $('input[name="Player2"]').val('');
 

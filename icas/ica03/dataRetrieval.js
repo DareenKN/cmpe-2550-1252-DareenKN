@@ -1,6 +1,9 @@
 /**
- * CMPE2550 – ICA 3 / Assignment 03
- * MySQL Data Retrieval – Next Level
+ * CMPE2550 – ICA 03 – MySQL Data Retrieval
+ * Name: Dareen Kinga Njatou
+ * dataRetrieval.js
+ * Description: JavaScript file to retrieve authors and their books from MySQL database via AJAX
+ * Date: January 20, 2026
  */
 
 $(document).ready(function () {
@@ -22,7 +25,7 @@ function GetAllAuthors() {
 }
 
 // Event delegation for dynamically created buttons
-$(document).on('click', '.btn-retrieve', GetBooksByAuthor);
+$(document).on('click', '.btn-retrieve', GetTitlesByAuthor);
 
 
 /** 
@@ -46,7 +49,8 @@ function CallAJAX(url, method, data, dataType, successMethod, errorMethod) {
 *Description:     Success method for GetAllAuthors AJAX call 
 */
 function GetAllAuthorsSuccess(returnedData) {
-
+    console.log(returnedData);
+    
     let tbody = $("#authors-body");
     tbody.empty();
 
@@ -72,46 +76,45 @@ function GetAllAuthorsSuccess(returnedData) {
         `;
 
         tbody.append(row);
-        let record_label = (returnedData.authors.length > 1) ? 'records' : 'record';
-        $('#status').html(`Retrieved: ${returnedData.authors.length} author ${record_label}`);
+        $('#status').html(returnedData.message);
     });
 
 }
 
 /**
- * FunctionName:    GetBooksByAuthor
+ * FunctionName:    GetTitlesByAuthor
  * Description:     Retrieves all books by a specific author via AJAX call
  */
-function GetBooksByAuthor() {;
+function GetTitlesByAuthor() {;
     let au_id = $(this).data("author");
     console.log("Author ID:", au_id);
     
     let data = {};
-    data["action"] = "GetBooksByAuthor";
+    data["action"] = "GetTitlesByAuthor";
     data["au_id"] = au_id;
 
-    CallAJAX("service.php", "get", data, "json", GetBooksByAuthorSuccess, ErrorMethod);
+    CallAJAX("service.php", "get", data, "json", GetTitlesByAuthorSuccess, ErrorMethod);
 }
 
 /**
- * FunctionName:    GetBooksByAuthorSuccess
- * Description:     Success method for GetBooksByAuthor AJAX call
+ * FunctionName:    GetTitlesByAuthorSuccess
+ * Description:     Success method for GetTitlesByAuthor AJAX call
  */
-function GetBooksByAuthorSuccess(returnedData) {
+function GetTitlesByAuthorSuccess(returnedData) {
 
     console.log(returnedData);
 
     let tbody = $("#books-body");
     tbody.empty();
 
-    if (!returnedData.books || returnedData.books.length === 0) {
+    if (!returnedData.titles || returnedData.titles.length === 0) {
         $('.data-section').hide();
-        $('#ifnobooks').html(`No books found for this author.`);
+        $('#ifnobooks').html(returnedData.message);
         return;
     }
     $('#ifnobooks').empty();
     $('.data-section').show();
-    returnedData.books.forEach(book => {
+    returnedData.titles.forEach(book => {
 
         let row = `
             <tr>
@@ -125,8 +128,7 @@ function GetBooksByAuthorSuccess(returnedData) {
         tbody.append(row);
     });
 
-    let title_label = (returnedData.books.length > 1) ? 'records' : 'record';
-    $('#book-status').html(`Retrieved: ${returnedData.books.length} title ${title_label}`);
+    $('#book-status').html(returnedData.message);
 }
 
 /**
@@ -138,3 +140,5 @@ function ErrorMethod(req, status, error) {
 
     $('#status').html(`An error occurred.`);
 }
+
+

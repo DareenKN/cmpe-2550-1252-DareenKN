@@ -219,19 +219,16 @@ function ErrorMethod(req, status, error) {
     console.log(error);
 }
 
+/**
+ * FunctionName: QuitGame
+ * Description: Sends a quit game request
+ */
 function QuitGame() {
 
     let data = {};
     data["action"] = "quit";
 
-    CallAJAX(
-        "gameplay.php",
-        "post",
-        data,
-        "json",
-        QuitSuccess,
-        ErrorMethod
-    );
+    CallAJAX("gameplay.php", "post", data, "json", QuitSuccess, ErrorMethod);
 }
 
 /**
