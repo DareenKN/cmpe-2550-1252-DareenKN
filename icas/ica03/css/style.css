@@ -7,7 +7,7 @@
 }
 
 body {
-    background-color: #f3f5f4;
+    background-color: #3b2c3c;
     margin: 0;
     padding: 0;
     color: #222;
@@ -17,17 +17,24 @@ body {
    Header
 ================================ */
 header {
-    background: linear-gradient(135deg, #e6efe6, #d8ead8);
+    background: linear-gradient(135deg, #efe9f7, #e2d9f3);
     padding: 20px;
     text-align: center;
-    border-bottom: 2px solid #b7e1b0;
+    border-bottom: 2px solid #cbb7e8;
 }
 
 header h1 {
     margin: 0;
-    font-size: 28px;
+    font-size: 30px;
     font-weight: 600;
-    color: #2f4f2f;
+    text-align: center;
+    color: #7b4bb7; /* soft purple */
+    letter-spacing: 0.6px;
+    text-shadow:
+        1px 1px 0 #e6dcf5,
+        2px 2px 0 #c6b3e6,
+        3px 3px 0 #9f87cf,
+        4px 4px 6px rgba(0, 0, 0, 0.25);
 }
 
 /* ===============================
@@ -42,9 +49,8 @@ main {
 /* ===============================
    Sections
 ================================ */
-
 section h2 {
-    color: #355e35;
+    color: #d2c3f3; /* light lavender */
     font-weight: 600;
 }
 
@@ -68,38 +74,49 @@ section h2 {
 }
 
 .data-table th {
-    background-color: #b7e1b0;
+    background-color: #cbb7e8;
     font-weight: bold;
 }
 
 .data-table tbody tr:nth-child(even) {
-    background-color: #eaf6e7;
-}
-
-.data-table tbody tr:hover {
-    background-color: #f2f5f2;
+    background-color: #f2edf9;
 }
 
 /* ===============================
    Buttons
 ================================ */
 .btn {
-    padding: 5px 10px;
-    background-color: #e4e4e4;
-    border: 1px solid #888;
-    border-radius: 4px;
+    padding: 6px 12px;
+    background: linear-gradient(135deg, #6b3fa0, #8a63c9);
+    color: #f4effa;
+    border: 1px solid #9f87cf;
+    border-radius: 6px;
     cursor: pointer;
     font-size: 14px;
-    transition: background-color 0.2s ease, transform 0.1s ease;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    box-shadow:
+        0 2px 0 #4a2c74,
+        0 4px 8px rgba(0, 0, 0, 0.35);
+    transition:
+        background 0.2s ease,
+        transform 0.1s ease,
+        box-shadow 0.1s ease;
 }
 
 .btn:hover {
-    background-color: #d2d2d2;
-    transform: scale(1.03);
+    background: linear-gradient(135deg, #7a52b8, #9b78d6);
+    transform: translateY(-1px);
+    box-shadow:
+        0 3px 0 #4a2c74,
+        0 6px 12px rgba(0, 0, 0, 0.45);
 }
 
 .btn:active {
-    transform: scale(0.97);
+    transform: translateY(1px);
+    box-shadow:
+        0 1px 0 #4a2c74,
+        0 2px 6px rgba(0, 0, 0, 0.35);
 }
 
 /* ===============================
@@ -112,7 +129,7 @@ section h2 {
     margin-top: 8px;
     font-size: 14px;
     font-style: italic;
-    color: #555;
+    color: #b8aecf; /* muted pastel for dark bg */
 }
 
 /* ===============================
@@ -124,5 +141,5 @@ footer {
     padding: 15px;
     color: #666;
     border-top: 1px solid #ccc;
-    background-color: #f0f0f0;
+    background-color: #f3f1f8;
 }
