@@ -44,3 +44,23 @@ function mySqlQuery($query)
     return $results;
 }
 
+function mySQLNonQuery($query)
+{
+    global $connection;
+
+    if ($connection == null) {
+        error_log("mySqlQuery : No connection established!");
+        return -1;
+    }
+
+    $result = 0;
+
+    if (!($result = $connection->query($query))) {
+        error_log("mySqlQuery : $connection->errno : $connection->error");
+        error_log($query);
+        return -1;
+    }
+
+    $result = $connection->affected_rows;
+    return $result;
+}

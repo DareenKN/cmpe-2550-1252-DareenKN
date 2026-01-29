@@ -1,5 +1,5 @@
 /**
- * CMPE2550 – ICA 03 – MySQL Data Retrieval
+ * CMPE2550 – ICA 04 – MySQL Data Manipulation via AJAX
  * Name: Dareen Kinga Njatou
  * dataRetrieval.js
  * Description: JavaScript file to retrieve authors and their books from MySQL database via AJAX
@@ -52,7 +52,7 @@ function CallAJAX(url, method, data, dataType, successMethod, errorMethod) {
 */
 function GetAllAuthorsSuccess(returnedData) {
     console.log(returnedData);
-    
+
     let tbody = $("#authors-body");
     tbody.empty();
 
@@ -87,10 +87,11 @@ function GetAllAuthorsSuccess(returnedData) {
  * FunctionName:    GetTitlesByAuthor
  * Description:     Retrieves all books by a specific author via AJAX call
  */
-function GetTitlesByAuthor() {;
+function GetTitlesByAuthor() {
+    ;
     let au_id = $(this).data("author");
     console.log("Author ID:", au_id);
-    
+
     let data = {};
     data["action"] = "GetTitlesByAuthor";
     data["au_id"] = au_id;
@@ -136,6 +137,37 @@ function GetTitlesByAuthorSuccess(returnedData) {
     });
     // Update status message
     $('#book-status').html(returnedData.message);
+}
+
+/**
+ * FunctionName:    DeleteTitle
+ * Description:     Deletes a specific book via AJAX call
+ */
+function DeleteTitle() {
+    let title_id = $(this).data("title");
+    console.log("Title ID to delete:", title_id);
+
+    let data = {};
+    data["action"] = "DeleteTitle";
+    data["title_id"] = title_id;
+
+    CallAJAX("service.php", "post", data, "json", DeleteTitleSuccess, ErrorMethod);
+}
+
+/**
+ * FunctionName:    DeleteTitleSuccess
+ * Description:     Success method for DeleteTitle AJAX call
+ */
+function DeleteTitleSuccess(returnedData) {
+    console.log(returnedData);
+
+    $('#book-status').html(returnedData.status);
+    // Refresh the titles table after deletion
+    let au_id = $("#authors-body tr:first td:nth-child(2)").text();
+    let data = {};
+    data["action"] = "GetTitlesByAuthor";
+    data["au_id"] = au_id;
+    CallAJAX("service.php", "get", data, "json", GetTitlesByAuthorSuccess, ErrorMethod);
 }
 
 /**

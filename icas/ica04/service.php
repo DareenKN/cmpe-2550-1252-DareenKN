@@ -27,7 +27,9 @@ $output = ["message" => ""];
 // Handle actions
 switch ($action) {
     case "GetAllAuthors":       GetAllAuthors();        break;
-    case "GetTitlesByAuthor":   GetTitlesByAuthor();     break;
+    case "GetTitlesByAuthor":   GetTitlesByAuthor();    break;
+    case "DeleteTitle":         DeleteTitle();          break;
+    case "EditTitle":           EditTitle();            break;
 
     default:
         $output["error"] = "Invalid action specified";
@@ -107,6 +109,33 @@ function GetTitlesByAuthor()
         default:
             $output["message"] = "Retrieved: " . count($output["titles"]) . " title records.";
             break;
+    }
+}
+
+/**
+ * FunctionName:    DeleteTitle
+ * Description:     Deletes a title based on provided title ID
+ * Input:           Expects 'titleID' parameter in GET request
+ * Output:          Populates $output with status message
+ */
+function DeleteTitle()
+{
+    global $clean, $output;
+
+    if (!isset($clean["titleID"]))
+        $output["status"] = "No title ID was supplied! ";
+    else {
+        $query = "DELETE FROM titles WHERE title_id = '" . $clean['titleID'] . "'";
+        error_log($query);
+
+        $result = -1;
+        if ($result = mySqlNonQuery(($query)) >= 0) {
+            error_log("$result records were successfully deleted");
+            $output["status"] = "$result records were succesfully deleted";
+        } else{
+            error_log("There was a problem with the query!");
+            $output["status"] = "There was a problem with the query!";
+        }
     }
 }
 
