@@ -29,7 +29,7 @@ switch ($action) {
     case "GetAllAuthors":       GetAllAuthors();        break;
     case "GetTitlesByAuthor":   GetTitlesByAuthor();    break;
     case "DeleteTitle":         DeleteTitle();          break;
-    case "EditTitle":           EditTitle();            break;
+    //case "EditTitle":           EditTitle();            break;
 
     default:
         $output["error"] = "Invalid action specified";
@@ -122,19 +122,19 @@ function DeleteTitle()
 {
     global $clean, $output;
 
-    if (!isset($clean["titleID"]))
-        $output["status"] = "No title ID was supplied! ";
+    if (!isset($clean["title_id"]))
+        $output["message"] = "No title ID was supplied! ";
     else {
-        $query = "DELETE FROM titles WHERE title_id = '" . $clean['titleID'] . "'";
+        $query = "DELETE FROM titles WHERE title_id = '" . $clean['title_id'] . "'";
         error_log($query);
 
         $result = -1;
         if ($result = mySqlNonQuery(($query)) >= 0) {
             error_log("$result records were successfully deleted");
-            $output["status"] = "$result records were succesfully deleted";
+            $output["message"] = "$result records were successfully deleted";
         } else{
             error_log("There was a problem with the query!");
-            $output["status"] = "There was a problem with the query!";
+            $output["message"] = "There was a problem with the query!";
         }
     }
 }

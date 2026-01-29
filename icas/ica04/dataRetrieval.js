@@ -6,6 +6,8 @@
  * Date: January 20, 2026
  */
 
+let currentAuthorId = null;
+
 $(document).ready(function () {
     $('.data-section').hide();
 
@@ -27,7 +29,7 @@ function GetAllAuthors() {
 // Event delegation for dynamically created buttons
 $(document).on('click', '.btn-retrieve', GetTitlesByAuthor);
 $(document).on('click', '.btn-delete', DeleteTitle);
-$(document).on('click', '.btn-edit', EditTitle);
+//$(document).on('click', '.btn-edit', EditTitle);
 
 
 /** 
@@ -90,6 +92,9 @@ function GetAllAuthorsSuccess(returnedData) {
 function GetTitlesByAuthor() {
     ;
     let au_id = $(this).data("author");
+
+    currentAuthorId = au_id;
+
     console.log("Author ID:", au_id);
 
     let data = {};
@@ -151,7 +156,7 @@ function DeleteTitle() {
     data["action"] = "DeleteTitle";
     data["title_id"] = title_id;
 
-    CallAJAX("service.php", "post", data, "json", DeleteTitleSuccess, ErrorMethod);
+    CallAJAX("service.php", "get", data, "json", DeleteTitleSuccess, ErrorMethod);
 }
 
 /**
@@ -161,12 +166,16 @@ function DeleteTitle() {
 function DeleteTitleSuccess(returnedData) {
     console.log(returnedData);
 
-    $('#book-status').html(returnedData.status);
+    $('#book-status').html(returnedData.message);
+
     // Refresh the titles table after deletion
-    let au_id = $("#authors-body tr:first td:nth-child(2)").text();
+    let au_id = currentAuthorId;
+    
     let data = {};
     data["action"] = "GetTitlesByAuthor";
     data["au_id"] = au_id;
+
+    console.log("Refreshing titles for author ID:", au_id);
     CallAJAX("service.php", "get", data, "json", GetTitlesByAuthorSuccess, ErrorMethod);
 }
 
