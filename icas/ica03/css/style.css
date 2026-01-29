@@ -28,7 +28,8 @@ header h1 {
     font-size: 30px;
     font-weight: 600;
     text-align: center;
-    color: #7b4bb7; /* soft purple */
+    color: #7b4bb7;
+    /* soft purple */
     letter-spacing: 0.6px;
     text-shadow:
         1px 1px 0 #e6dcf5,
@@ -37,26 +38,17 @@ header h1 {
         4px 4px 6px rgba(0, 0, 0, 0.25);
 }
 
-/* ===============================
-   Main Layout
-================================ */
 main {
     width: 90%;
     max-width: 900px;
     margin: 30px auto;
 }
 
-/* ===============================
-   Sections
-================================ */
 section h2 {
-    color: #d2c3f3; /* light lavender */
+    color: #d2c3f3;
     font-weight: 600;
 }
 
-/* ===============================
-   Tables
-================================ */
 .data-table {
     width: 100%;
     border-collapse: collapse;
@@ -73,6 +65,15 @@ section h2 {
     text-align: left;
 }
 
+.data-table td {
+    font-size: large;
+    font-family: "DM Sans", system-ui, sans-serif;
+    font-weight: 400;
+    line-height: 1.55;
+
+    color: #2a2438;
+}
+
 .data-table th {
     background-color: #cbb7e8;
     font-weight: bold;
@@ -82,9 +83,6 @@ section h2 {
     background-color: #f2edf9;
 }
 
-/* ===============================
-   Buttons
-================================ */
 .btn {
     padding: 6px 12px;
     background: linear-gradient(135deg, #6b3fa0, #8a63c9);
@@ -129,7 +127,8 @@ section h2 {
     margin-top: 8px;
     font-size: 14px;
     font-style: italic;
-    color: #b8aecf; /* muted pastel for dark bg */
+    color: #b8aecf;
+    /* muted pastel for dark bg */
 }
 
 /* ===============================

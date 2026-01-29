@@ -26,9 +26,8 @@ $output = ["message" => ""];
 
 // Handle actions
 switch ($action) {
-    case "GetAllTitles":        GetAllTitles();         break;
     case "GetAllAuthors":       GetAllAuthors();        break;
-    case "GetTitlesByAuthor":    GetTitlesByAuthor();     break;
+    case "GetTitlesByAuthor":   GetTitlesByAuthor();     break;
 
     default:
         $output["error"] = "Invalid action specified";
@@ -39,26 +38,12 @@ switch ($action) {
 echo (json_encode($output));
 die();
 
-/**
- * FunctionName:    GetAllTitles
- * Description:     Retrieves all titles from the database
- */
-function GetAllTitles()
-{
-    global $output;
-
-    $query = "SELECT * FROM titles";
-    $queryOutput = null;
-    if ($queryOutput = mySqlQuery($query)) {
-        $output["titles"] = $queryOutput->fetch_all();
-        error_log(json_encode($output["titles"]));
-    } else
-        error_log("Something went wrong with the query!");
-}
 
 /**
  * FunctionName:    GetAllAuthors
  * Description:     Retrieves all authors from the database
+ * Input:           Gets data from 'authors' table
+ * Output:          Populates $output with authors data and message
  */
 function GetAllAuthors()
 {
@@ -85,6 +70,8 @@ function GetAllAuthors()
 /**
  * FunctionName:    GetTitlesByAuthor
  * Description:     Retrieves titles for a specific author
+ * Input:           Expects 'au_id' parameter in GET request
+ * Output:          Populates $output with titles data and message
  */
 function GetTitlesByAuthor()
 {
