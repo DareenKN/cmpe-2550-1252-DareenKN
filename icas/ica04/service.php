@@ -26,10 +26,10 @@ $output = ["message" => ""];
 
 // Handle actions
 switch ($action) {
-    case "GetAllAuthors":       GetAllAuthors();        break;
-    case "GetTitlesByAuthor":   GetTitlesByAuthor();    break;
-    case "DeleteTitle":         DeleteTitle();          break;
-    //case "EditTitle":           EditTitle();            break;
+    case "GetAllAuthors":       GetAllAuthors();            break;
+    case "GetTitlesByAuthor":   GetTitlesByAuthor();        break;
+    case "DeleteTitleAuthor":   DeleteTitleAuthor();        break;
+    case "EditTitle":           EditTitle();                break;
 
     default:
         $output["error"] = "Invalid action specified";
@@ -118,20 +118,36 @@ function GetTitlesByAuthor()
  * Input:           Expects 'titleID' parameter in GET request
  * Output:          Populates $output with status message
  */
-function DeleteTitle()
+function DeleteTitleAuthor()
 {
     global $clean, $output;
 
     if (!isset($clean["title_id"]))
         $output["message"] = "No title ID was supplied! ";
+    elseif (!isset($clean["au_id"]))
+        $output["message"] = "No author ID was supplied! ";
     else {
-        $query = "DELETE FROM titles WHERE title_id = '" . $clean['title_id'] . "'";
+        $query = "DELETE FROM titleauthor 
+                  WHERE title_id = '" . $clean['title_id'] . "' 
+                  AND au_id = '" . $clean['au_id'] . "'";
         error_log($query);
-
         $result = -1;
+        
         if ($result = mySqlNonQuery(($query)) >= 0) {
-            error_log("$result records were successfully deleted");
-            $output["message"] = "$result records were successfully deleted";
+            switch ($result) {
+                case 0:
+                    $output["message"] = "No records were deleted.";
+                    error_log("No records were deleted.");
+                    break;
+                case 1:
+                    $output["message"] = "1 record was successfully deleted.";
+                    error_log("1 record was successfully deleted.");
+                    break;
+                default:
+                    $output["message"] = "$result records were successfully deleted.";
+                    error_log("$result records were successfully deleted.");
+                    break;
+            }
         } else{
             error_log("There was a problem with the query!");
             $output["message"] = "There was a problem with the query!";
@@ -139,3 +155,6 @@ function DeleteTitle()
     }
 }
 
+function EditTitle(){
+    
+}

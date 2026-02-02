@@ -148,22 +148,22 @@ function GetTitlesByAuthorSuccess(returnedData) {
  * FunctionName:    DeleteTitle
  * Description:     Deletes a specific book via AJAX call
  */
-function DeleteTitle() {
+function DeleteTitleAuthor() {
     let title_id = $(this).data("title");
-    console.log("Title ID to delete:", title_id);
+    console.log("Title ID to delete:", title_id, "from author ID:", currentAuthorId);
 
     let data = {};
-    data["action"] = "DeleteTitle";
+    data["action"] = "DeleteTitleAuthor";
     data["title_id"] = title_id;
-
-    CallAJAX("service.php", "get", data, "json", DeleteTitleSuccess, ErrorMethod);
+    data["au_id"] = currentAuthorId;
+    CallAJAX("service.php", "get", data, "json", DeleteTitleAuthorSuccess, ErrorMethod);
 }
 
 /**
  * FunctionName:    DeleteTitleSuccess
  * Description:     Success method for DeleteTitle AJAX call
  */
-function DeleteTitleSuccess(returnedData) {
+function DeleteTitleAuthorSuccess(returnedData) {
     console.log(returnedData);
 
     $('#book-status').html(returnedData.message);
