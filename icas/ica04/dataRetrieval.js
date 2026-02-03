@@ -29,7 +29,7 @@ function GetAllAuthors() {
 
 // Event delegation for dynamically created buttons
 $(document).on('click', '.btn-retrieve', GetTitlesByAuthor);
-$(document).on('click', '.btn-delete', DeleteTitleAuthor);
+$(document).on('click', '.btn-delete', DeleteTitle);
 $(document).on('click', '.btn-edit', EditTitle);
 
 
@@ -149,22 +149,21 @@ function GetTitlesByAuthorSuccess(returnedData) {
  * FunctionName:    DeleteTitleAuthor
  * Description:     Deletes a specific book via AJAX call
  */
-function DeleteTitleAuthor() {
+function DeleteTitle() {
     let title_id = $(this).data("title");
-    console.log("Title ID to delete:", title_id, "from author ID:", currentAuthorId);
+    console.log("Title ID to delete:", title_id);
 
     let data = {};
-    data["action"] = "DeleteTitleAuthor";
+    data["action"] = "DeleteTitle";
     data["title_id"] = title_id;
-    data["au_id"] = currentAuthorId;
-    CallAJAX("service.php", "get", data, "json", DeleteTitleAuthorSuccess, ErrorMethod);
+    CallAJAX("service.php", "get", data, "json", DeleteTitleSuccess, ErrorMethod);
 }
 
 /**
  * FunctionName:    DeleteTitleSuccess
  * Description:     Success method for DeleteTitle AJAX call
  */
-function DeleteTitleAuthorSuccess(returnedData) {
+function DeleteTitleSuccess(returnedData) {
     console.log(returnedData);
 
     $('#book-status').html(returnedData.message);
@@ -207,75 +206,155 @@ function EditTitle() {
     CallAJAX("service.php", "get", data, "json", EditTitleSuccess, ErrorMethod);
 }
 
+/**
+ * FunctionName:    EditTitleSuccess
+ * Description:     Success method for EditTitle AJAX call
+ * Inputs:          returnedData - Data returned from AJAX call
+ * Outputs:         Renders edit form for the selected title
+ */
 function EditTitleSuccess(returnedData) {
+    // Clear any previous messages
     $('#ifnobooks').empty();
     console.log(returnedData);
 
-    if (returnedData.error) {
-        $('#book-status').html(returnedData.error);
-        return;
-    }
+    if (hasError(returnedData)) return;
+    if (edited_title_id === null) return;
 
-    if (edited_title_id === null) {
-        return;
-    }
-
-    let title_id = edited_title_id;
+    const title_id = edited_title_id;
     console.log("Editing title ID:", title_id);
 
-    $(`#btn-${title_id}`).html(`<button class="btn btn-update" data-title="${title_id}">Update</button>
-                          <button class="btn btn-cancel" data-title="${title_id}">Cancel</button>`);
+    // Update status message
+    $('#book-status').html(returnedData.message);
+
+    // Render edit form and bind handlers
+    renderEdit(title_id, returnedData);
+    bindCancelHandler(returnedData);
+    bindUpdateHandler();
+}
+
+/**
+ * FunctionName:    hasError
+ * Description:     Checks if returned data contains an error
+ * Inputs:          data - Data returned from AJAX call
+ * Outputs:         true if error exists, false otherwise
+ */
+function hasError(data) {
+    if (data.error) {
+        $('#book-status').html(data.error);
+        return true;
+    }
+    return false;
+}
+
+/**
+ * FunctionName:    clearInfo
+ * Description:     Clears informational messages
+ */
+function clearInfo() {
+    $('#ifnobooks').empty();
+}
+
+/** 
+ * FunctionName:    renderEdit
+ * Description:     Renders the edit form for a specific title
+ */ 
+function renderEdit(title_id, data) {
+    $(`#btn-${title_id}`).html(`
+        <button class="btn btn-update" data-title="${title_id}">Update</button>
+        <button class="btn btn-cancel" data-title="${title_id}">Cancel</button>
+    `);
     
-    $(`#title-${title_id}`).html(`<input type="text" id="title-input" value="${returnedData.title}">`);
-    $(`#price-${title_id}`).html(`<input type="text" id="price-input" value="${returnedData.price}">`);
+    $(`#title-${title_id}`).html(`<input type="text" id="title-input" value="${data.title}">`);
+    $(`#price-${title_id}`).html(`<input type="text" id="price-input" value="${data.price}">`);
+        
+    const $typeCell = $(`#type-${title_id}`);
+    $typeCell.empty().html(`<select id="types-select"></select>`);
 
-    $(`#type-${title_id}`).empty();
-    $(`#type-${title_id}`).html(`<select id="types-select"></select>`);
-    for(let i = 0; i < returnedData.types.length; i++) 
-        $('#types-select').append(`<option value="${returnedData.types[i][0]}">${returnedData.types[i][0]}</option>`);
-    
-    // Ensure the current type is selected
-    $(`#types-select option[value='${returnedData.type}']`).attr("selected", "selected");
+    data.types.forEach(type => {
+        $('#types-select').append(`<option value="${type[0]}">${type[0]}</option>`);
+    });
 
-    // If cancel button is clicked, revert changes
-    $(document).on('click', '.btn-cancel', function() {
-        $('#ifnobooks').empty();
+    $(`#types-select`).val(data.type);
+}
+
+/** 
+ * FunctionName:    resetRow
+ * Description:     Resets the row buttons and infos
+ */ 
+function resetRow(title_id, data) {
+    // Resseting buttons
+    $(`#btn-${title_id}`).html(`
+        <button class="btn btn-delete" data-title="${title_id}">Delete</button>
+        <button class="btn btn-edit" data-title="${title_id}">Edit</button>
+    `);
+
+    // Resetting title's info
+    $(`#title-${title_id}`).html(data.title);
+    $(`#price-${title_id}`).html(data.price);
+    $(`#type-${title_id}`).html(data.type);
+}
+
+/** 
+ * FunctionName:    bindCancelHandler
+ * Description:     Resets the row buttons and infos when cancel is clicked
+ */ 
+function bindCancelHandler(returnedData) {
+    $(document).off('click', '.btn-cancel').on('click', '.btn-cancel', function () {
+        clearInfo();
         edited_title_id = null;
-        let title_id = $(this).data("title");
-        $(`#btn-${title_id}`).html(`<button class="btn btn-delete" data-title="${title_id}">Delete</button>
-                              <button class="btn btn-edit" data-title="${title_id}">Edit</button>`);
-        // Revert title and price to original values
-        $(`#title-${title_id}`).html(returnedData.title);
-        $(`#price-${title_id}`).html(returnedData.price);
-        $(`#type-${title_id}`).html(returnedData.type);
-    });  
 
-    // If update button is clicked, send updated data via AJAX
-    $(document).on('click', '.btn-update', function() {
-        $('#ifnobooks').empty();
+        const title_id = $(this).data("title");
+        resetRow(title_id, returnedData);
+    });
+}
+
+/** 
+ * FunctionName:    bindUpdateHandler
+ * Description:     Calls update function to update title's infos
+ */ 
+function bindUpdateHandler() {
+    $(document).off('click', '.btn-update').on('click', '.btn-update', function () {
+        clearInfo();
         edited_title_id = null;
-        let title_id = $(this).data("title");
-        let updatedTitle = $('#title-input').val();
-        let updatedPrice = $('#price-input').val();
-        let updatedType = $('#types-select').val();
-        console.log("Updated Title ID:", title_id, "Title:", updatedTitle, "Price:", updatedPrice, "Type:", updatedType);
 
-        let data = {};
-        data["action"] = "UpdateTitle";
-        data["title_id"] = title_id;
-        data["title"] = updatedTitle;
-        data["price"] = updatedPrice;
-        data["type"] = updatedType;
+        const title_id = $(this).data("title");
+        const data = collectUpdatedData(title_id);
+
+        console.log(
+            "Updated Title ID:", title_id,
+            "Title:", data.title,
+            "Price:", data.price,
+            "Type:", data.type
+        );
 
         CallAJAX("service.php", "get", data, "json", UpdateTitleSuccess, ErrorMethod);
     });
 }
 
+/** 
+ * FunctionName:    collectUpdatedData
+ * Description:     Collects all the data from the title_id to update the row
+ */ 
+function collectUpdatedData(title_id) {
+    return {
+        action: "UpdateTitle",
+        title_id: title_id,
+        title: $('#title-input').val(),
+        price: $('#price-input').val(),
+        type: $('#types-select').val()
+    };
+}
+
+/** 
+ * FunctionName:    UpdateTitleSuccess
+ * Description:     When Ajax call is successful, updates the title row
+ */ 
 function UpdateTitleSuccess(returnedData) {
+    $('#ifnobooks').empty();
     console.log(returnedData);
 
     if (returnedData.error) {
-        $('#book-status').html(returnedData.error);
+        $('#ifnobooks').html(returnedData.error);
         return;
     }
 

@@ -32,8 +32,8 @@ switch ($action) {
     case "GetTitlesByAuthor":
         GetTitlesByAuthor();
         break;
-    case "DeleteTitleAuthor":
-        DeleteTitleAuthor();
+    case "DeleteTitle":
+        DeleteTitle();
         break;
     case "EditTitle":
         EditTitle();
@@ -133,48 +133,53 @@ function GetTitlesByAuthor()
 }
 
 /**
- * FunctionName:    DeleteTitleAuthor
- * Description:     Deletes a title based on provided title ID
- * Input:           Expects 'titleID' parameter in GET request
- * Output:          Populates $output with status message
+ * FunctionName:    DeleteTitle
+ * Description:     Retrieves title details for deleting both in titleauthor and titles table
+ * Input:           Expects 'title_id' parameter in GET request
+ * Output:          Populates $output with title details and types
  */
-function DeleteTitleAuthor()
+function DeleteTitle()
 {
     global $clean, $output;
 
-    if (!isset($clean["title_id"]))
-        $output["message"] = "No title ID was supplied! ";
-    elseif (!isset($clean["au_id"]))
-        $output["message"] = "No author ID was supplied! ";
-    else {
-        $query = "DELETE FROM titleauthor 
-                  WHERE title_id = '" . $clean['title_id'] . "' 
-                  AND au_id = '" . $clean['au_id'] . "'";
-        error_log($query);
-        $result = -1;
+    if (!isset($clean["title_id"])) {
+        $output["message"] = "No title ID was supplied!";
+        return;
+    }
 
-        if ($result = mySqlNonQuery(($query)) >= 0) {
-            switch ($result) {
-                case 0:
-                    $output["message"] = "No records were deleted.";
-                    error_log("No records were deleted.");
-                    break;
-                case 1:
-                    $output["message"] = "1 record was successfully deleted.";
-                    error_log("1 record was successfully deleted.");
-                    break;
-                default:
-                    $output["message"] = "$result records were successfully deleted.";
-                    error_log("$result records were successfully deleted.");
-                    break;
-            }
+    $title_id = $clean["title_id"];
+
+    $query1 = "DELETE FROM titleauthor WHERE title_id = '$title_id'";
+    $query2 = "DELETE FROM titles WHERE title_id = '$title_id'";
+
+    // Ensure no issue occured when deleting the titleauthor
+    $result1 = -1;
+    if ($result1 = mySqlNonQuery(($query1)) >= 0) {
+        error_log("$result1 records were successfully deleted in titleAuthors");
+        $output["message"] = "$result1 records were succesfully deleted in titleAuthors";
+
+        // Ensure no issue occur with deleting titles
+        $result2 = -1;
+        if ($result2 = mySqlNonQuery(($query2)) >= 0) {
+            error_log("$result2 records were successfully deleted");
+            $output["message"] = "$result2 records were succesfully deleted";
         } else {
-            error_log("There was a problem with the query!");
-            $output["message"] = "There was a problem with the query!";
+            error_log("Was not able to delete in titles table!");
+            $output["message"] = "Was not able to delete in titles table!";
         }
+    } else {
+        error_log("Was not able to delete in titleAuthor table!");
+        $output["message"] = "Was not able to delete in titleAuthor table!";
     }
 }
 
+
+/**
+ * FunctionName:    EditTitle
+ * Description:     Retrieves title details for editing
+ * Input:           Expects 'title_id' parameter in GET request
+ * Output:          Populates $output with title details and types
+ */
 function EditTitle()
 {
     global $clean, $output;
@@ -184,10 +189,13 @@ function EditTitle()
         return;
     }
 
+    // Inform user that we are in edit mode
+    $output["message"] = "Editing title ID: " . $clean["title_id"];
+
     // Retrieve title details
     $title_id = $clean["title_id"];
     $query_title = "SELECT title, type, price FROM titles WHERE title_id = '$title_id'";
-    if($queryOutput = mySqlQuery($query_title)) {
+    if ($queryOutput = mySqlQuery($query_title)) {
         $titleData = $queryOutput->fetch_assoc();
         $output["title"] = $titleData["title"];
         $output["type"] = $titleData["type"];
@@ -198,13 +206,19 @@ function EditTitle()
     }
 
     $query_types = "SELECT DISTINCT type FROM titles";
-    if($queryOutput = mySqlQuery($query_types)) {
+    if ($queryOutput = mySqlQuery($query_types)) {
         $output["types"] = $queryOutput->fetch_all();
     } else {
         $output["error"] = "Failed to retrieve types";
     }
 }
 
+/**
+ * FunctionName:    UpdateTitle
+ * Description:     Retrieves title details for updating
+ * Input:           Expects 'title_id' parameter in GET request
+ * Output:          Populates $output with title details and types
+ */
 function UpdateTitle()
 {
     global $clean, $output;
@@ -214,6 +228,7 @@ function UpdateTitle()
         return;
     }
 
+    // Get parameters
     $title_id = $clean["title_id"];
     $title = $clean["title"];
     $type = $clean["type"];
@@ -225,11 +240,18 @@ function UpdateTitle()
         return;
     }
 
+    // Ensure that the title is valid
+    if ($title == "") {
+        $output["error"] = "The title must be valid!";
+        return;
+    }
+
     // Update title details
     $query = "UPDATE titles 
               SET title = '$title', type = '$type', price = '$price' 
               WHERE title_id = '$title_id'";
 
+    // Execute update query
     $result = mySQLNonQuery($query);
     if ($result >= 0) {
         $output["message"] = "Title updated successfully.";
