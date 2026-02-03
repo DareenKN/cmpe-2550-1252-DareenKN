@@ -59,7 +59,8 @@ function GetAllAuthors()
 {
     global $output;
 
-    $query = "SELECT * FROM authors";
+    $query = "SELECT * FROM authors
+              ORDER BY au_lname";
     $queryOutput = null;
     if ($queryOutput = mySqlQuery($query)) {
         $output["authors"] = $queryOutput->fetch_all();
@@ -129,7 +130,7 @@ function GetTitlesByAuthor()
 }
 
 /**
- * FunctionName:    DeleteTitle
+ * FunctionName:    DeleteTitleAuthor
  * Description:     Deletes a title based on provided title ID
  * Input:           Expects 'titleID' parameter in GET request
  * Output:          Populates $output with status message
@@ -176,15 +177,28 @@ function EditTitle()
     global $clean, $output;
 
     if (!isset(($clean["title_id"]))) {
-        $output["mssage"] = "No title ID was supplied!";
+        $output["error"] = "No title ID was supplied!";
         return;
     }
 
-    $query = "SELECT DISTINCT type FROM titles";
-    if($queryOutput = mySqlQuery($query)) {
+    // Retrieve title details
+    $title_id = $clean["title_id"];
+    $query_title = "SELECT title, type, price FROM titles WHERE title_id = '$title_id'";
+    if($queryOutput = mySqlQuery($query_title)) {
+        $titleData = $queryOutput->fetch_assoc();
+        $output["title"] = $titleData["title"];
+        $output["type"] = $titleData["type"];
+        $output["price"] = $titleData["price"];
+    } else {
+        $output["error"] = "Failed to retrieve title details";
+        return;
+    }
+
+    $query_types = "SELECT DISTINCT type FROM titles";
+    if($queryOutput = mySqlQuery($query_types)) {
         $output["types"] = $queryOutput->fetch_all();
     } else {
-        $output["message"] = "Failed to retrieve types";
+        $output["error"] = "Failed to retrieve types";
     }
 
     // $title_id = $clean["title_id"];

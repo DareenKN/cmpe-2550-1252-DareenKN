@@ -7,6 +7,7 @@
  */
 
 let currentAuthorId = null;
+let edited_title_id = null;
 
 $(document).ready(function () {
     $('.data-section').hide();
@@ -28,7 +29,7 @@ function GetAllAuthors() {
 
 // Event delegation for dynamically created buttons
 $(document).on('click', '.btn-retrieve', GetTitlesByAuthor);
-$(document).on('click', '.btn-delete', DeleteTitle);
+$(document).on('click', '.btn-delete', DeleteTitleAuthor);
 $(document).on('click', '.btn-edit', EditTitle);
 
 
@@ -127,14 +128,14 @@ function GetTitlesByAuthorSuccess(returnedData) {
 
         let row = `
             <tr>
-                <td>
+                <td id="btn-${book[0]}">
                     <button class="btn btn-delete" data-title="${book[0]}">Delete</button>
                     <button class="btn btn-edit" data-title="${book[0]}">Edit</button>
                 </td>
                 <td>${book[0]}</td>
-                <td>${book[1]}</td>
-                <td>${book[2]}</td>
-                <td>${book[3]}</td>
+                <td id="title-${book[0]}">${book[1]}</td>
+                <td id="type-${book[0]}">${book[2]}</td>
+                <td id="price-${book[0]}">${book[3]}</td>
             </tr>
         `;
 
@@ -145,7 +146,7 @@ function GetTitlesByAuthorSuccess(returnedData) {
 }
 
 /**
- * FunctionName:    DeleteTitle
+ * FunctionName:    DeleteTitleAuthor
  * Description:     Deletes a specific book via AJAX call
  */
 function DeleteTitleAuthor() {
@@ -185,16 +186,60 @@ function DeleteTitleAuthorSuccess(returnedData) {
  */
 function EditTitle() {
     let title_id = $(this).data("title");
+
+    // If another title is being edited, prevent editing a new one
+    if (edited_title_id !== null) {
+        $('#ifnobooks').html("Please finish editing the current title before editing another.");
+        return;
+    }
+
     console.log("Title ID to edit:", title_id, "from author ID:", currentAuthorId);
 
     let data = {};
     data["action"] = "EditTitle";
     data["title_id"] = title_id;
+
+    edited_title_id = title_id;
     CallAJAX("service.php", "get", data, "json", EditTitleSuccess, ErrorMethod);
 }
 
 function EditTitleSuccess(returnedData) {
+    $('#ifnobooks').empty();
     console.log(returnedData);
+
+    if (returnedData.error) {
+        $('#book-status').html(returnedData.error);
+        return;
+    }
+    let title_id = edited_title_id;
+    console.log("Editing title ID:", title_id);
+
+    $(`#btn-${title_id}`).html(`<button class="btn btn-update" data-title="${title_id}">Update</button>
+                          <button class="btn btn-cancel" data-title="${title_id}">Cancel</button>`);
+    
+    $(`#title-${title_id}`).html(`<input type="text" id="title-input" value="${returnedData.title}">`);
+    $(`#price-${title_id}`).html(`<input type="text" id="price-input" value="${returnedData.price}">`);
+
+    $(`#type-${title_id}`).empty();
+    $(`#type-${title_id}`).html(`<select id="types-select"></select>`);
+    for(let i = 0; i < returnedData.types.length; i++) 
+        $('#types-select').append(`<option value="${returnedData.types[i][0]}">${returnedData.types[i][0]}</option>`);
+    
+    // Ensure the current type is selected
+    $(`#types-select option[value='${returnedData.type}']`).attr("selected", "selected");
+
+    // If cancel button is clicked, revert changes
+    $(document).on('click', '.btn-cancel', function() {
+        $('#ifnobooks').empty();
+        edited_title_id = null;
+        let title_id = $(this).data("title");
+        $(`#btn-${title_id}`).html(`<button class="btn btn-delete" data-title="${title_id}">Delete</button>
+                              <button class="btn btn-edit" data-title="${title_id}">Edit</button>`);
+        // Revert title and price to original values
+        $(`#title-${title_id}`).html(returnedData.title);
+        $(`#price-${title_id}`).html(returnedData.price);
+        $(`#type-${title_id}`).html(returnedData.type);
+    });  
 }
 
 /**
