@@ -29,7 +29,7 @@ function GetAllAuthors() {
 // Event delegation for dynamically created buttons
 $(document).on('click', '.btn-retrieve', GetTitlesByAuthor);
 $(document).on('click', '.btn-delete', DeleteTitle);
-//$(document).on('click', '.btn-edit', EditTitle);
+$(document).on('click', '.btn-edit', EditTitle);
 
 
 /** 
@@ -170,13 +170,31 @@ function DeleteTitleAuthorSuccess(returnedData) {
 
     // Refresh the titles table after deletion
     let au_id = currentAuthorId;
-    
+
     let data = {};
     data["action"] = "GetTitlesByAuthor";
     data["au_id"] = au_id;
 
     console.log("Refreshing titles for author ID:", au_id);
     CallAJAX("service.php", "get", data, "json", GetTitlesByAuthorSuccess, ErrorMethod);
+}
+
+/**
+ * FunctionName:    EditTitle
+ * Description:     Edits a specific book via AJAX call
+ */
+function EditTitle() {
+    let title_id = $(this).data("title");
+    console.log("Title ID to edit:", title_id, "from author ID:", currentAuthorId);
+
+    let data = {};
+    data["action"] = "EditTitle";
+    data["title_id"] = title_id;
+    CallAJAX("service.php", "get", data, "json", EditTitleSuccess, ErrorMethod);
+}
+
+function EditTitleSuccess(returnedData) {
+    console.log(returnedData);
 }
 
 /**

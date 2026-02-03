@@ -26,10 +26,18 @@ $output = ["message" => ""];
 
 // Handle actions
 switch ($action) {
-    case "GetAllAuthors":       GetAllAuthors();            break;
-    case "GetTitlesByAuthor":   GetTitlesByAuthor();        break;
-    case "DeleteTitleAuthor":   DeleteTitleAuthor();        break;
-    case "EditTitle":           EditTitle();                break;
+    case "GetAllAuthors":
+        GetAllAuthors();
+        break;
+    case "GetTitlesByAuthor":
+        GetTitlesByAuthor();
+        break;
+    case "DeleteTitleAuthor":
+        DeleteTitleAuthor();
+        break;
+    case "EditTitle":
+        EditTitle();
+        break;
 
     default:
         $output["error"] = "Invalid action specified";
@@ -61,8 +69,12 @@ function GetAllAuthors()
 
     // Set message based on number of authors retrieved
     switch (count($output["authors"])) {
-        case 0: $output["message"] = "No author records found.";    break;
-        case 1: $output["message"] = "Retrieved: 1 author record."; break;
+        case 0:
+            $output["message"] = "No author records found.";
+            break;
+        case 1:
+            $output["message"] = "Retrieved: 1 author record.";
+            break;
         default:
             $output["message"] = "Retrieved: " . count($output["authors"]) . " author records.";
             break;
@@ -83,7 +95,7 @@ function GetTitlesByAuthor()
         $output["error"] = "Missing author ID";
         return;
     }
-    
+
     // Get author ID
     $au_id = $clean["au_id"];
 
@@ -104,8 +116,12 @@ function GetTitlesByAuthor()
 
     // Set message based on number of titles retrieved
     switch (count($output["titles"])) {
-        case 0: $output["message"] = "No titles found for the specified author.";   break;
-        case 1: $output["message"] = "Retrieved: 1 title record.";                  break;
+        case 0:
+            $output["message"] = "No titles found for the specified author.";
+            break;
+        case 1:
+            $output["message"] = "Retrieved: 1 title record.";
+            break;
         default:
             $output["message"] = "Retrieved: " . count($output["titles"]) . " title records.";
             break;
@@ -132,7 +148,7 @@ function DeleteTitleAuthor()
                   AND au_id = '" . $clean['au_id'] . "'";
         error_log($query);
         $result = -1;
-        
+
         if ($result = mySqlNonQuery(($query)) >= 0) {
             switch ($result) {
                 case 0:
@@ -148,13 +164,29 @@ function DeleteTitleAuthor()
                     error_log("$result records were successfully deleted.");
                     break;
             }
-        } else{
+        } else {
             error_log("There was a problem with the query!");
             $output["message"] = "There was a problem with the query!";
         }
     }
 }
 
-function EditTitle(){
-    
+function EditTitle()
+{
+    global $clean, $output;
+
+    if (!isset(($clean["title_id"]))) {
+        $output["mssage"] = "No title ID was supplied!";
+        return;
+    }
+
+    $query = "SELECT DISTINCT type FROM titles";
+    if($queryOutput = mySqlQuery($query)) {
+        $output["types"] = $queryOutput->fetch_all();
+    } else {
+        $output["message"] = "Failed to retrieve types";
+    }
+
+    // $title_id = $clean["title_id"];
+
 }
