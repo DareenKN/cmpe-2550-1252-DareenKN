@@ -38,6 +38,9 @@ switch ($action) {
     case "EditTitle":
         EditTitle();
         break;
+    case "UpdateTitle":
+        UpdateTitle();
+        break;
 
     default:
         $output["error"] = "Invalid action specified";
@@ -200,7 +203,37 @@ function EditTitle()
     } else {
         $output["error"] = "Failed to retrieve types";
     }
+}
 
-    // $title_id = $clean["title_id"];
+function UpdateTitle()
+{
+    global $clean, $output;
 
+    if (!isset($clean["title_id"]) || !isset($clean["title"]) || !isset($clean["type"]) || !isset($clean["price"])) {
+        $output["error"] = "Missing parameters for updating title!";
+        return;
+    }
+
+    $title_id = $clean["title_id"];
+    $title = $clean["title"];
+    $type = $clean["type"];
+    $price = $clean["price"];
+
+    // Ensure price is a valid number, zero or positive
+    if (!is_numeric($price) || $price < 0) {
+        $output["error"] = "Price must be a valid number greater than or equal to zero!";
+        return;
+    }
+
+    // Update title details
+    $query = "UPDATE titles 
+              SET title = '$title', type = '$type', price = '$price' 
+              WHERE title_id = '$title_id'";
+
+    $result = mySQLNonQuery($query);
+    if ($result >= 0) {
+        $output["message"] = "Title updated successfully.";
+    } else {
+        $output["error"] = "Failed to update title.";
+    }
 }

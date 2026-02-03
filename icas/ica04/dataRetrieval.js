@@ -188,6 +188,7 @@ function EditTitle() {
     let title_id = $(this).data("title");
 
     // If another title is being edited, prevent editing a new one
+    console.log("Currently edited title ID:", edited_title_id);
     if (edited_title_id !== null) {
         $('#ifnobooks').html("Please finish editing the current title before editing another.");
         return;
@@ -199,7 +200,10 @@ function EditTitle() {
     data["action"] = "EditTitle";
     data["title_id"] = title_id;
 
-    edited_title_id = title_id;
+    if (title_id !== null && title_id !== undefined) {
+        edited_title_id = title_id;
+    }
+
     CallAJAX("service.php", "get", data, "json", EditTitleSuccess, ErrorMethod);
 }
 
@@ -211,6 +215,11 @@ function EditTitleSuccess(returnedData) {
         $('#book-status').html(returnedData.error);
         return;
     }
+
+    if (edited_title_id === null) {
+        return;
+    }
+
     let title_id = edited_title_id;
     console.log("Editing title ID:", title_id);
 
@@ -240,6 +249,47 @@ function EditTitleSuccess(returnedData) {
         $(`#price-${title_id}`).html(returnedData.price);
         $(`#type-${title_id}`).html(returnedData.type);
     });  
+
+    // If update button is clicked, send updated data via AJAX
+    $(document).on('click', '.btn-update', function() {
+        $('#ifnobooks').empty();
+        edited_title_id = null;
+        let title_id = $(this).data("title");
+        let updatedTitle = $('#title-input').val();
+        let updatedPrice = $('#price-input').val();
+        let updatedType = $('#types-select').val();
+        console.log("Updated Title ID:", title_id, "Title:", updatedTitle, "Price:", updatedPrice, "Type:", updatedType);
+
+        let data = {};
+        data["action"] = "UpdateTitle";
+        data["title_id"] = title_id;
+        data["title"] = updatedTitle;
+        data["price"] = updatedPrice;
+        data["type"] = updatedType;
+
+        CallAJAX("service.php", "get", data, "json", UpdateTitleSuccess, ErrorMethod);
+    });
+}
+
+function UpdateTitleSuccess(returnedData) {
+    console.log(returnedData);
+
+    if (returnedData.error) {
+        $('#book-status').html(returnedData.error);
+        return;
+    }
+
+    $('#book-status').html(returnedData.message);
+
+    // Refresh the titles table after update
+    let au_id = currentAuthorId;
+
+    let data = {};
+    data["action"] = "GetTitlesByAuthor";
+    data["au_id"] = au_id;
+
+    console.log("Refreshing titles for author ID:", au_id);
+    CallAJAX("service.php", "get", data, "json", GetTitlesByAuthorSuccess, ErrorMethod);
 }
 
 /**
