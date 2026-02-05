@@ -1,0 +1,103 @@
+<!-- CMPE2550 - Web Applications
+    Name: Dareen Kinga Njatou
+    ICA3 - My SQL Data Retrieval
+    Description: 
+    Date: January 25, 2026 -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Assignment 04 – mySQL and Data Manipulation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script defer src="dataRetrieval.js"></script>
+</head>
+
+<body>
+
+    <header>
+        <h1>Assignment 04 – mySQL and Data Manipulation</h1>
+    </header>
+
+    <main>
+
+        <!-- AUTHORS SECTION -->
+        <section class="authors-section">
+            <h2>Authors</h2>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Get Books</th>
+                        <th>Author ID</th>
+                        <th>Last Name</th>
+                        <th>First Name</th>
+                        <th>Phone</th>
+                    </tr>
+                </thead>
+                <tbody id="authors-body">
+                    <tr>
+                        <td>
+                            <button class="btn btn-retrieve" data-author="${author[0]}">
+                                Retrieve
+                            </button>
+                        </td>
+                        <td>${author[0]}</td>
+                        <td>${author[1]}</td>
+                        <td>${author[2]}</td>
+                        <td>${author[3]}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p id="status"></p>
+            <p id="ifnobooks"></p>
+        </section>
+
+        <!-- BOOKS SECTION -->
+        <section class="data-section">
+            <h2>Books</h2>
+
+            <table class="data-table titles-table">
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>Title ID</th>
+                        <th>Title</th>
+                        <th>Type</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody id="books-body">
+                    <tr>
+                        <td>                            
+                            <button class="btn btn-delete" data-author="${author[0]}">Delete</button>
+                            <button class="btn btn-edit" data-author="${author[0]}">Edit</button>
+                        </td>
+                        <td>${title[0]}</td>
+                        <td>${title[1]}</td>
+                        <td>${title[2]}</td>
+                        <td>${title[3]}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p id="book-status"></p>
+        </section>
+
+    </main>
+
+    <footer>
+        &copy Copyright 2026 by Dareen Njatou <br>
+        Last modified on
+        <script>document.write(document.lastModified)</script>
+    </footer>
+
+</body>
+
+</html>
