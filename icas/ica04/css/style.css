@@ -196,7 +196,7 @@ section h2 {
 ================================ */
 #status,
 #book-status,
-#ifnobooks {
+#error_status {
     text-align: center;
     margin-top: 8px;
     font-size: 14px;
@@ -205,7 +205,7 @@ section h2 {
     /* muted pastel for dark bg */
 }
 
-#ifnobooks {
+#error_status {
     color: #e0d4f8;
     font-size: 20px;
     margin-top: 20px;

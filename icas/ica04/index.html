@@ -47,16 +47,16 @@
                                 Retrieve
                             </button>
                         </td>
-                        <td>${author[0]}</td>
-                        <td>${author[1]}</td>
-                        <td>${author[2]}</td>
-                        <td>${author[3]}</td>
+                        <td>{author[0]}</td>
+                        <td>{author[1]}</td>
+                        <td>{author[2]}</td>
+                        <td>{author[3]}</td>
                     </tr>
                 </tbody>
             </table>
 
             <p id="status"></p>
-            <p id="ifnobooks"></p>
+            <p id="error_status"></p>
         </section>
 
         <!-- BOOKS SECTION -->
@@ -75,14 +75,14 @@
                 </thead>
                 <tbody id="books-body">
                     <tr>
-                        <td>                            
+                        <td>
                             <button class="btn btn-delete" data-author="${author[0]}">Delete</button>
                             <button class="btn btn-edit" data-author="${author[0]}">Edit</button>
                         </td>
-                        <td>${title[0]}</td>
-                        <td>${title[1]}</td>
-                        <td>${title[2]}</td>
-                        <td>${title[3]}</td>
+                        <td>{title[0]}</td>
+                        <td>{title[1]}</td>
+                        <td>{title[2]}</td>
+                        <td>{title[3]}</td>
                     </tr>
                 </tbody>
             </table>
