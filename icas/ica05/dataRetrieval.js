@@ -1,17 +1,17 @@
 /**
- * CMPE2550 – ICA 04 – MySQL Data Manipulation via AJAX
+ * CMPE2550 – ICA 05 – MySQL Data Manipulation via AJAX
  * Name: Dareen Kinga Njatou
  * dataRetrieval.js
  * Description: JavaScript file to retrieve authors and their books from MySQL database via AJAX
- * Date: January 20, 2026
+ * Date: February 05, 2026
  */
 
 let currentAuthorId = null;
 let edited_title_id = null;
+let originalRowData = {};
 
 $(document).ready(function () {
     $('.data-section').hide();
-
     GetAllAuthors();
 });
 
@@ -31,6 +31,8 @@ function GetAllAuthors() {
 $(document).on('click', '.btn-retrieve', GetTitlesByAuthor);
 $(document).on('click', '.btn-delete', DeleteTitle);
 $(document).on('click', '.btn-edit', EditTitle);
+$(document).on('click', '.btn-update', UpdateTitle);
+$(document).on('click', '.btn-cancel', CancelUpdate);
 
 
 /** 
@@ -38,15 +40,7 @@ $(document).on('click', '.btn-edit', EditTitle);
 *Description:     Generic AJAX call function 
 */
 function CallAJAX(url, method, data, dataType, successMethod, errorMethod) {
-
-    $.ajax({
-        url: url,
-        method: method,
-        data: data,
-        dataType: dataType,
-        success: successMethod,
-        error: errorMethod
-    });
+    $.ajax({ url: url, method: method, data: data, dataType: dataType, success: successMethod, error: errorMethod });
 }
 
 /** 
@@ -66,8 +60,7 @@ function GetAllAuthorsSuccess(returnedData) {
 
     returnedData.authors.forEach(author => {
         // Create table row for each author
-        let row = `
-            <tr>
+        let row = `<tr>
                 <td>
                     <button class="btn btn-retrieve" data-author="${author[0]}">
                         Retrieve
@@ -77,13 +70,11 @@ function GetAllAuthorsSuccess(returnedData) {
                 <td>${author[1]}</td>
                 <td>${author[2]}</td>
                 <td>${author[3]}</td>
-            </tr>
-        `;
+            </tr>`;
 
         tbody.append(row);
         $('#status').html(returnedData.message);
     });
-
 }
 
 /**
@@ -91,9 +82,7 @@ function GetAllAuthorsSuccess(returnedData) {
  * Description:     Retrieves all books by a specific author via AJAX call
  */
 function GetTitlesByAuthor() {
-    ;
     let au_id = $(this).data("author");
-
     currentAuthorId = au_id;
 
     console.log("Author ID:", au_id);
@@ -118,16 +107,15 @@ function GetTitlesByAuthorSuccess(returnedData) {
     // If no titles returned, show message and hide table
     if (!returnedData.titles || returnedData.titles.length === 0) {
         $('.data-section').hide();
-        $('#ifnobooks').html(returnedData.message);
+        $('#error_status').html(returnedData.message);
         return;
     }
     // Populate titles table
-    $('#ifnobooks').empty();
+    $('#error_status').empty();
     $('.data-section').show();
     returnedData.titles.forEach(book => {
 
-        let row = `
-            <tr>
+        let row = `<tr>
                 <td id="btn-${book[0]}">
                     <button class="btn btn-delete" data-title="${book[0]}">Delete</button>
                     <button class="btn btn-edit" data-title="${book[0]}">Edit</button>
@@ -136,8 +124,7 @@ function GetTitlesByAuthorSuccess(returnedData) {
                 <td id="title-${book[0]}">${book[1]}</td>
                 <td id="type-${book[0]}">${book[2]}</td>
                 <td id="price-${book[0]}">${book[3]}</td>
-            </tr>
-        `;
+            </tr>`;
 
         tbody.append(row);
     });
@@ -189,7 +176,7 @@ function EditTitle() {
     // If another title is being edited, prevent editing a new one
     console.log("Currently edited title ID:", edited_title_id);
     if (edited_title_id !== null) {
-        $('#ifnobooks').html("Please finish editing the current title before editing another.");
+        $('#error_status').html("Please finish editing the current title before editing another.");
         return;
     }
 
@@ -199,9 +186,8 @@ function EditTitle() {
     data["action"] = "EditTitle";
     data["title_id"] = title_id;
 
-    if (title_id !== null && title_id !== undefined) {
-        edited_title_id = title_id;
-    }
+    if (title_id !== null && title_id !== undefined) 
+        edited_title_id = title_id;    
 
     CallAJAX("service.php", "get", data, "json", EditTitleSuccess, ErrorMethod);
 }
@@ -214,13 +200,20 @@ function EditTitle() {
  */
 function EditTitleSuccess(returnedData) {
     // Clear any previous messages
-    $('#ifnobooks').empty();
+    $('#error_status').empty();
     console.log(returnedData);
 
     if (hasError(returnedData)) return;
     if (edited_title_id === null) return;
 
     const title_id = edited_title_id;
+    
+    originalRowData[title_id] = {
+        title: returnedData.title,
+        price: returnedData.price,
+        type: returnedData.type
+    };    
+
     console.log("Editing title ID:", title_id);
 
     // Update status message
@@ -228,8 +221,6 @@ function EditTitleSuccess(returnedData) {
 
     // Render edit form and bind handlers
     renderEdit(title_id, returnedData);
-    bindCancelHandler(returnedData);
-    bindUpdateHandler();
 }
 
 /**
@@ -247,11 +238,11 @@ function hasError(data) {
 }
 
 /**
- * FunctionName:    clearInfo
+ * FunctionName:    ClearErrorStatus
  * Description:     Clears informational messages
  */
-function clearInfo() {
-    $('#ifnobooks').empty();
+function ClearErrorStatus() {
+    $('#error_status').empty();
 }
 
 /** 
@@ -264,69 +255,66 @@ function renderEdit(title_id, data) {
         <button class="btn btn-cancel" data-title="${title_id}">Cancel</button>
     `);
 
-    $(`#title-${title_id}`).html(`<input type="text" id="title-input" value="${data.title}">`);
-    $(`#price-${title_id}`).html(`<input type="text" id="price-input" value="${data.price}">`);
+    $(`#title-${title_id}`).html(`<input type="text" id="title-input-${title_id}" value="${data.title}">`);
+    $(`#price-${title_id}`).html(`<input type="text" id="price-input-${title_id}" value="${data.price}">`);
 
     const $typeCell = $(`#type-${title_id}`);
-    $typeCell.empty().html(`<select id="types-select"></select>`);
+    $typeCell.empty().html(`<select id="types-select-${title_id}"></select>`);
 
     data.types.forEach(type => {
-        $('#types-select').append(`<option value="${type[0]}">${type[0]}</option>`);
+        $(`#types-select-${title_id}`).append(`<option value="${type[0]}">${type[0]}</option>`);
     });
 
-    $(`#types-select`).val(data.type);
+    $(`#types-select-${title_id}`).val(data.type);
 }
 
 /** 
- * FunctionName:    bindCancelHandler
+ * FunctionName:    CancelUpdate
  * Description:     Resets the row buttons and infos when cancel is clicked
  */
-function bindCancelHandler(returnedData) {
-    $(document).off('click', '.btn-cancel').on('click', '.btn-cancel', function () {
-        clearInfo();
-        edited_title_id = null;
+function CancelUpdate(){
+    ClearErrorStatus();
+    edited_title_id = null;
 
-        let title_id = $(this).data("title");
+    let title_id = $(this).data("title");
 
-        $(`#btn-${title_id}`).html(`
-        <button class="btn btn-delete" data-title="${title_id}">Delete</button>
-        <button class="btn btn-edit" data-title="${title_id}">Edit</button>`);
+    $(`#btn-${title_id}`).html(`
+    <button class="btn btn-delete" data-title="${title_id}">Delete</button>
+    <button class="btn btn-edit" data-title="${title_id}">Edit</button>`);
 
-        // Resetting title's info
-        $(`#title-${title_id}`).html(returnedData.title);
-        $(`#price-${title_id}`).html(returnedData.price);
-        $(`#type-${title_id}`).html(returnedData.type);
-    });
+    const original = originalRowData[title_id];
+
+    // Resetting title's info
+    $(`#title-${title_id}`).html(original.title);
+    $(`#price-${title_id}`).html(original.price);
+    $(`#type-${title_id}`).html(original.type);
 }
 
 /** 
- * FunctionName:    bindUpdateHandler
+ * FunctionName:    UpdateTitle
  * Description:     Calls update function to update title's infos
  */
-function bindUpdateHandler() {
-    $(document).off('click', '.btn-update').on('click', '.btn-update', function () {
-        clearInfo();
-        edited_title_id = null;
+function UpdateTitle() {
+    ClearErrorStatus();
+    edited_title_id = null;
 
-        let title_id = $(this).data("title");
-        let data = {};
+    let title_id = $(this).data("title");
+    let data = {};
 
-        data["action"] = "UpdateTitle";
-        data["title_id"] = title_id;
-        data.title = $('#title-input').val();
-        data.price = $('#price-input').val();
-        data.type = $('#types-select').val();
+    data["action"] = "UpdateTitle";
+    data["title_id"] = title_id;
+    data.title = $(`#title-input-${title_id}`).val();
+    data.price = $(`#price-input-${title_id}`).val();
+    data.type = $(`#types-select-${title_id}`).val();
 
+    console.log(
+        "Updated Title ID:", title_id,
+        "Title:", data.title,
+        "Price:", data.price,
+        "Type:", data.type
+    );
 
-        console.log(
-            "Updated Title ID:", title_id,
-            "Title:", data.title,
-            "Price:", data.price,
-            "Type:", data.type
-        );
-
-        CallAJAX("service.php", "get", data, "json", UpdateTitleSuccess, ErrorMethod);
-    });
+    CallAJAX("service.php", "get", data, "json", UpdateTitleSuccess, ErrorMethod);
 }
 
 /** 
@@ -334,11 +322,11 @@ function bindUpdateHandler() {
  * Description:     When Ajax call is successful, updates the title row
  */
 function UpdateTitleSuccess(returnedData) {
-    $('#ifnobooks').empty();
+    $('#error_status').empty();
     console.log(returnedData);
 
     if (returnedData.error) {
-        $('#ifnobooks').html(returnedData.error);
+        $('#error_status').html(returnedData.error);
         return;
     }
 
