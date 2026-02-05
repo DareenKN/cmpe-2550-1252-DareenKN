@@ -353,4 +353,6 @@ function ErrorMethod(req, status, error) {
     $('#status').html(`An error occurred.`);
 }
 
-
+function AddTypesForm(){
+    CallAJAX("service.php", "get", data, "json", )
+}

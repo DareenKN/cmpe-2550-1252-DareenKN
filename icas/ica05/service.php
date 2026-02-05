@@ -214,6 +214,11 @@ function EditTitle()
 }
 
 /**
+ * FunctionName:    GetAllType
+ * Description:     Retrieves all types
+ */
+
+/**
  * FunctionName:    UpdateTitle
  * Description:     Retrieves title details for updating
  * Input:           Expects 'title_id' parameter in GET request
