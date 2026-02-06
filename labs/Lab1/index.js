@@ -1,6 +1,6 @@
 let gameOver = false;   // Global variable to track game state
 
-const BOARD_SIZE = 8; // change to 8 later 👀
+const BOARD_SIZE = 8; // Size of the 2d board
 
 /**
  * Document Ready
@@ -121,7 +121,6 @@ function GameInitSuccess(returnedData) {
         return;
     }
 
-    // ✅ Init succeeded → NOW we create the board
     CreateBoard(BOARD_SIZE);
     UpdateBoard(returnedData.board);
 

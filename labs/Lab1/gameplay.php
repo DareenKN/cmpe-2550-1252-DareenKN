@@ -77,25 +77,25 @@ function handleMove($clean, &$response)
     $r = intval($clean["row"] ?? -1);
     $c = intval($clean["col"] ?? -1);
 
+    $player   = $_SESSION["current"];
+    $opponent = ($player === "❁") ? "✪" : "❁";
+
     if (!inBounds($r, $c)) {
-        $response["message"] = "Invalid cell.";
+        $response["message"] = $_SESSION["current"]."'s turn ({$opponent}).<br>"."Invalid cell.";
         $response["board"] = $_SESSION["board"];
         return;
     }
 
     if ($_SESSION["board"][$r][$c] != 0) {
-        $response["message"] = "Cell already occupied.";
+        $response["message"] = $_SESSION["current"]."'s turn ({$opponent}).<br>"."Cell already occupied.";
         $response["board"] = $_SESSION["board"];
         return;
     }
 
-    $player   = $_SESSION["current"];
-    $opponent = ($player === "❁") ? "✪" : "❁";
-
     $flipped = applyMove($_SESSION["board"], $r, $c, $player, $opponent);
 
     if (!$flipped) {
-        $response["message"] = "Invalid move.";
+        $response["message"] = $_SESSION["current"]."'s turn ({$opponent}).<br>"."Invalid move.";
         $response["board"] = $_SESSION["board"];
         return;
     }
@@ -119,7 +119,7 @@ function quitGame(&$response)
     session_unset();
     session_destroy();
 
-    $response["board"] = NewBoard();
+    $response["board"] = NewBoard(8);
     $response["message"] = "Game quit. Enter names to start a new game.";
     $response["gameOver"] = true;
 }
