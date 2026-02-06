@@ -41,6 +41,13 @@ switch ($action) {
     case "UpdateTitle":
         UpdateTitle();
         break;
+    case "GetTypes":
+        GetTypes();
+        break;
+    case "GetAuthorNames":
+        GetAuthorNames();
+        break;
+        
 
     default:
         $output["error"] = "Invalid action specified";
@@ -173,6 +180,17 @@ function DeleteTitle()
     }
 }
 
+function GetTypes()
+{
+    global $output;
+    $query_types = "SELECT DISTINCT type FROM titles";
+    if ($queryOutput = mySqlQuery($query_types)) {
+        $output["types"] = $queryOutput->fetch_all();
+    } else {
+        $output["error"] = "Failed to retrieve types";
+    }
+}
+
 
 /**
  * FunctionName:    EditTitle
@@ -205,12 +223,7 @@ function EditTitle()
         return;
     }
 
-    $query_types = "SELECT DISTINCT type FROM titles";
-    if ($queryOutput = mySqlQuery($query_types)) {
-        $output["types"] = $queryOutput->fetch_all();
-    } else {
-        $output["error"] = "Failed to retrieve types";
-    }
+    GetTypes();
 }
 
 /**

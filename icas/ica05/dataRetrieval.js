@@ -13,6 +13,7 @@ let originalRowData = {};
 $(document).ready(function () {
     $('.data-section').hide();
     GetAllAuthors();
+    AddTypesForm();
 });
 
 
@@ -186,8 +187,8 @@ function EditTitle() {
     data["action"] = "EditTitle";
     data["title_id"] = title_id;
 
-    if (title_id !== null && title_id !== undefined) 
-        edited_title_id = title_id;    
+    if (title_id !== null && title_id !== undefined)
+        edited_title_id = title_id;
 
     CallAJAX("service.php", "get", data, "json", EditTitleSuccess, ErrorMethod);
 }
@@ -207,12 +208,12 @@ function EditTitleSuccess(returnedData) {
     if (edited_title_id === null) return;
 
     const title_id = edited_title_id;
-    
+
     originalRowData[title_id] = {
         title: returnedData.title,
         price: returnedData.price,
         type: returnedData.type
-    };    
+    };
 
     console.log("Editing title ID:", title_id);
 
@@ -272,7 +273,7 @@ function renderEdit(title_id, data) {
  * FunctionName:    CancelUpdate
  * Description:     Resets the row buttons and infos when cancel is clicked
  */
-function CancelUpdate(){
+function CancelUpdate() {
     ClearErrorStatus();
     edited_title_id = null;
 
@@ -350,9 +351,16 @@ function UpdateTitleSuccess(returnedData) {
 function ErrorMethod(req, status, error) {
     console.log("AJAX ERROR", status, error);
 
-    $('#status').html(`An error occurred.`);
+    $('#error_status').html(req.error);
 }
 
-function AddTypesForm(){
-    CallAJAX("service.php", "get", data, "json", )
+function AddTypesForm() {
+    CallAJAX("service.php", "get", { action: "GetTypes" }, "json", GetTypesSuccess, ErrorMethod);
+}
+function GetTypesSuccess(data) {
+    console.log(data);
+
+    data.types.forEach(type => {
+        $(`#add-type`).append(`<option value="${type[0]}">${type[0]}</option>`);
+    });
 }
