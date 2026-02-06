@@ -55,12 +55,12 @@ function initGame($clean, &$response)
         return;
 
     $_SESSION["players"] = assignPlayers($p1, $p2);
-    $_SESSION["board"]   = NewBoard();
-    $_SESSION["current"] = "";
+    $_SESSION["board"]   = NewBoard(8);
+    $_SESSION["current"] = array_key_first($_SESSION["players"]);
 
-    $response["board"] = $_SESSION["board"];
-    $starterName = $_SESSION["players"]["❁"];
-    $response["message"] = "$starterName goes first (❁)";
+    $starter = $_SESSION["players"][$_SESSION["current"]];
+    $response["board"]   = $_SESSION["board"];
+    $response["message"] = "$starter plays first (".$_SESSION["current"].").";
 }
 
 /**
@@ -70,43 +70,44 @@ function initGame($clean, &$response)
 function handleMove($clean, &$response)
 {
     if (!isset($_SESSION["board"], $_SESSION["current"], $_SESSION["players"])) {
-        $response["message"] = "Game not initialized. Please start a new game.";
-        $response["board"] = [];
+        $response["message"] = "Game not initialized. Start a new game.";
         return;
     }
 
     $r = intval($clean["row"] ?? -1);
     $c = intval($clean["col"] ?? -1);
 
-    if ($r < 0 || $r > 7 || $c < 0 || $c > 7) {
+    if (!inBounds($r, $c)) {
         $response["message"] = "Invalid cell.";
-    }
-    elseif ($_SESSION["board"][$r][$c] != 0) {
-        $response["message"] = "Cell already taken.";
-    }
-    else {
-        $mark = ($_SESSION["current"] === "❁") ? "❁" : "✪";
-        $_SESSION["board"][$r][$c] = $mark;
-
-        $hasAWinner = CheckWin($_SESSION["board"], $mark);
-
-        if ($hasAWinner !== "") {
-            $name = $_SESSION["players"][$mark];
-            $response["message"] = "$name wins with $mark" . "s on the $hasAWinner!";
-            $response["gameOver"] = true;
-        }
-        elseif (BoardFull($_SESSION["board"])) {
-            $response["message"] = "CATS! (means board full. No winner)";
-            $response["gameOver"] = true;
-        }
-        else {
-            $_SESSION["current"] = ($mark === "❁") ? "✪" : "❁";
-            $next = $_SESSION["players"][$_SESSION["current"]];
-            $response["message"] = "$next's turn ({$_SESSION["current"]})";
-        }
+        $response["board"] = $_SESSION["board"];
+        return;
     }
 
-    $response["board"] = $_SESSION["board"];
+    if ($_SESSION["board"][$r][$c] != 0) {
+        $response["message"] = "Cell already occupied.";
+        $response["board"] = $_SESSION["board"];
+        return;
+    }
+
+    $player   = $_SESSION["current"];
+    $opponent = ($player === "❁") ? "✪" : "❁";
+
+    $flipped = applyMove($_SESSION["board"], $r, $c, $player, $opponent);
+
+    if (!$flipped) {
+        $response["message"] = "Invalid move.";
+        $response["board"] = $_SESSION["board"];
+        return;
+    }
+
+    $_SESSION["board"][$r][$c] = $player;
+
+    // Switch turn
+    $_SESSION["current"] = $opponent;
+    $nextName = $_SESSION["players"][$opponent];
+
+    $response["board"]   = $_SESSION["board"];
+    $response["message"] = "$nextName's turn ({$opponent}).";
 }
 
 /**
@@ -143,38 +144,33 @@ function assignPlayers($p1, $p2)
  * FunctionName: NewBoard
  * Description:  Initializes a new board
  */
-function NewBoard($size = 8)
+function NewBoard($size)
 {
     $board = [];
 
     for ($r = 0; $r < $size; $r++) {
-        $row = [];
-
-        for ($c = 0; $c < $size; $c++) 
-            $row[] = 0;        
-
-        $board[] = $row;
-    }
-
-    // Place the four starting pieces
-    $mid = $size / 2;
-    for ($i = 0; $i < $size; $i++) {
-        for ($j = 0; $j < $size; $j++) {
-            if ($i == $mid - 1 && $j == $mid - 1)
-                $board[$i][$j] = "✪";
-            elseif ($i == $mid - 1 && $j == $mid)
-                $board[$i][$j] = "❁";
-            elseif ($i == $mid && $j == $mid - 1)
-                $board[$i][$j] = "❁";
-            elseif ($i == $mid && $j == $mid)
-                $board[$i][$j] = "✪";
+        for ($c = 0; $c < $size; $c++) {
+            $board[$r][$c] = 0;
         }
     }
+
+    $mid = $size / 2;
+    $board[$mid - 1][$mid - 1] = "✪";
+    $board[$mid - 1][$mid]     = "❁";
+    $board[$mid][$mid - 1]     = "❁";
+    $board[$mid][$mid]         = "✪";
 
     return $board;
 }
 
-
+/**
+ * FunctionName: inBounds
+ * Description:  Checks if the cell chossen is in the bounds
+ */
+function inBounds($r, $c, $size = 8)
+{
+    return $r >= 0 && $c >= 0 && $r < $size && $c < $size;
+}
 
 /**
  * FunctionName: validateNames
@@ -201,33 +197,39 @@ function validateNames($p1, $p2, &$response)
 }
 
 /**
- * FunctionName:    CheckWin
- * Description:     Checks if the given mark has won the game
+ * FunctionName: applyMove
+ * Description: Checks if the board is full (no empty cells)
  */
-function CheckWin($b, $m)
+function applyMove(&$board, $r, $c, $player, $opponent)
 {
-    $rowNames = ["top", "middle", "bottom"];
-    $colNames = ["left", "center", "right"];
+    $directions = [
+        [-1, 0], [1, 0], [0, -1], [0, 1],
+        [-1, -1], [-1, 1], [1, -1], [1, 1]
+    ];
 
-    for ($i = 0; $i < 3; $i++) {
+    $valid = false;
 
-        // Check rows
-        if ($b[$i][0] == $m && $b[$i][1] == $m && $b[$i][2] == $m)
-            return "{$rowNames[$i]} row";
+    foreach ($directions as [$dr, $dc]) {
 
-        // Check columns
-        if ($b[0][$i] == $m && $b[1][$i] == $m && $b[2][$i] == $m)
-            return "{$colNames[$i]} column";
+        $path = [];
+        $rr = $r + $dr;
+        $cc = $c + $dc;
 
+        while (inBounds($rr, $cc) && $board[$rr][$cc] === $opponent) {
+            $path[] = [$rr, $cc];
+            $rr += $dr;
+            $cc += $dc;
+        }
+
+        if (inBounds($rr, $cc) && $board[$rr][$cc] === $player && count($path) > 0) {
+            foreach ($path as [$fr, $fc]) {
+                $board[$fr][$fc] = $player;
+            }
+            $valid = true;
+        }
     }
 
-    // Diagonals
-    if ($b[0][0] == $m && $b[1][1] == $m && $b[2][2] == $m)
-        return "main diagonal";
-    if ($b[0][2] == $m && $b[1][1] == $m && $b[2][0] == $m)
-        return "anti-diagonal";
-
-    return "";
+    return $valid;
 }
 
 /**
