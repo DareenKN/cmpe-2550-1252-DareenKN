@@ -47,7 +47,10 @@ switch ($action) {
     case "GetAuthorNames":
         GetAuthorNames();
         break;
-        
+    case "AddTitle":
+    AddTitle();
+    break;
+
 
     default:
         $output["error"] = "Invalid action specified";
@@ -91,6 +94,20 @@ function GetAllAuthors()
             break;
     }
 }
+
+function GetAuthorNames()
+{
+    global $output;
+
+    $query = "SELECT au_id, CONCAT(au_lname, ', ', au_fname) FROM authors ORDER BY au_lname";
+
+    if ($result = mySqlQuery($query)) {
+        $output["authors"] = $result->fetch_all();
+    } else {
+        $output["error"] = "Failed to retrieve authors";
+    }
+}
+
 
 /**
  * FunctionName:    GetTitlesByAuthor
@@ -276,4 +293,55 @@ function UpdateTitle()
     } else {
         $output["error"] = "Failed to update title.";
     }
+}
+
+function AddTitle()
+{
+    global $clean, $output;
+
+    if (
+        empty($clean["title"]) ||
+        empty($clean["type"]) ||
+        empty($clean["price"]) ||
+        empty($_GET["authors"])
+    ) {
+        $output["error"] = "All fields are required.";
+        return;
+    }
+
+    if (!is_numeric($clean["price"]) || $clean["price"] <= 0) {
+        $output["error"] = "Price must be greater than zero.";
+        return;
+    }
+
+    $title = $clean["title"];
+    $type = $clean["type"];
+    $price = $clean["price"];
+
+    // insert title
+    $query = "INSERT INTO titles (title, type, price)
+              VALUES ('$title', '$type', '$price')";
+
+    $result = mySqlNonQuery($query);
+    if ($result < 1) {
+        $output["error"] = "Failed to insert title.";
+        return;
+    }
+
+    global $connection;
+    $title_id = $connection->insert_id;
+
+    $authors = $_GET["authors"];
+    $count = count($authors);
+    $royalty = 100 / $count;
+    $order = 1;
+
+    foreach ($authors as $au_id) {
+        $q = "INSERT INTO titleauthor (au_id, title_id, au_ord, royaltyper)
+              VALUES ('$au_id', '$title_id', '$order', '$royalty')";
+        mySqlNonQuery($q);
+        $order++;
+    }
+    error_log("New title_id = $title_id");
+    $output["message"] = "Book added successfully.";
 }

@@ -34,6 +34,7 @@ $(document).on('click', '.btn-delete', DeleteTitle);
 $(document).on('click', '.btn-edit', EditTitle);
 $(document).on('click', '.btn-update', UpdateTitle);
 $(document).on('click', '.btn-cancel', CancelUpdate);
+$(document).on("click", "#btn-add", AddTitle);
 
 
 /** 
@@ -363,4 +364,45 @@ function GetTypesSuccess(data) {
     data.types.forEach(type => {
         $(`#add-type`).append(`<option value="${type[0]}">${type[0]}</option>`);
     });
+}
+
+function LoadAuthors() {
+    CallAJAX("service.php", "get",
+        { action: "GetAuthorNames" },
+        "json",
+        function (data) {
+            data.authors.forEach(a => {
+                $("#add-authors").append(
+                    `<option value="${a[0]}">${a[1]}</option>`
+                );
+            });
+        },
+        ErrorMethod
+    );
+}
+
+function AddTitle() {
+    let data = {
+        action: "AddTitle",
+        title: $("#add-title").val(),
+        type: $("#add-type").val(),
+        price: $("#add-price").val(),
+        authors: $("#add-authors").val() // array
+    };
+
+    CallAJAX("service.php", "get", data, "json", AddTitleSuccess, ErrorMethod);
+}
+
+function AddTitleSuccess(data) {
+    if (data.error) {
+        $("#add-status").html(data.error);
+        return;
+    }
+
+    $("#add-status").html(data.message);
+
+    // refresh current author's books
+    if (currentAuthorId) {
+        GetTitlesByAuthor.call({ dataset: { author: currentAuthorId } });
+    }
 }

@@ -8,4 +8,3 @@ select distinct type
 from titles
 
 select * from authors
-ORDER BY au_lname;
