@@ -14,6 +14,7 @@ $(document).ready(function () {
     $('.data-section').hide();
     GetAllAuthors();
     AddTypesForm();
+    LoadAuthors();
 });
 
 
@@ -384,10 +385,11 @@ function LoadAuthors() {
 function AddTitle() {
     let data = {
         action: "AddTitle",
-        title: $("#add-title").val(),
+        title_id: $("#add-title-id").val().trim(),
+        title: $("#add-title").val().trim(),
         type: $("#add-type").val(),
         price: $("#add-price").val(),
-        authors: $("#add-authors").val() // array
+        authors: $("#add-authors").val()
     };
 
     CallAJAX("service.php", "get", data, "json", AddTitleSuccess, ErrorMethod);
@@ -395,9 +397,14 @@ function AddTitle() {
 
 function AddTitleSuccess(data) {
     if (data.error) {
-        $("#add-status").html(data.error);
+        $("#add-status")
+            .removeClass("error")
+            .addClass("success")
+            .html(data.message);
         return;
     }
+
+    console.log(data);
 
     $("#add-status").html(data.message);
 

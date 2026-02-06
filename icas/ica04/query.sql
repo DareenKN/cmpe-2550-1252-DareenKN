@@ -1,10 +1,10 @@
 use dkinganjatou1_pubs
 go
 
-select *
+select au_id
 from authors
 
-select distinct type
+select title_id
 from titles
 
 select * from authors
