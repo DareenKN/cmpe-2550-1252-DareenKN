@@ -351,7 +351,9 @@ function UpdateTitleSuccess(returnedData) {
  * Description:     Generic error method for AJAX calls
  */
 function ErrorMethod(req, status, error) {
-    console.log("AJAX ERROR", status, error);
+    console.log("AJAX ERROR");
+    console.log(status);
+    console.log(error);
 
     $('#error_status').html(req.error);
 }
@@ -396,20 +398,30 @@ function AddTitle() {
 }
 
 function AddTitleSuccess(data) {
+    console.log(data);
     if (data.error) {
         $("#add-status")
-            .removeClass("error")
-            .addClass("success")
-            .html(data.message);
+            .removeClass("success")
+            .addClass("error")
+            .html(data.error);
         return;
     }
 
-    console.log(data);
-
-    $("#add-status").html(data.message);
+    $("#add-status")
+        .removeClass("error")
+        .addClass("success")
+        .html(data.message);
 
     // refresh current author's books
     if (currentAuthorId) {
-        GetTitlesByAuthor.call({ dataset: { author: currentAuthorId } });
+        // Refresh the titles table after deletion
+        let au_id = currentAuthorId;
+
+        let data = {};
+        data["action"] = "GetTitlesByAuthor";
+        data["au_id"] = au_id;
+
+        console.log("Refreshing titles for author ID:", au_id);
+        CallAJAX("service.php", "get", data, "json", GetTitlesByAuthorSuccess, ErrorMethod);
     }
 }

@@ -308,69 +308,79 @@ function UpdateTitle()
 
 function AddTitle()
 {
-  global $clean, $output;
+    global $clean, $output;
 
-  if (
-    empty($clean["title_id"]) ||
-    empty($clean["title"]) ||
-    empty($clean["type"]) ||
-    empty($clean["price"]) ||
-    empty($clean["authors"])
-  ) {
-    $output["error"] = "All fields are required.";
-    return;
-  }
-
-  if (!is_numeric($clean["price"]) || $clean["price"] <= 0) {
-    $output["error"] = "Price must be greater than zero.";
-    return;
-  }
-
-  $title_id = $clean["title_id"];
-  $title = $clean["title"];
-  $type = $clean["type"];
-  $price = $clean["price"];
-  $authors = $clean["authors"]; // array
-
-  $exists = mySqlQuery(
-    "SELECT title_id FROM titles WHERE title_id = '$title_id'"
-  );
-
-  if (!$exists || $exists->num_rows === 0) {
-    // Title does NOT exist → insert it
-    $query = "INSERT INTO titles (title_id, title, type, price)
-              VALUES ('$title_id', '$title', '$type', '$price')";
-
-    if (mySqlNonQuery($query) < 1) {
-      $output["error"] = "Failed to insert title.";
-      return;
-    }
-  }
-
-  // Insert into titles
-  $query = "INSERT INTO titles (title_id, title, type, price)
-            VALUES ('$title_id', '$title', '$type', '$price')";
-
-  if (mySqlNonQuery($query) < 1) {
-    $output["error"] = "Failed to insert title.";
-    return;
-  }
-
-  // Insert into titleauthor (ONLY two columns!)
-  foreach ($authors as $au_id) {
-
-    // prevent duplicate author-title pair
-    $check = mySqlQuery("SELECT * FROM titleauthor
-                                WHERE au_id = '$au_id'
-                                AND title_id = '$title_id'");
-
-    if ($check && $check->num_rows > 0) {
-      continue; // already linked, skip silently
+    if (empty($clean["title_id"])) {
+        $output["error"] = "Title ID is required.";
+        return;
     }
 
-    mySqlNonQuery("INSERT INTO titleauthor (au_id, title_id)
-                          VALUES ('$au_id', '$title_id')");
-  }
-  $output["message"] = "Book added successfully.";
+    if (empty($clean["title"]) || empty($clean["type"])) {
+        $output["error"] = "Title and Type are required.";
+        return;
+    }
+
+    if (empty($clean["price"])) {
+        $output["error"] = "Price is required.";
+        return;
+    }
+
+    if (!is_numeric($clean["price"]) || $clean["price"] <= 0) {
+        $output["error"] = "Price must be greater than zero.";
+        return;
+    }
+
+    if (empty($clean["authors"])) {
+        $output["error"] = "At least one author must be selected.";
+        return;
+    }
+
+    $title_id = $clean["title_id"];
+    $title    = $clean["title"];
+    $type     = $clean["type"];
+    $price    = $clean["price"];
+    $authors  = $clean["authors"]; // array
+
+    /* -----------------------------
+       Insert title ONLY if missing
+    ----------------------------- */
+
+    $exists = mySqlQuery(
+        "SELECT title_id FROM titles WHERE title_id = '$title_id'"
+    );
+
+    if (!$exists || $exists->num_rows === 0) {
+
+        $query = "
+            INSERT INTO titles (title_id, title, type, price)
+            VALUES ('$title_id', '$title', '$type', '$price')
+        ";
+
+        if (mySqlNonQuery($query) < 1) {
+            $output["error"] = "Failed to insert title.";
+            return;
+        }
+    }
+
+    foreach ($authors as $au_id) {
+
+        $check = mySqlQuery("
+            SELECT 1 FROM titleauthor
+            WHERE au_id = '$au_id'
+              AND title_id = '$title_id'
+        ");
+
+        if ($check && $check->num_rows > 0) {
+            continue; // already linked
+        }
+
+        mySqlNonQuery("
+            INSERT INTO titleauthor (au_id, title_id)
+            VALUES ('$au_id', '$title_id')
+        ");
+    }
+
+    $output["message"] = "Book and author links saved successfully.";
 }
+
 
