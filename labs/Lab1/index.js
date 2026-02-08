@@ -9,7 +9,7 @@ const BOARD_SIZE = 8; // Size of the 2d board
 $(document).ready(function () {
     CreateBoard(BOARD_SIZE);
     $('.board').addClass('locked');
-    $('#game-area').fadeIn(200);
+    $('#game-area').hide();
 
     $('#newGame').click(StartGame);
     $('#quit').click(QuitGame);
@@ -116,7 +116,7 @@ function GameInitSuccess(returnedData) {
     // Just message
     if (!returnedData.board || returnedData.board.length === 0) {
         UpdateStatus(returnedData.message);
-        //$("#game-area").hide();
+        $("#game-area").hide();
         $('.board').addClass('locked');
         return;
     }

@@ -81,13 +81,13 @@ function handleMove($clean, &$response)
     $opponent = ($player === "❁") ? "✪" : "❁";
 
     if (!inBounds($r, $c)) {
-        $response["message"] = $_SESSION["current"]."'s turn ({$opponent}).<br>"."Invalid cell.";
+        $response["message"] = $_SESSION["players"][$player]."'s turn ({$opponent}).<br>"."Invalid cell.";
         $response["board"] = $_SESSION["board"];
         return;
     }
 
     if ($_SESSION["board"][$r][$c] != 0) {
-        $response["message"] = $_SESSION["current"]."'s turn ({$opponent}).<br>"."Cell already occupied.";
+        $response["message"] = $_SESSION["players"][$player]."'s turn ({$opponent}).<br>"."Cell already occupied.";
         $response["board"] = $_SESSION["board"];
         return;
     }
@@ -95,7 +95,7 @@ function handleMove($clean, &$response)
     $flipped = applyMove($_SESSION["board"], $r, $c, $player, $opponent);
 
     if (!$flipped) {
-        $response["message"] = $_SESSION["current"]."'s turn ({$opponent}).<br>"."Invalid move.";
+        $response["message"] = $_SESSION["players"][$player]."'s turn ({$opponent}).<br>"."Invalid move.";
         $response["board"] = $_SESSION["board"];
         return;
     }
