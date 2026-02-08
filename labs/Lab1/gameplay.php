@@ -81,13 +81,13 @@ function handleMove($clean, &$response)
     $opponent = ($player === "❁") ? "✪" : "❁";
 
     if (!inBounds($r, $c)) {
-        $response["message"] = $_SESSION["players"][$player]."'s turn ({$opponent}).<br>"."Invalid cell.";
+        $response["message"] = $_SESSION["players"][$player]."'s turn ({$player}).<br>"."Invalid cell.";
         $response["board"] = $_SESSION["board"];
         return;
     }
 
     if ($_SESSION["board"][$r][$c] != 0) {
-        $response["message"] = $_SESSION["players"][$player]."'s turn ({$opponent}).<br>"."Cell already occupied.";
+        $response["message"] = $_SESSION["players"][$player]."'s turn ({$player}).<br>"."Cell already occupied.";
         $response["board"] = $_SESSION["board"];
         return;
     }
@@ -95,7 +95,7 @@ function handleMove($clean, &$response)
     $flipped = applyMove($_SESSION["board"], $r, $c, $player, $opponent);
 
     if (!$flipped) {
-        $response["message"] = $_SESSION["players"][$player]."'s turn ({$opponent}).<br>"."Invalid move.";
+        $response["message"] = $_SESSION["players"][$player]."'s turn ({$player}).<br>"."Invalid move.";
         $response["board"] = $_SESSION["board"];
         return;
     }
@@ -197,8 +197,13 @@ function validateNames($p1, $p2, &$response)
 }
 
 /**
- * FunctionName: applyMove
- * Description: Checks if the board is full (no empty cells)
+ * FunctionName:    applyMove
+ * Description:     Checks if the board is full (no empty cells)
+ * Inputs:          board, row, column, current player, opponent
+ * Outputs:         true if move is valid and pieces flipped, false otherwise
+ * Logic:           For each of the 8 directions, check for opponent pieces 
+ *                  followed by a player piece. If found, flip all opponent 
+ *                  pieces in that direction. Return true if any pieces flipped.
  */
 function applyMove(&$board, $r, $c, $player, $opponent)
 {
