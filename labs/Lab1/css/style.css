@@ -115,8 +115,12 @@ body {
     text-shadow: 0 0 4px rgba(33, 196, 0, 0.6);
 }
 
-.cell:hover {
+/* .cell:hover {
     background-color: #e6f0ff;
+} */
+
+.cell.valid-move:hover {
+    background-color: #90ee90;
 }
 
 .board.locked {

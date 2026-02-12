@@ -28,9 +28,18 @@ $response = [
 // Handle init action
 switch ($action) {
 
-    case "init": initGame($clean, $response);   break;
-    case "move": handleMove($clean, $response); break;
-    case "quit": quitGame($response);                  break;
+    case "init":
+        initGame($clean, $response);
+        break;
+    case "move":
+        handleMove($clean, $response);
+        break;
+    case "showValidMoves":
+        showValidMoves($clean, $response);
+        break;
+    case "quit":
+        quitGame($response);
+        break;
 
     default:
         $response["message"] = "Invalid action.";
@@ -55,12 +64,72 @@ function initGame($clean, &$response)
         return;
 
     $_SESSION["players"] = assignPlayers($p1, $p2);
-    $_SESSION["board"]   = NewBoard(8);
+    $_SESSION["board"] = NewBoard(8);
     $_SESSION["current"] = array_key_first($_SESSION["players"]);
 
     $starter = $_SESSION["players"][$_SESSION["current"]];
-    $response["board"]   = $_SESSION["board"];
-    $response["message"] = "$starter plays first (".$_SESSION["current"].").";
+    $response["board"] = $_SESSION["board"];
+    $response["message"] = "$starter plays first (" . $_SESSION["current"] . ").";
+}
+
+/**
+ * FunctionName: showValidMoves
+ * Description: Shows valid moves for the current player
+ */
+function showValidMoves($clean, &$response)
+{
+    $r = intval($clean["row"] ?? -1);
+    $c = intval($clean["col"] ?? -1);
+
+
+    $_SESSION["validMoves"] = getValidMoves($_SESSION["board"], $_SESSION["current"]);
+    $response["validMoves"] = $_SESSION["validMoves"];
+    if (!(empty($_SESSION["validMoves"]))) {
+        if ($r >= 0 && $c >= 0) {
+            if (in_array([$r, $c], $_SESSION["validMoves"])) {
+                $response["valid"] = true;
+            } else {
+                $response["valid"] = false;
+            }
+        }
+    }
+    if (empty($_SESSION["validMoves"])) {
+        $response["gameOver"] = true;
+        handleMove($clean, $response);
+    }
+}
+
+/**
+ * FunctionName:    getValidMoves
+ * Description:     Gets valid moves for the current player
+ * Inputs:          board, player
+ * Outputs:         array of valid moves (row, col)
+ * Logic:           For each empty cell, temporarily apply the move and check if it flips any
+ *                  opponent pieces. If it does, add to valid moves list.    
+ */
+function getValidMoves($board, $player)
+{
+    $opponent = ($player === "❁") ? "✪" : "❁";
+    $validMoves = [];
+
+    if (BoardFull($board)) {
+        $_SESSION["gameOver"] = true;
+        return $validMoves; // No valid moves if board is full
+    }
+
+    for ($r = 0; $r < count($board); $r++) {
+        for ($c = 0; $c < count($board[$r]); $c++) {
+            if ($board[$r][$c] == 0) {
+                // Temporarily apply move to check validity
+                $tempBoard = $board;
+                if (applyMove($tempBoard, $r, $c, $player, $opponent)) {
+                    $validMoves[] = [$r, $c];
+                }
+            }
+        }
+    }
+
+    return $validMoves;
 }
 
 /**
@@ -79,36 +148,61 @@ function handleMove($clean, &$response)
 
     $player   = $_SESSION["current"];
     $opponent = ($player === "❁") ? "✪" : "❁";
+    $playerName = $_SESSION["players"][$player];
+
+    $response["board"] = $_SESSION["board"];
 
     if (!inBounds($r, $c)) {
-        $response["message"] = $_SESSION["players"][$player]."'s turn ({$player}).<br>"."Invalid cell.";
-        $response["board"] = $_SESSION["board"];
+        $response["message"] = "$playerName's turn ({$player}).<br>Invalid cell.";
         return;
     }
 
-    if ($_SESSION["board"][$r][$c] != 0) {
-        $response["message"] = $_SESSION["players"][$player]."'s turn ({$player}).<br>"."Cell already occupied.";
-        $response["board"] = $_SESSION["board"];
+    if ($_SESSION["board"][$r][$c] !== 0) {
+        $response["message"] = "$playerName's turn ({$player}).<br>Cell already occupied.";
         return;
     }
 
-    $flipped = applyMove($_SESSION["board"], $r, $c, $player, $opponent);
+    $validMoves = getValidMoves($_SESSION["board"], $player);
 
-    if (!$flipped) {
-        $response["message"] = $_SESSION["players"][$player]."'s turn ({$player}).<br>"."Invalid move.";
-        $response["board"] = $_SESSION["board"];
+    if (empty($validMoves)) {
+        // Player cannot move → check game result
+        $result = CheckWin($_SESSION["board"], $player, $opponent);
+
+        if ($result === "win") {
+            $response["message"] = "{$playerName} wins!";
+        } elseif ($result === "lose") {
+            $response["message"] = $_SESSION["players"][$opponent] . " wins!";
+        } else {
+            $response["message"] = "It's a draw!";
+        }
+
+        $response["gameOver"] = true;
         return;
     }
 
+    // ─────────────────────────────────────────────
+    // 3️⃣ Validate move (must flip something)
+    // ─────────────────────────────────────────────
+    $didFlip = applyMove($_SESSION["board"], $r, $c, $player, $opponent);
+
+    if (!$didFlip) {
+        $response["message"] = "$playerName's turn ({$player}).<br>Invalid move.";
+        return;
+    }
+
+    // Place the piece AFTER flipping
     $_SESSION["board"][$r][$c] = $player;
 
-    // Switch turn
+    // ─────────────────────────────────────────────
+    // 4️⃣ Switch turn
+    // ─────────────────────────────────────────────
     $_SESSION["current"] = $opponent;
     $nextName = $_SESSION["players"][$opponent];
 
-    $response["board"]   = $_SESSION["board"];
+    $response["board"] = $_SESSION["board"];
     $response["message"] = "$nextName's turn ({$opponent}).";
 }
+
 
 /**
  * FunctionName: quitGame
@@ -156,9 +250,9 @@ function NewBoard($size)
 
     $mid = $size / 2;
     $board[$mid - 1][$mid - 1] = "✪";
-    $board[$mid - 1][$mid]     = "❁";
-    $board[$mid][$mid - 1]     = "❁";
-    $board[$mid][$mid]         = "✪";
+    $board[$mid - 1][$mid] = "❁";
+    $board[$mid][$mid - 1] = "❁";
+    $board[$mid][$mid] = "✪";
 
     return $board;
 }
@@ -208,29 +302,41 @@ function validateNames($p1, $p2, &$response)
 function applyMove(&$board, $r, $c, $player, $opponent)
 {
     $directions = [
-        [-1, 0], [1, 0], [0, -1], [0, 1],
-        [-1, -1], [-1, 1], [1, -1], [1, 1]
+        [-1, 0],
+        [1, 0],
+        [0, -1],
+        [0, 1],
+        [-1, -1],
+        [-1, 1],
+        [1, -1],
+        [1, 1]
     ];
 
     $valid = false;
 
     foreach ($directions as [$dr, $dc]) {
 
+        // Store all the valid moves in this direction
+        $_SESSION["validMoves"] = [];
+
         $path = [];
         $rr = $r + $dr;
         $cc = $c + $dc;
 
         while (inBounds($rr, $cc) && $board[$rr][$cc] === $opponent) {
+            $_SESSION["validMoves"][] = [$rr, $cc];
             $path[] = [$rr, $cc];
             $rr += $dr;
             $cc += $dc;
         }
 
         if (inBounds($rr, $cc) && $board[$rr][$cc] === $player && count($path) > 0) {
+
             foreach ($path as [$fr, $fc]) {
                 $board[$fr][$fc] = $player;
             }
             $valid = true;
+
         }
     }
 
@@ -250,4 +356,34 @@ function BoardFull($b)
     return true;
 }
 
+/**
+ * FuctionName: CheckWin
+ * Description: Checks if a player has won by counting pieces. If a player has more pieces than the opponent, they win.
+ * Inputs: board, player, opponent
+ * Outputs: "win" if player wins, "lose" if opponent wins, "draw" if tie, "continue" if game should continue
+ */
+function CheckWin($board, $player, $opponent)
+{
+    $playerCount = 0;
+    $opponentCount = 0;
 
+    foreach ($board as $row) {
+        foreach ($row as $cell) {
+            if ($cell === $player) {
+                $playerCount++;
+            } elseif ($cell === $opponent) {
+                $opponentCount++;
+            }
+        }
+    }
+
+    if ($playerCount > $opponentCount) {
+        return "win";
+    } elseif ($opponentCount > $playerCount) {
+        return "lose";
+    } else if ($playerCount === $opponentCount && BoardFull($board)) {
+        return "draw";
+    } else {
+        return "continue";
+    }
+}

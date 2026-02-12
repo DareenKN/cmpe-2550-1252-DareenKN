@@ -14,10 +14,61 @@ $(document).ready(function () {
     $('#newGame').click(StartGame);
     $('#quit').click(QuitGame);
 
+    // if cell is hovered, show valid moves (if any)
+    $(document).on('mouseenter', '.cell', ShowValidMoves)
+
     // Event delegation (important!)
     $(document).on('click', '.cell', CellClicked);
 });
 
+function ShowValidMoves() {
+    if (gameOver) return;
+
+    let r = $(this).data("row");
+    let c = $(this).data("col");
+
+    // Show valid moves for this cell
+    ValidMoves(r, c);
+}
+
+function ValidMoves(r, c) {
+
+    let data = {};
+    data["action"] = "showValidMoves";
+    data["row"] = r;
+    data["col"] = c;
+
+    CallAJAX(
+        "gameplay.php",
+        "post",
+        data,
+        "json",
+        ValidMovesSuccess,
+        ErrorMethod
+    );
+}
+
+function ValidMovesSuccess(returnedData) {
+    if (returnedData.validMoves && returnedData.validMoves.length == 0) {
+        gameOver = true;
+        return;
+    }
+    if (returnedData.validMoves && returnedData.validMoves.length > 0) {
+        if (returnedData.valid == true) {
+            console.log("VALID MOVES RESPONSE:", returnedData);
+
+            returnedData.validMoves.forEach(pos => {
+                let r = pos[0];
+                let c = pos[1];
+                $(`.cell[data-row=${r}][data-col=${c}]`).addClass('valid-move');
+            });
+        }
+    }
+    if(gameOver){
+        $('.board').addClass('locked');
+        UpdateStatus(returnedData.message);
+    }
+}
 
 function CreateBoard(size) {
 
@@ -70,10 +121,10 @@ function StartGame() {
  * Description: Handles cell click events
  */
 function CellClicked() {
-
+    // Clear previous valid move highlights
+    $('.cell').removeClass('valid-move');
     // Prevent moves if game is over
     if (gameOver) {
-        UpdateStatus("Game over. Start a new game.");
         return;
     }
 
@@ -185,9 +236,9 @@ function UpdateBoard(board) {
         $(this).removeClass("x-cell o-cell");
 
         switch (value) {
-            case "❁": $(this).val("❁").addClass("x-cell");  break;
-            case "✪": $(this).val("✪").addClass("o-cell");  break;
-            default:  $(this).val("");                      break;
+            case "❁": $(this).val("❁").addClass("x-cell"); break;
+            case "✪": $(this).val("✪").addClass("o-cell"); break;
+            default: $(this).val(""); break;
         }
     });
 }
