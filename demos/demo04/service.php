@@ -1,6 +1,24 @@
 <?php
 require_once "db.php";
 
+function CleanCollection($input)
+{
+    global $connection;
+    $clean = array();
+
+    foreach ($input as $key => $value) {
+        if (is_array($value)) {
+            $clean[trim($connection->real_escape_string(strip_tags(htmlspecialchars($key))))]
+                = CleanCollection($value);
+        } else {
+            $clean[trim($connection->real_escape_string(strip_tags(htmlspecialchars($key))))]
+                = trim($connection->real_escape_string(strip_tags(htmlspecialchars($value))));
+        }
+    }
+
+    return $clean;
+}
+
 $output = array();
 
 $clean = array();
@@ -61,7 +79,7 @@ function DeleteTitle()
         if ($result = mySqlNonQuery(($query)) >= 0) {
             error_log("$result records were successfully deleted");
             $output["status"] = "$result records were succesfully deleted";
-        } else{
+        } else {
             error_log("There was a problem with the query!");
             $output["status"] = "There was a problem with the query!";
         }

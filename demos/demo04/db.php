@@ -29,12 +29,13 @@ function mySqlQuery($query)
     }
 
     $results = false;
-    if (!($results = $connection->query($query))) {
+    try {
+        $results = $connection->query($query);
+    } catch (Exception $e) {
         error_log("mySqlQuery : $connection->errno : $connection->error");
         error_log($query);
-        return false;
+        error_log($e->getMessage());
     }
-
     return $results;
 }
 
@@ -47,15 +48,15 @@ function mySQLNonQuery($query)
         return -1;
     }
 
-    $result = 0;
-
-    if (!($result = $connection->query($query))) {
+    try {
+        $results = $connection->query($query);
+    } catch (Exception $e) {
         error_log("mySqlQuery : $connection->errno : $connection->error");
         error_log($query);
+        error_log($e->getMessage());
         return -1;
     }
 
-    $result = $connection->affected_rows;
-    return $result;
+    return $connection->affected_rows;
 }
 

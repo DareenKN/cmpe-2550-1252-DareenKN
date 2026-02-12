@@ -9,6 +9,24 @@
 // Include database functions
 require_once "db.php";
 
+function CleanCollection($input)
+{
+    global $connection;
+    $clean = array();
+
+    foreach ($input as $key => $value) {
+        if (is_array($value)) {
+            $clean[trim($connection->real_escape_string(strip_tags(htmlspecialchars($key))))]
+                = CleanCollection($value);
+        } else {
+            $clean[trim($connection->real_escape_string(strip_tags(htmlspecialchars($key))))]
+                = trim($connection->real_escape_string(strip_tags(htmlspecialchars($value))));
+        }
+    }
+
+    return $clean;
+}
+
 // Global output array
 $output = array();
 
@@ -17,14 +35,9 @@ $clean = array();
 
 foreach ($_GET as $key => $value) {
 
-  $safeKey = trim(
-    $connection->real_escape_string(strip_tags(htmlspecialchars($key)))
-  );
+  $safeKey = trim($connection->real_escape_string(strip_tags(htmlspecialchars($key))));
 
-  if (is_array($value)) {
-    // Keep arrays raw (we'll validate elements later)
-    $clean[$safeKey] = $value;
-  } else {
+  if (!(is_array($value))) {
     $clean[$safeKey] = trim($connection->real_escape_string(strip_tags(htmlspecialchars($value))));
   }
 }

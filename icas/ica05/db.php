@@ -1,10 +1,4 @@
 <?php
-/* CMPE2550 - Web Applications
- * Name: Dareen Kinga Njatou
- * ICA3 - MySQL Data Retrieval
- * db.php
- * Description: Database connection and query functions
- * Date: January 20, 2026 */
 
 $connection = null;
 mySQLConnect();
@@ -35,12 +29,13 @@ function mySqlQuery($query)
     }
 
     $results = false;
-    if (!($results = $connection->query($query))) {
-        error_log("mySqlQuery : $connection->errno : $connection->errno");
+    try {
+        $results = $connection->query($query);
+    } catch (Exception $e) {
+        error_log("mySqlQuery : $connection->errno : $connection->error");
         error_log($query);
-        return false;
+        error_log($e->getMessage());
     }
-
     return $results;
 }
 
@@ -53,14 +48,15 @@ function mySQLNonQuery($query)
         return -1;
     }
 
-    $result = 0;
-
-    if (!($result = $connection->query($query))) {
+    try {
+        $results = $connection->query($query);
+    } catch (Exception $e) {
         error_log("mySqlQuery : $connection->errno : $connection->error");
         error_log($query);
+        error_log($e->getMessage());
         return -1;
     }
 
-    $result = $connection->affected_rows;
-    return $result;
+    return $connection->affected_rows;
 }
+
