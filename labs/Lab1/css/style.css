@@ -119,7 +119,7 @@ body {
     background-color: #e6f0ff;
 } */
 
-.cell.valid-move:hover {
+.cell.valid-move {
     background-color: #90ee90;
 }
 
