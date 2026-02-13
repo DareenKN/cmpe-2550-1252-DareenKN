@@ -18,9 +18,6 @@ switch ($action) {
         break;
 }
 
-/* ===================================================== */
-/* ================= INITIALIZATION ===================== */
-/* ===================================================== */
 
 function InitGame()
 {
@@ -55,10 +52,6 @@ function InitGame()
         "message" => CurrentPlayerMessage()
     ]);
 }
-
-/* ===================================================== */
-/* ====================== MOVE ========================== */
-/* ===================================================== */
 
 function ProcessMove()
 {
@@ -107,9 +100,6 @@ function ProcessMove()
     Respond($board, CurrentPlayerMessage());
 }
 
-/* ===================================================== */
-/* ================= VALID MOVES ======================== */
-/* ===================================================== */
 
 function ShowValidMoves()
 {
@@ -128,9 +118,6 @@ function ShowValidMoves()
     ]);
 }
 
-/* ===================================================== */
-/* ================= CORE LOGIC ========================= */
-/* ===================================================== */
 
 function GetValidMoves($board, $player)
 {
@@ -156,9 +143,6 @@ function GetValidMoves($board, $player)
     return $valid;
 }
 
-/* ===================================================== */
-/* =============== RECURSIVE CHECK ====================== */
-/* ===================================================== */
 
 function RecursiveCheck($board, $r, $c, $dr, $dc, $current, $opponent, $foundOpponent)
 {
@@ -177,10 +161,6 @@ function RecursiveCheck($board, $r, $c, $dr, $dc, $current, $opponent, $foundOpp
 
     return false;
 }
-
-/* ===================================================== */
-/* =============== RECURSIVE FLIP ======================= */
-/* ===================================================== */
 
 function RecursiveFlip(&$board, $r, $c, $dr, $dc, $current, $opponent, &$path)
 {
@@ -205,9 +185,6 @@ function RecursiveFlip(&$board, $r, $c, $dr, $dc, $current, $opponent, &$path)
     return false;
 }
 
-/* ===================================================== */
-/* ================= HELPER METHODS ===================== */
-/* ===================================================== */
 
 function Directions()
 {
