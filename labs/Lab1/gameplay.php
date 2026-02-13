@@ -1,17 +1,29 @@
 <?php
-session_start();
-header("Content-Type: application/json");
+/* CMPE2550 - Web Applications
+ * Name: Dareen Kinga Njatou
+ * ICA2 - Tic Tac Toe
+ * gameFlow.php
+ * Description: Backend logic for Tic Tac Toe game
+ * Date: January 20, 2026 */
 
-$action = $_POST["action"] ?? "";
+session_start();
+
+// Cleaning data
+$clean = [];
+foreach ($_POST as $key => $value) {
+    $clean[trim(strip_tags($key))] = trim(strip_tags($value));
+}
+
+// Determine action
+$action = $clean["action"] ?? "";
 
 switch ($action) {
 
     case "init": InitGame();    break;
     case "move": ProcessMove(); break;
+    case "quit": QuitGame();    break;
 
     case "showValidMoves": ShowValidMoves(); break;
-
-    case "quit": QuitGame();    break;
 
     default:
         echo json_encode(["message" => "Invalid action"]);
@@ -19,10 +31,16 @@ switch ($action) {
 }
 
 
+/**
+ * FunctionName:    initGame
+ * Description:     Initializes the game session
+ * Input:           players names
+ * Output:          initial board state and current player message
+ */
 function InitGame()
 {
-    $p1 = trim($_POST["player1"] ?? "");
-    $p2 = trim($_POST["player2"] ?? "");
+    $p1 = $clean["player1"] ?? "";
+    $p2 = $clean["player2"] ?? "";
 
     if ($p1 == "" || $p2 == "") {
         echo json_encode([
@@ -32,14 +50,14 @@ function InitGame()
         return;
     }
 
-    $_SESSION["player1"] = htmlspecialchars($p1);
-    $_SESSION["player2"] = htmlspecialchars($p2);
+    $_SESSION["player1"] = $p1;
+    $_SESSION["player2"] = $p2;
 
     $_SESSION["current"] = rand(1, 2);
 
     $board = array_fill(0, 8, array_fill(0, 8, 0));
 
-    // Required initial 4 pieces (ICA requirement)
+    // Required initial 4 pieces in the center
     $board[3][3] = 2;
     $board[3][4] = 1;
     $board[4][3] = 1;
@@ -53,6 +71,12 @@ function InitGame()
     ]);
 }
 
+/**
+ * FunctionName:    processMove
+ * Description:     Validates and processes a player's move
+ * Input:           row and column of the move
+ * Output:          updated board state and next player's turn message
+ */
 function ProcessMove()
 {
     if (!isset($_SESSION["board"])) {
@@ -100,7 +124,12 @@ function ProcessMove()
     Respond($board, CurrentPlayerMessage());
 }
 
-
+/**
+ * FunctionName:    showValidMoves
+ * Description:     Returns valid moves for the current player
+ * Input:           none
+ * Output:          list of valid moves in row-column format
+ */
 function ShowValidMoves()
 {
     if (!isset($_SESSION["board"])) {
@@ -118,7 +147,12 @@ function ShowValidMoves()
     ]);
 }
 
-
+/**
+ * FunctionName:    getValidMoves
+ * Description:     Computes valid moves for a given board and player
+ * Input:           board state and player number
+ * Output:          list of valid moves in row-column format
+ */
 function GetValidMoves($board, $player)
 {
     $opponent = ($player == 1) ? 2 : 1;
@@ -143,7 +177,12 @@ function GetValidMoves($board, $player)
     return $valid;
 }
 
-
+/**
+ * FunctionName:    recursiveCheck
+ * Description:     Recursively checks if a move is valid in a given direction
+ * Input:           board state, starting row and column, direction deltas, current player, opponent player, flag for found opponent
+ * Output:          true if valid move found, false otherwise
+ */
 function RecursiveCheck($board, $r, $c, $dr, $dc, $current, $opponent, $foundOpponent)
 {
     $r += $dr;
@@ -162,6 +201,12 @@ function RecursiveCheck($board, $r, $c, $dr, $dc, $current, $opponent, $foundOpp
     return false;
 }
 
+/**
+ * FunctionName:    recursiveFlip
+ * Description:     Recursively flips opponent pieces in a given direction
+ * Input:           board state, starting row and column, direction deltas, current player, opponent player, path of pieces to flip
+ * Output:          true if pieces flipped, false otherwise
+ */
 function RecursiveFlip(&$board, $r, $c, $dr, $dc, $current, $opponent, &$path)
 {
     $r += $dr;
@@ -185,7 +230,12 @@ function RecursiveFlip(&$board, $r, $c, $dr, $dc, $current, $opponent, &$path)
     return false;
 }
 
-
+/**
+ * FunctionName:    directions
+ * Description:     Returns all 8 possible directions for move checking
+ * Input:           none
+ * Output:          list of direction deltas for row and column
+ */
 function Directions()
 {
     return [
@@ -194,6 +244,12 @@ function Directions()
     ];
 }
 
+/**
+ * FunctionName:    convertBoard
+ * Description:     Converts internal board representation to display format
+ * Input:           board state with numeric values
+ * Output:          board state with symbols for display
+ */
 function ConvertBoard($board)
 {
     $display = [];
@@ -209,6 +265,12 @@ function ConvertBoard($board)
     return $display;
 }
 
+/**
+ * FunctionName:    currentPlayerMessage
+ * Description:     Returns a message indicating whose turn it is
+ * Input:           none
+ * Output:          string message with current player's name
+ */
 function CurrentPlayerMessage()
 {
     $p = $_SESSION["current"];
@@ -216,11 +278,23 @@ function CurrentPlayerMessage()
     return "$name's turn.";
 }
 
+/**
+ * FunctionName:    inBounds
+ * Description:     Checks if given row and column are within board limits
+ * Input:           row and column indices
+ * Output:          true if within bounds, false otherwise
+ */
 function InBounds($r, $c)
 {
     return $r >= 0 && $c >= 0 && $r < 8 && $c < 8;
 }
 
+/**
+ * FunctionName:    respond
+ * Description:     Sends a JSON response with the current board and message
+ * Input:           board state and message string
+ * Output:          JSON object with board and message 
+ */
 function Respond($board, $message)
 {
     echo json_encode([
@@ -229,6 +303,12 @@ function Respond($board, $message)
     ]);
 }
 
+/**
+ * FunctionName:    quitGame
+ * Description:     Ends the game session and clears data
+ * Input:           none
+ * Output:          JSON object confirming game quit and empty board
+ */
 function QuitGame()
 {
     session_unset();
