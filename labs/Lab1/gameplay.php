@@ -6,21 +6,12 @@ $action = $_POST["action"] ?? "";
 
 switch ($action) {
 
-    case "init":
-        InitGame();
-        break;
+    case "init": InitGame();    break;
+    case "move": ProcessMove(); break;
 
-    case "move":
-        ProcessMove();
-        break;
+    case "showValidMoves": ShowValidMoves(); break;
 
-    case "showValidMoves":
-        ShowValidMoves();
-        break;
-
-    case "quit":
-        QuitGame();
-        break;
+    case "quit": QuitGame();    break;
 
     default:
         echo json_encode(["message" => "Invalid action"]);
