@@ -11,39 +11,32 @@ require_once "db.php";
 
 function CleanCollection($input)
 {
-    global $connection;
-    $clean = array();
+  global $connection;
+  $clean = array();
 
-    foreach ($input as $key => $value) {
-        if (is_array($value)) {
-            $clean[trim($connection->real_escape_string(strip_tags(htmlspecialchars($key))))]
-                = CleanCollection($value);
-        } else {
-            $clean[trim($connection->real_escape_string(strip_tags(htmlspecialchars($key))))]
-                = trim($connection->real_escape_string(strip_tags(htmlspecialchars($value))));
-        }
+  foreach ($input as $key => $value) {
+    if (is_array($value)) {
+      $clean[trim($connection->real_escape_string(strip_tags(htmlspecialchars($key))))]
+        = CleanCollection($value);
+    } else {
+      $clean[trim($connection->real_escape_string(strip_tags(htmlspecialchars($key))))]
+        = trim($connection->real_escape_string(strip_tags(htmlspecialchars($value))));
     }
+  }
 
-    return $clean;
+  return $clean;
 }
 
 // Global output array
 $output = array();
 
 // Cleaning data
-$clean = array();
+$clean_get = CleanCollection($_GET);
+$clean_post = CleanCollection($_POST);
 
-foreach ($_GET as $key => $value) {
-
-  $safeKey = trim($connection->real_escape_string(strip_tags(htmlspecialchars($key))));
-
-  if (!(is_array($value))) {
-    $clean[$safeKey] = trim($connection->real_escape_string(strip_tags(htmlspecialchars($value))));
-  }
-}
-
-// Determine action 
-$action = $clean["action"] ?? "";
+// Determine action from GET or POST parameters
+$action = isset($clean_get["action"]) ? $clean_get["action"] :
+  (isset($clean_post["action"]) ? $clean_post["action"] : "");
 
 // Default message
 $output = ["message" => ""];
@@ -82,6 +75,7 @@ switch ($action) {
 }
 
 // Return output as JSON
+error_log("Output: " . json_encode($output));
 echo (json_encode($output));
 die();
 
@@ -141,15 +135,15 @@ function GetAuthorNames()
  */
 function GetTitlesByAuthor()
 {
-  global $output, $clean;
+  global $output, $clean_get;
 
-  if (!isset($clean["au_id"])) {
+  if (!isset($clean_get["au_id"])) {
     $output["error"] = "Missing author ID";
     return;
   }
 
   // Get author ID
-  $au_id = $clean["au_id"];
+  $au_id = $clean_get["au_id"];
 
   // Query to get titles by author ID
   $query = "
@@ -188,14 +182,14 @@ function GetTitlesByAuthor()
  */
 function DeleteTitle()
 {
-  global $clean, $output;
+  global $clean_post, $output;
 
-  if (!isset($clean["title_id"])) {
+  if (!isset($clean_post["title_id"])) {
     $output["message"] = "No title ID was supplied!";
     return;
   }
 
-  $title_id = $clean["title_id"];
+  $title_id = $clean_post["title_id"];
 
   $query1 = "DELETE FROM titleauthor WHERE title_id = '$title_id'";
   $query2 = "DELETE FROM titles WHERE title_id = '$title_id'";
@@ -221,6 +215,11 @@ function DeleteTitle()
   }
 }
 
+
+/**
+ * FunctionName:    GetAllType
+ * Description:     Retrieves all types
+ */
 function GetTypes()
 {
   global $output;
@@ -241,18 +240,18 @@ function GetTypes()
  */
 function EditTitle()
 {
-  global $clean, $output;
+  global $clean_get, $output;
 
-  if (!isset(($clean["title_id"]))) {
+  if (!isset(($clean_get["title_id"]))) {
     $output["error"] = "No title ID was supplied!";
     return;
   }
 
   // Inform user that we are in edit mode
-  $output["message"] = "Editing title ID: " . $clean["title_id"];
+  $output["message"] = "Editing title ID: " . $clean_get["title_id"];
 
   // Retrieve title details
-  $title_id = $clean["title_id"];
+  $title_id = $clean_get["title_id"];
   $query_title = "SELECT title, type, price FROM titles WHERE title_id = '$title_id'";
   if ($queryOutput = mySqlQuery($query_title)) {
     $titleData = $queryOutput->fetch_assoc();
@@ -268,11 +267,6 @@ function EditTitle()
 }
 
 /**
- * FunctionName:    GetAllType
- * Description:     Retrieves all types
- */
-
-/**
  * FunctionName:    UpdateTitle
  * Description:     Retrieves title details for updating
  * Input:           Expects 'title_id' parameter in GET request
@@ -280,18 +274,18 @@ function EditTitle()
  */
 function UpdateTitle()
 {
-  global $clean, $output;
+  global $clean_post, $output;
 
-  if (!isset($clean["title_id"]) || !isset($clean["title"]) || !isset($clean["type"]) || !isset($clean["price"])) {
+  if (!isset($clean_post["title_id"]) || !isset($clean_post["title"]) || !isset($clean_post["type"]) || !isset($clean_post["price"])) {
     $output["error"] = "Missing parameters for updating title!";
     return;
   }
 
   // Get parameters
-  $title_id = $clean["title_id"];
-  $title = $clean["title"];
-  $type = $clean["type"];
-  $price = $clean["price"];
+  $title_id = $clean_post["title_id"];
+  $title = $clean_post["title"];
+  $type = $clean_post["type"];
+  $price = $clean_post["price"];
 
   // Ensure price is a valid number, zero or positive
   if (!is_numeric($price) || $price < 0) {
@@ -321,79 +315,90 @@ function UpdateTitle()
 
 function AddTitle()
 {
-    global $clean, $output;
+  global $clean_post, $output;
 
-    if (empty($clean["title_id"])) {
-        $output["error"] = "Title ID is required.";
-        return;
-    }
+  if (empty($clean_post["title_id"])) {
+    $output["error"] = "Title ID is required.";
+    return;
+  }
 
-    if (empty($clean["title"]) || empty($clean["type"])) {
-        $output["error"] = "Title and Type are required.";
-        return;
-    }
+  // Ensure title_id format is 2 CAP letters followed by 4 digits
+  if (!preg_match("/^[A-Z]{2}\d{4}$/", $clean_post["title_id"])) {
+    $output["error"] = "Title ID must be in the format: 2 uppercase letters followed by 4 digits (e.g., AB1234).";
+    return;
+  }
 
-    if (empty($clean["price"])) {
-        $output["error"] = "Price is required.";
-        return;
-    }
+  if (empty($clean_post["title"])) {
+    $output["error"] = "Title is required.";
+    return;
+  }
 
-    if (!is_numeric($clean["price"]) || $clean["price"] <= 0) {
-        $output["error"] = "Price must be greater than zero.";
-        return;
-    }
+  if (empty($clean_post["type"])) {
+    $output["error"] = "Type is required.";
+    return;
+  }
 
-    if (empty($clean["authors"])) {
-        $output["error"] = "At least one author must be selected.";
-        return;
-    }
+  if (empty($clean_post["price"])) {
+    $output["error"] = "Price is required.";
+    return;
+  }
 
-    $title_id = $clean["title_id"];
-    $title    = $clean["title"];
-    $type     = $clean["type"];
-    $price    = $clean["price"];
-    $authors  = $clean["authors"]; // array
+  if (!is_numeric($clean_post["price"]) || $clean_post["price"] <= 0) {
+    $output["error"] = "Price must be greater than zero.";
+    return;
+  }
 
-    /* -----------------------------
-       Insert title ONLY if missing
-    ----------------------------- */
+  if (empty($clean_post["authors"])) {
+    $output["error"] = "At least one author must be selected.";
+    return;
+  }
 
-    $exists = mySqlQuery(
-        "SELECT title_id FROM titles WHERE title_id = '$title_id'"
-    );
+  $title_id = $clean_post["title_id"];
+  $title = $clean_post["title"];
+  $type = $clean_post["type"];
+  $price = $clean_post["price"];
+  $authors = $clean_post["authors"]; // array
 
-    if (!$exists || $exists->num_rows === 0) {
+  /* -----------------------------
+     Insert title ONLY if missing
+  ----------------------------- */
 
-        $query = "
+  $exists = mySqlQuery(
+    "SELECT title_id FROM titles WHERE title_id = '$title_id'"
+  );
+
+  if (!$exists || $exists->num_rows === 0) {
+
+    $query = "
             INSERT INTO titles (title_id, title, type, price)
             VALUES ('$title_id', '$title', '$type', '$price')
         ";
 
-        if (mySqlNonQuery($query) < 1) {
-            $output["error"] = "Failed to insert title.";
-            return;
-        }
+    if (mySqlNonQuery($query) < 1) {
+      $output["error"] = "Failed to insert title.";
+      return;
     }
+  }
 
-    foreach ($authors as $au_id) {
+  foreach ($authors as $au_id) {
 
-        $check = mySqlQuery("
+    $check = mySqlQuery("
             SELECT 1 FROM titleauthor
             WHERE au_id = '$au_id'
               AND title_id = '$title_id'
         ");
 
-        if ($check && $check->num_rows > 0) {
-            continue; // already linked
-        }
+    if ($check && $check->num_rows > 0) {
+      continue; // already linked
+    }
 
-        mySqlNonQuery("
+    mySqlNonQuery("
             INSERT INTO titleauthor (au_id, title_id)
             VALUES ('$au_id', '$title_id')
         ");
-    }
+  }
 
-    $output["message"] = "Book and author links saved successfully.";
+  $output["message"] = "Book and author links saved successfully.";
 }
 
 
