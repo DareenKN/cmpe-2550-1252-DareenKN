@@ -463,4 +463,4 @@ function CleanCollection($input)
     }
 
     return $clean;
-}
+}.
