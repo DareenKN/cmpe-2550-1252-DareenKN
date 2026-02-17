@@ -8,16 +8,12 @@ let gameOver = false; // Global variable to track game state
 const BOARD_SIZE = 8; // Size of the 2d board
 
 $(document).ready(function () {
-
     CreateBoard(BOARD_SIZE);
     $('.board').addClass('locked');
     $('#game-area').hide();
 
     $('#newGame').click(StartGame);
     $('#quit').click(QuitGame);
-
-    // if cell is hovered, show valid moves 
-    $(document).on('mouseenter', '.cell', ShowValidMoves)
 
     // Clicking a cell
     $(document).on('click', '.cell', CellClicked);
@@ -26,63 +22,6 @@ $(document).ready(function () {
     $('#board').mouseenter(HighlightValidMoves);
 });
 
-/**
- * FunctionName:    ShowValidMoves
- * Description:     Shows valid moves for the hovered cell
- * Input:           none (uses data attributes of hovered cell)
- * Output:          highlights valid move cells on the board
- */
-function ShowValidMoves() {
-    if (gameOver) return;
-
-    let r = $(this).data("row");
-    let c = $(this).data("col");
-
-    // Show valid moves for this cell
-    ValidMoves(r, c);
-}
-
-/**
- * FunctionName:    ValidMoves
- * Description:     Makes an AJAX call to get valid moves for a cell
- * Input:           row and column of the cell
- * Output:          calls ValidMovesSuccess on success, ErrorMethod on failure
- */
-function ValidMoves(r, c) {
-
-    CallAJAX(
-        "gameplay.php",
-        "post",
-        { action: "showValidMoves", row: r, col: c },
-        "json",
-        ValidMovesSuccess,
-        ErrorMethod
-    );
-}
-
-/**
- * FunctionName:    ValidMovesSuccess
- * Description:     Handles the response from the server for valid moves
- * Input:           JSON object with valid moves and game status
- * Output:          highlights valid move cells, updates game state if game over
- */
-function ValidMovesSuccess(returnedData) {
-    if (returnedData.validMoves && returnedData.validMoves.length > 0) {
-        console.log("VALID MOVES RESPONSE:", returnedData);
-
-        returnedData.validMoves.forEach(pos => {
-            let r = pos[0];
-            let c = pos[1];
-            $(`.cell[data-row=${r}][data-col=${c}]`).addClass('valid-move');
-        });
-
-    }
-    if (returnedData.gameOver) {
-        gameOver = true;
-        $('.board').addClass('locked');
-        UpdateStatus(returnedData.message);
-    }
-}
 
 function CreateBoard(size) {
 
@@ -108,20 +47,14 @@ function CreateBoard(size) {
     }
 }
 
-/**
- * FunctionName:    ShowValidMoves
- * Description:     Shows valid moves for the hovered cell
- * Input:           none (uses data attributes of hovered cell)
- * Output:          highlights valid move cells on the board
- */
 function StartGame() {
 
-    CallAJAX("gameplay.php", "post", {
-        action: "init",
-        player1: $('input[name="Player1"]').val(),
-        player2: $('input[name="Player2"]').val()
-    }, "json",
-        GameInitSuccess, ErrorMethod);
+    CallAJAX("gameplay.php", "post", "json",
+        {
+            action: "init",
+            player1: $('input[name="Player1"]').val(),
+            player2: $('input[name="Player2"]').val()
+        }, GameInitSuccess, ErrorMethod);
 }
 
 /**
@@ -137,20 +70,27 @@ function CellClicked() {
         return;
     }
 
-    CallAJAX("gameplay.php", "post", {
-        action: "move",
-        row: $(this).data("row"),
-        col: $(this).data("col")
-    }, "json",
+    CallAJAX("gameplay.php", "post", "json",
+        {
+            action: "move",
+            row: $(this).data("row"),
+            col: $(this).data("col")
+        },
         function (data) {
-            console.log("MOVE:", returnedData);
+            console.log("MOVE:", data);
 
-            if (!returnedData.board) return;
+            if (!data.board) return;
 
-            UpdateBoard(returnedData.board);
-            UpdateStatus(returnedData.message);
+            UpdateBoard(data.board);
+            UpdateStatus(data.message);
 
             HighlightValidMoves();
+            if (data.validMoves)
+                console.log("Valid moves after move:", data.validMoves);
+
+            if (data.gameOver) {
+                GameOver(data.message);
+            }
         }, ErrorMethod);
 }
 
@@ -164,8 +104,8 @@ function HighlightValidMoves() {
 
     if (gameOver) return;
 
-    CallAJAX("gameplay.php", "post",
-        { action: "showValidMoves" }, "json",
+    CallAJAX("gameplay.php", "post", "json",
+        { action: "showValidMoves" },
         function (data) {
 
             $('.cell').removeClass('valid-move');
@@ -225,7 +165,6 @@ function GameInitSuccess(returnedData) {
  * Output:          updates the cell values and classes to reflect the current board
  */
 function UpdateBoard(board) {
-
     const size = board.length;
 
     $('.cell').each(function () {
@@ -236,14 +175,13 @@ function UpdateBoard(board) {
         if (r >= size || c >= size) return;
 
         const value = board[r][c];
-
         $(this).removeClass("x-cell o-cell");
 
         switch (value) {
             case "❁": $(this).val("❁").addClass("x-cell"); break;
             case "✪": $(this).val("✪").addClass("o-cell"); break;
 
-            default:   $(this).val("");                     break;
+            default: $(this).val(""); break;
         }
     });
 }
@@ -273,25 +211,29 @@ function UpdateStatus(message) {
  */
 function QuitGame() {
 
-    CallAJAX("gameplay.php", "post",
-        { action: "quit" }, "json",
-        QuitSuccess, ErrorMethod);
+    CallAJAX("gameplay.php", "post", "json",
+        { action: "quit" },
+        function (data) {
+            gameOver = true;
+
+            $('input[name="Player1"]').val('');
+            $('input[name="Player2"]').val('');
+            $('#game-area').fadeOut(200);
+            $('.board').addClass('locked');
+            $('.cell').removeClass('valid-move');
+
+            UpdateStatus(data.message);
+        }, ErrorMethod);
 }
 
-function QuitSuccess(returnedData) {
-
-    gameOver = true;
-
-    $('input[name="Player1"]').val('');
-    $('input[name="Player2"]').val('');
-
-    $('#game-area').fadeOut(200);
-    $('.board').addClass('locked');
-
+function GameOver(data) {
+    console.log("GAME OVER:", data);
     $('.cell').removeClass('valid-move');
-
-    UpdateStatus(returnedData.message);
+    $('.board').addClass('locked');
+    UpdateStatus(data);
+    gameOver = true;
 }
+
 
 /**
  * FunctionName:    CallAJAX
@@ -299,16 +241,8 @@ function QuitSuccess(returnedData) {
  * Input:           url, method, data, dataType, success callback, error callback
  * Output:          performs the AJAX request and calls the appropriate callback on success or error
  */
-function CallAJAX(url, method, data, dataType, successMethod, errorMethod) {
-
-    $.ajax({
-        url: url,
-        method: method,
-        data: data,
-        dataType: dataType,
-        success: successMethod,
-        error: errorMethod
-    });
+function CallAJAX(url, method, dataType, data, successMethod, errorMethod) {
+    $.ajax({ url: url, method: method, dataType: dataType, data: data, success: successMethod, error: errorMethod });
 }
 
 /**
@@ -319,4 +253,5 @@ function CallAJAX(url, method, data, dataType, successMethod, errorMethod) {
  */
 function ErrorMethod(req, status, error) {
     console.log("AJAX ERROR:", status, error);
+    console.log("Request:", req);
 }

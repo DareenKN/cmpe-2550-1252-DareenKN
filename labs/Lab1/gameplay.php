@@ -9,26 +9,38 @@
 session_start();
 
 // Cleaning data
-$clean = [];
-foreach ($_POST as $key => $value) {
-    $clean[trim(strip_tags($key))] = trim(strip_tags($value));
-}
+$clean_get = CleanCollection($_GET);
+$clean_post = CleanCollection($_POST);
 
-// Determine action
-$action = $clean["action"] ?? "";
+// Determine action from GET or POST parameters
+$action = isset($clean_get["action"]) ? $clean_get["action"] :
+    (isset($clean_post["action"]) ? $clean_post["action"] : "");
+
+$output = [
+    "board" => [],
+    "message" => "",
+    "gameOver" => false
+];
 
 switch ($action) {
-
-    case "init": InitGame();    break;
-    case "move": ProcessMove(); break;
-    case "quit": QuitGame();    break;
-
-    case "showValidMoves": ShowValidMoves(); break;
-
-    default:
-        echo json_encode(["message" => "Invalid action"]);
+    case "init":
+        initGame($clean_post, $output);
         break;
+    case "move":
+        ProcessMove($clean_post, $output);
+        break;
+    case "showValidMoves":
+        ShowValidMoves();
+        break;
+    case "quit":
+        quitGame($output);
+        break;
+    default:
+        $output["message"] = "Invalid action.";
 }
+error_log(json_encode($output));
+echo json_encode($output);
+die();
 
 
 /**
@@ -37,25 +49,29 @@ switch ($action) {
  * Input:           players names
  * Output:          initial board state and current player message
  */
-function InitGame()
+function initGame($clean_post, &$output)
 {
-    $p1 = $clean["player1"] ?? "";
-    $p2 = $clean["player2"] ?? "";
+    $p1 = $clean_post["player1"] ?? "";
+    $p2 = $clean_post["player2"] ?? "";
 
-    if ($p1 == "" || $p2 == "") {
-        echo json_encode([
-            "board" => [],
-            "message" => "Both player names are required."
-        ]);
+    if (!validateNames($p1, $p2, $output))
         return;
-    }
-
-    $_SESSION["player1"] = $p1;
-    $_SESSION["player2"] = $p2;
 
     $_SESSION["current"] = rand(1, 2);
 
-    $board = array_fill(0, 8, array_fill(0, 8, 0));
+    //$board = array_fill(0, 8, array_fill(0, 8, 0));
+
+    $board = [
+        ['0', '1', '1', '1', '1', '1', '1', '1'],
+        ['1', '1', '2', '2', '0', '2', '1', '1'],
+        ['1', '1', '2', '2', '1', '1', '2', '1'],
+        ['1', '2', '1', '0', '1', '2', '1', '1'],
+        ['1', '1', '1', '1', '2', '0', '2', '1'],
+        ['1', '1', '1', '2', '1', '2', '1', '1'],
+        ['1', '1', '1', '1', '1', '1', '1', '1'],
+        ['0', '2', '2', '2', '0', '2', '2', '2']
+    ];
+
 
     // Required initial 4 pieces in the center
     $board[3][3] = 2;
@@ -65,11 +81,10 @@ function InitGame()
 
     $_SESSION["board"] = $board;
 
-    echo json_encode([
-        "board" => ConvertBoard($board),
-        "message" => CurrentPlayerMessage()
-    ]);
+    $output["board"] = ConvertBoard(board: $board);
+    $output["message"] = CurrentPlayerMessage();
 }
+
 
 /**
  * FunctionName:    processMove
@@ -77,15 +92,15 @@ function InitGame()
  * Input:           row and column of the move
  * Output:          updated board state and next player's turn message
  */
-function ProcessMove()
+function ProcessMove($clean_post, &$output)
 {
     if (!isset($_SESSION["board"])) {
-        echo json_encode(["message" => "Game not initialized."]);
+        $output["message"] = "Game not initialized.";
         return;
     }
 
-    $row = intval($_POST["row"] ?? -1);
-    $col = intval($_POST["col"] ?? -1);
+    $row = intval($clean_post["row"] ?? -1);
+    $col = intval($clean_post["col"] ?? -1);
 
     $board = $_SESSION["board"];
     $current = $_SESSION["current"];
@@ -108,6 +123,21 @@ function ProcessMove()
         return;
     }
 
+    // If current player has no valid moves, skip turn
+    if (empty($validMoves)) {
+        $_SESSION["current"] = $opponent;
+        $validMovesOpponent = GetValidMoves($board, $opponent);
+        if (empty($validMovesOpponent)) {
+            $_SESSION["gameOver"] = true;
+            $output["gameOver"] = true;
+            $message = GetWinner($board, "Game over!");
+            respond($board, $message);
+            return;
+        }
+        Respond($board, "No valid moves. Turn skipped. <br>" . CurrentPlayerMessage() . "");
+        return;
+    }
+
     // Apply recursive flips in all directions
     $directions = Directions();
 
@@ -115,13 +145,40 @@ function ProcessMove()
         $path = [];
         RecursiveFlip($board, $row, $col, $dr, $dc, $current, $opponent, $path);
     }
-
+    // Apply move
     $board[$row][$col] = $current;
 
     $_SESSION["board"] = $board;
+
+    // Switch player
     $_SESSION["current"] = $opponent;
 
-    Respond($board, CurrentPlayerMessage());
+    // Check opponent valid moves
+    $validMovesOpponent = GetValidMoves($board, $opponent);
+
+    if (empty($validMovesOpponent)) {
+
+        // Check if current player also has no moves
+        $validMovesCurrent = GetValidMoves($board, $current);
+
+        if (empty($validMovesCurrent)) {
+            $_SESSION["gameOver"] = true;
+            $output["gameOver"] = true;
+            $message = GetWinner($board, "Game over!");
+            Respond($board, $message);
+            return;
+        }
+
+        // Opponent skips turn
+        $_SESSION["current"] = $current;
+        Respond($board, "No valid moves for opponent. Turn skipped.<br>" . CurrentPlayerMessage());
+        return;
+    }
+
+    // Normal turn switch
+    $message = CurrentPlayerMessage();
+    Respond($board, $message);
+
 }
 
 /**
@@ -132,8 +189,9 @@ function ProcessMove()
  */
 function ShowValidMoves()
 {
+    global $output;
     if (!isset($_SESSION["board"])) {
-        echo json_encode(["validMoves" => []]);
+        $output["validMoves"] = [];
         return;
     }
 
@@ -142,9 +200,7 @@ function ShowValidMoves()
 
     $validMoves = GetValidMoves($board, $current);
 
-    echo json_encode([
-        "validMoves" => $validMoves
-    ]);
+    $output["validMoves"] = $validMoves;
 }
 
 /**
@@ -239,8 +295,14 @@ function RecursiveFlip(&$board, $r, $c, $dr, $dc, $current, $opponent, &$path)
 function Directions()
 {
     return [
-        [-1,0],[1,0],[0,-1],[0,1],
-        [-1,-1],[-1,1],[1,-1],[1,1]
+        [-1, 0],
+        [1, 0],
+        [0, -1],
+        [0, 1],
+        [-1, -1],
+        [-1, 1],
+        [1, -1],
+        [1, 1]
     ];
 }
 
@@ -256,13 +318,46 @@ function ConvertBoard($board)
 
     foreach ($board as $r => $row) {
         foreach ($row as $c => $val) {
-            if ($val == 1) $display[$r][$c] = "❁";
-            elseif ($val == 2) $display[$r][$c] = "✪";
-            else $display[$r][$c] = "";
+            switch ($val) {
+                case 1:
+                    $display[$r][$c] = "❁";
+                    break;
+                case 2:
+                    $display[$r][$c] = "✪";
+                    break;
+                default:
+                    $display[$r][$c] = "";
+            }
         }
     }
 
     return $display;
+}
+
+/**
+ * FunctionName: validateNames
+ * Description: Validates player names
+ */
+function validateNames($p1, $p2, &$output)
+{
+    if ($p1 === "" && $p2 === "") {
+        $output["message"] = "Player 1 and Player 2 must enter their names.";
+        return false;
+    }
+
+    if ($p1 === "") {
+        $output["message"] = "Player 1 must enter a name.";
+        return false;
+    }
+
+    if ($p2 === "") {
+        $output["message"] = "Player 2 must enter a name.";
+        return false;
+    }
+
+    $_SESSION["player1"] = $p1;
+    $_SESSION["player2"] = $p2;
+    return true;
 }
 
 /**
@@ -274,8 +369,9 @@ function ConvertBoard($board)
 function CurrentPlayerMessage()
 {
     $p = $_SESSION["current"];
+    $mark = ($p == 1) ? "❁" : "✪";
     $name = ($p == 1) ? $_SESSION["player1"] : $_SESSION["player2"];
-    return "$name's turn.";
+    return "$name's turn. ($mark)";
 }
 
 /**
@@ -297,10 +393,37 @@ function InBounds($r, $c)
  */
 function Respond($board, $message)
 {
-    echo json_encode([
-        "board" => ConvertBoard($board),
-        "message" => $message
-    ]);
+    global $output;
+    $output["message"] = $message;
+    $output["board"] = ConvertBoard($board);
+}
+
+function GetWinner($board, $message)
+{
+    $count1 = 0;
+    $count2 = 0;
+    $mark1 = "❁";
+    $mark2 = "✪";
+
+    foreach ($board as $row) {
+        foreach ($row as $cell) {
+            if ($cell == 1) {
+                $count1++;
+            } elseif ($cell == 2) {
+                $count2++;
+            }
+        }
+    }
+
+
+
+    if ($count1 > $count2) {
+        return $_SESSION["player1"] . "(" . $mark1 . ")" . " wins!" . " ($count1 to $count2)";
+    } elseif ($count2 > $count1) {
+        return $_SESSION["player2"] . "(" . $mark2 . ")" . " wins!" . " ($count2 to $count1)";
+    } else {
+        return "It's a tie!";
+    }
 }
 
 /**
@@ -311,11 +434,33 @@ function Respond($board, $message)
  */
 function QuitGame()
 {
+    global $output;
     session_unset();
     session_destroy();
 
-    echo json_encode([
-        "board" => [],
-        "message" => "Game quit."
-    ]);
+    $output["board"] = [];
+    $output["message"] = "Game quit.";
+}
+
+/**
+ * FunctionName:    CleanCollection
+ * Description:     Recursively cleans input data to prevent security issues
+ * Input:           array of input data (GET or POST)
+ * Output:          cleaned array with sanitized keys and values
+ */
+function CleanCollection($input)
+{
+    $clean = array();
+
+    foreach ($input as $key => $value) {
+        if (is_array($value)) {
+            $clean[trim(strip_tags(htmlspecialchars($key)))]
+                = CleanCollection($value);
+        } else {
+            $clean[trim(strip_tags(htmlspecialchars($key)))]
+                = trim(strip_tags(htmlspecialchars($value)));
+        }
+    }
+
+    return $clean;
 }
