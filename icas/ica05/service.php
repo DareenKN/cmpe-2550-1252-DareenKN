@@ -9,24 +9,6 @@
 // Include database functions
 require_once "db.php";
 
-function CleanCollection($input)
-{
-  global $connection;
-  $clean = array();
-
-  foreach ($input as $key => $value) {
-    if (is_array($value)) {
-      $clean[trim($connection->real_escape_string(strip_tags(htmlspecialchars($key))))]
-        = CleanCollection($value);
-    } else {
-      $clean[trim($connection->real_escape_string(strip_tags(htmlspecialchars($key))))]
-        = trim($connection->real_escape_string(strip_tags(htmlspecialchars($value))));
-    }
-  }
-
-  return $clean;
-}
-
 // Global output array
 $output = array();
 
@@ -79,6 +61,31 @@ error_log("Output: " . json_encode($output));
 echo (json_encode($output));
 die();
 
+
+
+/**
+ * FunctionName:    CleanCollection
+ * Description:     Cleans the collecton retrieved from the AJAX
+ * Input:           $_GET or $_POST
+ * Output:          The cleaned data
+ */
+function CleanCollection($input)
+{
+  global $connection;
+  $clean = array();
+
+  foreach ($input as $key => $value) {
+    if (is_array($value)) {
+      $clean[trim($connection->real_escape_string(strip_tags(htmlspecialchars($key))))]
+        = CleanCollection($value);
+    } else {
+      $clean[trim($connection->real_escape_string(strip_tags(htmlspecialchars($key))))]
+        = trim($connection->real_escape_string(strip_tags(htmlspecialchars($value))));
+    }
+  }
+
+  return $clean;
+}
 
 /**
  * FunctionName:    GetAllAuthors

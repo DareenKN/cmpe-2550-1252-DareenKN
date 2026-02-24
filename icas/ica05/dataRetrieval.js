@@ -115,6 +115,8 @@ function GetTitlesByAuthorSuccess(returnedData) {
     // Populate titles table
     $('#error_status').empty();
     $('.data-section').show();
+
+    $('#bookHeading').html(`Books for author: ${currentAuthorId}`);
     returnedData.titles.forEach(book => {
 
         let row = `<tr>
@@ -181,7 +183,7 @@ function EditTitle() {
 
     CallAJAX("service.php", "get", "json",
         { action: "EditTitle", title_id: title_id },
-        function (data) {
+        function (returnedData) {
             $('#error_status').empty();
             console.log(returnedData);
 
@@ -289,7 +291,7 @@ function UpdateTitle() {
             price: $(`#price-input-${title_id}`).val(),
             type: $(`#types-select-${title_id}`).val()
         },
-        function (data) {
+        function (returnedData) {
             $('#error_status').empty();
             console.log(returnedData);
 

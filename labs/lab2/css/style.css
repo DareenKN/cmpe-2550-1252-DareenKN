@@ -1,0 +1,121 @@
+/* ===== Base ===== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Fredoka", sans-serif;
+}
+
+body {
+    background-color: #3b2c3c;
+}
+
+/* ===== Header ===== */
+header {
+    background: linear-gradient(135deg, #f2ecfa, #e3d8f3);
+    padding: 25px 0;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 34px;
+    font-weight: 600;
+    color: #6a3fa0;
+
+    text-shadow:
+        1px 1px 0 #ffffff,
+        2px 2px 0 #d7c9ee,
+        3px 3px 0 #b39adf,
+        4px 4px 6px rgba(0, 0, 0, 0.25);
+}
+
+/* ===== Layout ===== */
+main {
+    display: flex;
+    justify-content: center;
+    margin-top: 70px;
+}
+
+/* ===== Card ===== */
+.auth-card {
+    width: 420px;
+    padding: 40px;
+    border-radius: 14px;
+
+    background: linear-gradient(135deg, #f3eefc, #e6e0f3);
+
+    box-shadow:
+        0 6px 0 #4a2c74,
+        0 14px 30px rgba(0, 0, 0, 0.35);
+}
+
+/* ===== Form ===== */
+.form-row {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.form-row label {
+    margin-bottom: 6px;
+    font-size: 18px;
+    color: #2f2546;
+}
+
+.form-row input {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #b9a6dc;
+    font-size: 15px;
+}
+
+/* ===== Buttons ===== */
+.auth-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.btn {
+    padding: 10px 24px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+
+    background: linear-gradient(135deg, #6b3fa0, #8a63c9);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+
+    box-shadow:
+        0 3px 0 #4a2c74,
+        0 6px 14px rgba(0, 0, 0, 0.35);
+
+    transition: 0.15s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+/* ===== Status ===== */
+#auth-status {
+    text-align: center;
+    margin-top: 25px;
+    font-size: 18px;
+    font-style: italic;
+    color: #6a3fa0;
+}
+
+/* ===== Footer ===== */
+footer {
+    text-align: center;
+    padding: 20px 0;
+    font-size: 13px;
+    background: #f3f1f8;
+    margin-top: 80px;
+}
