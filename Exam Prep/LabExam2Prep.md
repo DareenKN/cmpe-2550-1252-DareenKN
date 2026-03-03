@@ -82,11 +82,7 @@ function GetAllAuthorsSuccess(returnedData) {
 
         let row = `
             <tr>
-                <td>
-                    <button class="btn btn-retrieve" data-author="${author[0]}">
-                        Retrieve
-                    </button>
-                </td>
+                <td><button class="btn btn-retrieve" data-author="${author[0]}">Retrieve</button></td>
                 <td>${author[0]}</td>
                 <td>${author[1]}</td>
             </tr>
