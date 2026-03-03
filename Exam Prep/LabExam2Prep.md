@@ -1,36 +1,35 @@
-Okay. Breathe.
+YES.
+Perfect.
+We’re isolating it.
 
-You’ve done ICAs on this. You literally built the patterns already. The exam is just going to remix them.
+No noise.
+No PDO.
+No new patterns.
+Only **YOUR STRUCTURE**.
 
-You have **30 minutes**, so I’m giving you a tight, high-yield, “write-this-and-don’t-think” cheat sheet. No fluff. Just structure and traps to avoid.
+You can use your `db.php` as library — good. That means we focus only on:
+
+* ✅ JS (frontend retrieval)
+* ✅ service.php (backend retrieval only)
 
 ---
 
-# 🚨 LAB EXAM 02 – DATABASE RETRIEVAL CHEAT SHEET
-
-**Coverage: SELECT only (NO insert / update / delete)**
-So this is basically your ICA 03 pattern.
+# 🟣 🔥 JS CHEAT SHEET (RETRIEVAL ONLY)
 
 ---
 
-# 🧠 1. Big Picture Flow (Memorize This)
-
-### Page Loads
+## 🧠 1️⃣ DOCUMENT READY
 
 ```js
 $(document).ready(function () {
     $('.data-section').hide();
-    GetAllSomething();
+    GetAllAuthors();   // or whatever first retrieval is
 });
 ```
 
-### Button Click (Dynamic)
+---
 
-```js
-$(document).on('click', '.btn-retrieve', FunctionName);
-```
-
-### AJAX Call
+## 🧠 2️⃣ GENERIC AJAX (YOUR STYLE)
 
 ```js
 function CallAJAX(url, method, data, dataType, successMethod, errorMethod) {
@@ -45,18 +44,20 @@ function CallAJAX(url, method, data, dataType, successMethod, errorMethod) {
 }
 ```
 
+DO NOT change parameter order.
+
 ---
 
-# 🧠 2. Retrieval Pattern (Frontend JS)
-
-## 🔹 Step 1 – First Retrieval
+## 🧠 3️⃣ FIRST RETRIEVAL (NO PARAMETERS)
 
 ```js
 function GetAllAuthors() {
+
     let data = {};
     data["action"] = "GetAllAuthors";
 
-    CallAJAX("service.php", "get", data, "json",
+    CallAJAX("service.php", "get",
+        data, "json",
         GetAllAuthorsSuccess,
         ErrorMethod
     );
@@ -65,7 +66,7 @@ function GetAllAuthors() {
 
 ---
 
-## 🔹 Step 2 – Success Method
+## 🧠 4️⃣ FIRST SUCCESS METHOD
 
 ```js
 function GetAllAuthorsSuccess(returnedData) {
@@ -82,9 +83,15 @@ function GetAllAuthorsSuccess(returnedData) {
 
         let row = `
             <tr>
-                <td><button class="btn btn-retrieve" data-author="${author[0]}">Retrieve</button></td>
+                <td>
+                    <button class="btn btn-retrieve"
+                        data-author="${author[0]}">
+                        Retrieve
+                    </button>
+                </td>
                 <td>${author[0]}</td>
                 <td>${author[1]}</td>
+                <td>${author[2]}</td>
             </tr>
         `;
 
@@ -97,18 +104,29 @@ function GetAllAuthorsSuccess(returnedData) {
 
 ---
 
-## 🔹 Step 3 – Retrieve Related Data
+## 🧠 5️⃣ DYNAMIC BUTTON EVENT
+
+```js
+$(document).on('click', '.btn-retrieve', GetTitlesByAuthor);
+```
+
+ALWAYS use event delegation.
+
+---
+
+## 🧠 6️⃣ RETRIEVAL WITH PARAMETER
 
 ```js
 function GetTitlesByAuthor() {
 
-    let id = $(this).data("author");
+    let au_id = $(this).data("author");
 
     let data = {};
     data["action"] = "GetTitlesByAuthor";
-    data["id"] = id;
+    data["au_id"] = au_id;
 
-    CallAJAX("service.php", "get", data, "json",
+    CallAJAX("service.php", "get",
+        data, "json",
         GetTitlesByAuthorSuccess,
         ErrorMethod
     );
@@ -117,7 +135,7 @@ function GetTitlesByAuthor() {
 
 ---
 
-## 🔹 Step 4 – Second Success Method
+## 🧠 7️⃣ SECOND SUCCESS METHOD
 
 ```js
 function GetTitlesByAuthorSuccess(returnedData) {
@@ -141,6 +159,7 @@ function GetTitlesByAuthorSuccess(returnedData) {
                 <td>${book[0]}</td>
                 <td>${book[1]}</td>
                 <td>${book[2]}</td>
+                <td>${book[3]}</td>
             </tr>
         `;
 
@@ -153,198 +172,200 @@ function GetTitlesByAuthorSuccess(returnedData) {
 
 ---
 
-# 🧠 3. service.php Pattern (VERY IMPORTANT)
+## 🧠 8️⃣ ERROR METHOD
 
-This is where most people mess up.
-
----
-
-## 🔹 Always Start Like This
-
-```php
-require_once("db.php");
-
-$action = $_GET["action"] ?? $_POST["action"] ?? "";
-
-switch($action)
-{
-    case "GetAllAuthors":
-        GetAllAuthors();
-        break;
-
-    case "GetTitlesByAuthor":
-        GetTitlesByAuthor();
-        break;
+```js
+function ErrorMethod(req, status, error) {
+    console.log("AJAX ERROR", status, error);
+    $('#status').html("An error occurred.");
 }
 ```
 
 ---
 
-## 🔹 Retrieval Function
+## 🚨 JS COMMON MISTAKES
+
+* ❌ Forgetting `dataType: "json"`
+* ❌ Forgetting `tbody.empty()`
+* ❌ Mismatch action spelling
+* ❌ Using wrong data key (ex: id instead of au_id)
+* ❌ Not using $(document).on()
+
+---
+
+---
+
+# 🔵 🔥 service.php CHEAT SHEET (YOUR STYLE ONLY)
+
+This is EXACTLY how you write it.
+
+---
+
+## 🧠 1️⃣ TOP OF FILE
+
+```php
+require_once "db.php";
+
+$output = array();
+
+$clean_get = CleanCollection($_GET);
+$clean_post = CleanCollection($_POST);
+
+$action = isset($clean_get["action"]) ? $clean_get["action"] :
+    (isset($clean_post["action"]) ? $clean_post["action"] : "");
+
+$output = ["message" => ""];
+```
+
+---
+
+## 🧠 2️⃣ SWITCH
+
+```php
+switch ($action) {
+
+  case "GetAllAuthors":
+    GetAllAuthors();
+    break;
+
+  case "GetTitlesByAuthor":
+    GetTitlesByAuthor();
+    break;
+
+  default:
+    $output["error"] = "Invalid action specified";
+    break;
+}
+```
+
+---
+
+## 🧠 3️⃣ BASIC SELECT FUNCTION
 
 ```php
 function GetAllAuthors()
 {
-    global $pdo;
+  global $output;
 
-    $sql = "SELECT au_id, au_lname, au_fname FROM authors";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute();
+  $query = "SELECT * FROM authors
+            ORDER BY au_lname";
 
-    $authors = $stmt->fetchAll(PDO::FETCH_NUM);
+  if ($queryOutput = mySqlQuery($query)) {
 
-    echo json_encode([
-        "authors" => $authors,
-        "message" => "Authors retrieved successfully."
-    ]);
+    $output["authors"] = $queryOutput->fetch_all();
+
+  } else {
+    $output["error"] = "Failed to retrieve authors.";
+    return;
+  }
+
+  switch (count($output["authors"])) {
+    case 0:
+      $output["message"] = "No author records found.";
+      break;
+    case 1:
+      $output["message"] = "Retrieved: 1 author record.";
+      break;
+    default:
+      $output["message"] =
+        "Retrieved: " . count($output["authors"]) . " author records.";
+      break;
+  }
 }
 ```
 
 ---
 
-## 🔹 Retrieval With Parameter
+## 🧠 4️⃣ SELECT WITH PARAMETER
 
 ```php
 function GetTitlesByAuthor()
 {
-    global $pdo;
+  global $output, $clean_get;
 
-    $au_id = $_GET["au_id"] ?? "";
+  if (!isset($clean_get["au_id"])) {
+    $output["error"] = "Missing author ID.";
+    return;
+  }
 
-    $sql = "
-        SELECT t.title_id, t.title, t.type, t.price
-        FROM titles t
-        INNER JOIN titleauthor ta ON t.title_id = ta.title_id
-        WHERE ta.au_id = ?
-    ";
+  $au_id = $clean_get["au_id"];
 
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$au_id]);
+  $query = "
+    SELECT t.title_id, t.title, t.type, t.price
+    FROM titles t
+    JOIN titleauthor ta ON t.title_id = ta.title_id
+    WHERE ta.au_id = '$au_id'
+  ";
 
-    $titles = $stmt->fetchAll(PDO::FETCH_NUM);
+  if ($queryOutput = mySqlQuery($query)) {
 
-    echo json_encode([
-        "titles" => $titles,
-        "message" => "Titles retrieved successfully."
-    ]);
+    $output["titles"] = $queryOutput->fetch_all();
+
+  } else {
+    $output["error"] = "Failed to retrieve titles.";
+    return;
+  }
+
+  switch (count($output["titles"])) {
+    case 0:
+      $output["message"] =
+        "No titles found for this author.";
+      break;
+    case 1:
+      $output["message"] =
+        "Retrieved: 1 title record.";
+      break;
+    default:
+      $output["message"] =
+        "Retrieved: " . count($output["titles"]) . " title records.";
+      break;
+  }
 }
 ```
 
 ---
 
-# 🧠 4. db.php Pattern
+## 🧠 5️⃣ END OF FILE (DO NOT FORGET)
 
 ```php
-$dsn = "mysql:host=localhost;dbname=your_db;charset=utf8";
-
-$username = "root";
-$password = "";
-
-try {
-    $pdo = new PDO($dsn, $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-}
-catch(PDOException $e) {
-    echo "Connection failed.";
-}
+echo json_encode($output);
+die();
 ```
 
----
-
-# 🚨 5. Most Common Exam Mistakes
-
-### ❌ Forgetting:
-
-* `tbody.empty();`
-* `dataType: "json"`
-* `echo json_encode(...)`
-* `global $pdo;`
-* `?` placeholder in SQL
-* `execute([$variable])`
+If you forget this, nothing displays.
 
 ---
 
-### ❌ Using $_POST when you're calling GET
+# 🚨 service.php MISTAKES TO AVOID
 
-Match them.
-
-If AJAX uses:
-
-```js
-method: "get"
-```
-
-Then use:
-
-```php
-$_GET["something"]
-```
+* ❌ Forgetting `global $output`
+* ❌ Using $_GET instead of $clean_get
+* ❌ Not checking isset()
+* ❌ Forgetting fetch_all()
+* ❌ Forgetting echo json_encode
+* ❌ Missing break in switch
 
 ---
 
-### ❌ Returning plain text instead of JSON
+# 🎯 FINAL EXAM STRATEGY
 
-ALWAYS:
+1. Write top service structure first.
+2. Write switch.
+3. Write first SELECT.
+4. Test.
+5. Then write second SELECT.
 
-```php
-echo json_encode([...]);
-```
+Don’t jump around.
 
----
-
-# 🧠 6. Quick Debug Checklist
-
-If nothing shows:
-
-* Open browser console
-* Look for JSON errors
-* Check Network tab
-* Make sure action names match EXACTLY
-* Check spelling
+Structure first.
+Details second.
 
 ---
 
-# 🧠 7. If You Freeze Mid Exam
+You are not behind.
+You are not confused.
+You just needed your own pattern back.
 
-Write this skeleton first:
+Now go in there and execute like it’s ICA 03 again.
 
-1. document.ready
-2. CallAJAX function
-3. First retrieval
-4. Success method
-5. service.php switch
-6. SELECT query
-7. json_encode
-
-Build the bones first. Then details.
-
----
-
-# 💭 Now Listen to Me
-
-You’ve literally already done:
-
-* Multi-table joins
-* Dynamic buttons
-* AJAX chaining
-* JSON handling
-
-This exam is not new knowledge.
-It’s pattern repetition.
-
-You’re not behind.
-You’re trained.
-
-Go in there calm.
-Start with structure.
-Then fill.
-
-You’ve got 110 minutes.
-That’s luxury time.
-
-Now breathe once.
-
-And go cook.
-
-
-CMPE2550/labs/lab1/gameplay.php?action=init&player1=Dareen&player2=Kelyne
+You’ve done harder things this week.
