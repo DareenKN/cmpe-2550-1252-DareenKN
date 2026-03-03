@@ -1,76 +1,38 @@
-Okay Dareen.
-We are not walking into that lab exam scared.
-We are walking in calm. Structured. Dangerous. 💻✨
+Okay. Breathe.
 
-I read your ICA + assignment description () and your full working stack (HTML, JS, CSS). This cheat sheet is tailored to **exactly** what your prof likes.
+You’ve done ICAs on this. You literally built the patterns already. The exam is just going to remix them.
 
----
-
-# 🌸 CMPE2550 – LAB EXAM 02 CHEAT SHEET
-
-### (Up to Retrieval Only – NO INSERT/UPDATE/DELETE)
+You have **30 minutes**, so I’m giving you a tight, high-yield, “write-this-and-don’t-think” cheat sheet. No fluff. Just structure and traps to avoid.
 
 ---
 
-# 🧠 1. THE BIG PICTURE (What They’re Testing)
+# 🚨 LAB EXAM 02 – DATABASE RETRIEVAL CHEAT SHEET
 
-You must know:
-
-```
-HTML  →  jQuery AJAX  →  service.php  →  MySQL  →  JSON  →  Back to JS  →  Display
-```
-
-If you understand this flow, you pass.
+**Coverage: SELECT only (NO insert / update / delete)**
+So this is basically your ICA 03 pattern.
 
 ---
 
-# 🗂 2. FILE STRUCTURE (Memorize This)
+# 🧠 1. Big Picture Flow (Memorize This)
 
-```
-index.html
-dataRetrieval.js
-service.php
-db.php
-css/style.css
-```
+### Page Loads
 
----
-
-# 🧩 3. HTML TEMPLATE STRUCTURE
-
-You already nailed this in your ICA 
-
-### 🔹 Authors Table
-
-```html
-<tbody id="authors-body"></tbody>
-<p id="status"></p>
-<p id="ifnobooks"></p>
+```js
+$(document).ready(function () {
+    $('.data-section').hide();
+    GetAllSomething();
+});
 ```
 
-### 🔹 Books Table
+### Button Click (Dynamic)
 
-```html
-<tbody id="books-body"></tbody>
-<p id="book-status"></p>
+```js
+$(document).on('click', '.btn-retrieve', FunctionName);
 ```
 
-### 🔹 jQuery Include (DO NOT FORGET THIS)
+### AJAX Call
 
-```html
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script defer src="dataRetrieval.js"></script>
-```
-
-If jQuery is missing → NOTHING WORKS.
-
----
-
-# ⚡ 4. MASTER AJAX TEMPLATE (Memorize This Like a Prayer)
-
-From your ICA :
-
-```javascript
+```js
 function CallAJAX(url, method, data, dataType, successMethod, errorMethod) {
     $.ajax({
         url: url,
@@ -83,59 +45,53 @@ function CallAJAX(url, method, data, dataType, successMethod, errorMethod) {
 }
 ```
 
-You can reuse this for EVERYTHING.
-
 ---
 
-# 🚀 5. PAGE LOAD → GET ALL RECORDS
+# 🧠 2. Retrieval Pattern (Frontend JS)
 
-```javascript
-$(document).ready(function () {
-    GetAllAuthors();
-});
-```
+## 🔹 Step 1 – First Retrieval
 
-### 🔹 AJAX Call
-
-```javascript
+```js
 function GetAllAuthors() {
     let data = {};
     data["action"] = "GetAllAuthors";
 
     CallAJAX("service.php", "get", data, "json",
-             GetAllAuthorsSuccess, ErrorMethod);
+        GetAllAuthorsSuccess,
+        ErrorMethod
+    );
 }
 ```
 
 ---
 
-# 🎯 6. SUCCESS METHOD PATTERN
+## 🔹 Step 2 – Success Method
 
-```javascript
+```js
 function GetAllAuthorsSuccess(returnedData) {
 
     let tbody = $("#authors-body");
     tbody.empty();
 
     if (!returnedData.authors || returnedData.authors.length === 0) {
+        $('.data-section').hide();
         return;
     }
 
     returnedData.authors.forEach(author => {
+
         let row = `
             <tr>
                 <td>
-                    <button class="btn btn-retrieve"
-                            data-author="${author[0]}">
+                    <button class="btn btn-retrieve" data-author="${author[0]}">
                         Retrieve
                     </button>
                 </td>
                 <td>${author[0]}</td>
                 <td>${author[1]}</td>
-                <td>${author[2]}</td>
-                <td>${author[3]}</td>
             </tr>
         `;
+
         tbody.append(row);
     });
 
@@ -145,265 +101,251 @@ function GetAllAuthorsSuccess(returnedData) {
 
 ---
 
-# 🔁 7. EVENT DELEGATION (VERY IMPORTANT)
+## 🔹 Step 3 – Retrieve Related Data
 
-Because buttons are dynamic:
-
-```javascript
-$(document).on('click', '.btn-retrieve', GetTitlesByAuthor);
-```
-
-NOT:
-
-```javascript
-$('.btn-retrieve').click(...)
-```
-
-That won’t work for dynamic rows.
-
----
-
-# 📚 8. SECOND RETRIEVAL (By ID)
-
-```javascript
+```js
 function GetTitlesByAuthor() {
 
-    let au_id = $(this).data("author");
+    let id = $(this).data("author");
 
     let data = {};
     data["action"] = "GetTitlesByAuthor";
-    data["au_id"] = au_id;
+    data["id"] = id;
 
     CallAJAX("service.php", "get", data, "json",
-             GetTitlesByAuthorSuccess, ErrorMethod);
+        GetTitlesByAuthorSuccess,
+        ErrorMethod
+    );
 }
 ```
 
 ---
 
-# ❗ 9. HANDLE EMPTY RESULTS (PROF LOVES THIS)
+## 🔹 Step 4 – Second Success Method
 
-From assignment page 2 image ():
+```js
+function GetTitlesByAuthorSuccess(returnedData) {
 
-> Do NOT show empty table. Show status message.
+    let tbody = $("#books-body");
+    tbody.empty();
 
-```javascript
-if (!returnedData.titles || returnedData.titles.length === 0) {
-    $('.data-section').hide();
-    $('#ifnobooks').html(returnedData.message);
-    return;
+    if (!returnedData.titles || returnedData.titles.length === 0) {
+        $('.data-section').hide();
+        $('#error_status').html(returnedData.message);
+        return;
+    }
+
+    $('.data-section').show();
+    $('#error_status').empty();
+
+    returnedData.titles.forEach(book => {
+
+        let row = `
+            <tr>
+                <td>${book[0]}</td>
+                <td>${book[1]}</td>
+                <td>${book[2]}</td>
+            </tr>
+        `;
+
+        tbody.append(row);
+    });
+
+    $('#book-status').html(returnedData.message);
 }
 ```
 
-This is a MARKS POINT.
+---
+
+# 🧠 3. service.php Pattern (VERY IMPORTANT)
+
+This is where most people mess up.
 
 ---
 
-# 🐘 10. service.php STRUCTURE (SUPER IMPORTANT)
-
-This is where most students panic.
-
-### 🔹 Skeleton Structure
+## 🔹 Always Start Like This
 
 ```php
-<?php
 require_once("db.php");
 
-$action = $_GET["action"];
+$action = $_GET["action"] ?? $_POST["action"] ?? "";
 
-if ($action == "GetAllAuthors") {
-    GetAllAuthors();
-}
-else if ($action == "GetTitlesByAuthor") {
-    GetTitlesByAuthor();
+switch($action)
+{
+    case "GetAllAuthors":
+        GetAllAuthors();
+        break;
+
+    case "GetTitlesByAuthor":
+        GetTitlesByAuthor();
+        break;
 }
 ```
 
 ---
 
-# 🗄 11. DATABASE CONNECTION (db.php Pattern)
+## 🔹 Retrieval Function
 
 ```php
-<?php
-$servername = "localhost";
-$username = "yourUser";
-$password = "yourPassword";
-$dbname = "yourDatabase";
+function GetAllAuthors()
+{
+    global $pdo;
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+    $sql = "SELECT au_id, au_lname, au_fname FROM authors";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-?>
-```
+    $authors = $stmt->fetchAll(PDO::FETCH_NUM);
 
-If DB doesn’t connect → NOTHING works.
-
----
-
-# 📊 12. PHP RETRIEVAL FUNCTION TEMPLATE
-
-### 🔹 GetAllAuthors
-
-```php
-function GetAllAuthors() {
-
-    global $conn;
-
-    $sql = "SELECT au_id, au_lname, au_fname, phone
-            FROM authors";
-
-    $result = $conn->query($sql);
-
-    $authors = [];
-
-    while ($row = $result->fetch_assoc()) {
-        $authors[] = array_values($row);
-    }
-
-    $response = [
+    echo json_encode([
         "authors" => $authors,
-        "message" => "Retrieved: " . count($authors) . " author records"
-    ];
-
-    echo json_encode($response);
+        "message" => "Authors retrieved successfully."
+    ]);
 }
 ```
 
 ---
 
-### 🔹 GetTitlesByAuthor (JOIN Example)
+## 🔹 Retrieval With Parameter
 
 ```php
-function GetTitlesByAuthor() {
+function GetTitlesByAuthor()
+{
+    global $pdo;
 
-    global $conn;
+    $au_id = $_GET["au_id"] ?? "";
 
-    $au_id = $_GET["au_id"];
+    $sql = "
+        SELECT t.title_id, t.title, t.type, t.price
+        FROM titles t
+        INNER JOIN titleauthor ta ON t.title_id = ta.title_id
+        WHERE ta.au_id = ?
+    ";
 
-    $sql = "SELECT t.title_id, t.title, t.type, t.price
-            FROM titles t
-            JOIN titleauthor ta ON t.title_id = ta.title_id
-            WHERE ta.au_id = '$au_id'";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$au_id]);
 
-    $result = $conn->query($sql);
+    $titles = $stmt->fetchAll(PDO::FETCH_NUM);
 
-    $titles = [];
-
-    while ($row = $result->fetch_assoc()) {
-        $titles[] = array_values($row);
-    }
-
-    $response = [
+    echo json_encode([
         "titles" => $titles,
-        "message" => "Retrieved: " . count($titles) . " title records"
-    ];
-
-    echo json_encode($response);
+        "message" => "Titles retrieved successfully."
+    ]);
 }
 ```
 
 ---
 
-# 💡 13. VERY COMMON EXAM ERRORS
+# 🧠 4. db.php Pattern
 
-| Mistake                       | Why It Breaks      |
-| ----------------------------- | ------------------ |
-| Forgetting `json_encode()`    | JS gets nothing    |
-| Forgetting `dataType: "json"` | JS can't parse     |
-| Not using `array_values()`    | JS indexing breaks |
-| Not using event delegation    | Buttons don’t work |
-| Misspelling `action`          | PHP doesn’t match  |
-| Using POST but checking $_GET | Nothing works      |
+```php
+$dsn = "mysql:host=localhost;dbname=your_db;charset=utf8";
 
----
+$username = "root";
+$password = "";
 
-# 🧮 14. MySQL Syntax You Must Know
-
-### 🔹 Basic Select
-
-```sql
-SELECT * FROM table;
-```
-
-### 🔹 Specific Columns
-
-```sql
-SELECT col1, col2 FROM table;
-```
-
-### 🔹 WHERE
-
-```sql
-WHERE column = 'value'
-```
-
-### 🔹 JOIN
-
-```sql
-FROM table1
-JOIN table2 ON table1.id = table2.id
+try {
+    $pdo = new PDO($dsn, $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+}
+catch(PDOException $e) {
+    echo "Connection failed.";
+}
 ```
 
 ---
 
-# 🧪 15. DEBUGGING STRATEGY (When Things Break)
+# 🚨 5. Most Common Exam Mistakes
 
-1. Open browser DevTools
-2. Check Console tab
-3. Check Network → service.php
-4. See response
-5. If blank → PHP error
-6. If HTML returned → not JSON
+### ❌ Forgetting:
 
----
-
-# 🏆 16. WHAT YOUR PROF LIKES
-
-From the assignment pages:
-
-* Immediate retrieval on page load
-* Clean table formatting
-* Status messages
-* No empty tables
-* Clean JSON response
-* Proper JOIN
+* `tbody.empty();`
+* `dataType: "json"`
+* `echo json_encode(...)`
+* `global $pdo;`
+* `?` placeholder in SQL
+* `execute([$variable])`
 
 ---
 
-# 🧘‍♀️ 17. Your Exam Strategy
+### ❌ Using $_POST when you're calling GET
 
-When exam starts:
+Match them.
 
-1. Create DB connection first
-2. Hardcode SELECT in phpMyAdmin → test it
-3. Paste query into PHP
-4. Echo JSON
-5. Test service.php in browser manually
-6. Then build JS
-7. Then build table display
+If AJAX uses:
 
-Always test backend first.
+```js
+method: "get"
+```
 
-Backend working = 70% done.
+Then use:
+
+```php
+$_GET["something"]
+```
 
 ---
 
-Kidah…
-You already built this once.
-This isn’t new knowledge. It’s repetition.
+### ❌ Returning plain text instead of JSON
 
-You’ve handled microcontrollers, UART interrupts, merge conflicts, and Git chaos.
+ALWAYS:
 
-This?
-This is literally just:
+```php
+echo json_encode([...]);
+```
 
-“Get data. Show data.”
+---
 
-You’re not walking in hoping to pass.
+# 🧠 6. Quick Debug Checklist
 
-You’re walking in to collect marks.
+If nothing shows:
 
-Now tell me —
-Do you want me to condense this into a **1-page ultra-compact printable version** too?
+* Open browser console
+* Look for JSON errors
+* Check Network tab
+* Make sure action names match EXACTLY
+* Check spelling
+
+---
+
+# 🧠 7. If You Freeze Mid Exam
+
+Write this skeleton first:
+
+1. document.ready
+2. CallAJAX function
+3. First retrieval
+4. Success method
+5. service.php switch
+6. SELECT query
+7. json_encode
+
+Build the bones first. Then details.
+
+---
+
+# 💭 Now Listen to Me
+
+You’ve literally already done:
+
+* Multi-table joins
+* Dynamic buttons
+* AJAX chaining
+* JSON handling
+
+This exam is not new knowledge.
+It’s pattern repetition.
+
+You’re not behind.
+You’re trained.
+
+Go in there calm.
+Start with structure.
+Then fill.
+
+You’ve got 110 minutes.
+That’s luxury time.
+
+Now breathe once.
+
+And go cook.
