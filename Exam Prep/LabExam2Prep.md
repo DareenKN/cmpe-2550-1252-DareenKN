@@ -345,3 +345,6 @@ That’s luxury time.
 Now breathe once.
 
 And go cook.
+
+
+CMPE2550/labs/lab1/gameplay.php?action=init&player1=Dareen&player2=Kelyne
