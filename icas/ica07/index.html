@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CMPE2550 - ICA 07 - Tug of War</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script defer src="TugofWar.js"></script>
+</head>
+
+<body>
+
+    <header>
+        <h1>CMPE2550 – ICA07 Tug of War</h1>
+    </header>
+
+
+    <!-- Main Container -->
+    <div class="outer-container">
+
+        <!-- Status Panel -->
+        <form onsubmit="return false;">
+            <div class="status-panel">
+                <div class="status-message">
+                    Enter your names below:
+                </div>
+
+                <div class="name-inputs">
+                    <input type="text" name="Player1" placeholder="Player 1 name">
+                    <input type="text" name="Player2" placeholder="Player 2 name">
+                </div>
+
+                <div class="controls">
+                    <button type="submit" name="newGame" id="newGame">New Game</button>
+                    <button type="button" name="quit" id="quit">Quit Game</button>
+                </div>
+            </div>
+        </form>
+
+        <div id="game-area">
+            <hr class="divider">
+
+
+            <!-- Game Area -->
+            <div id="game-area">
+
+                <div id="ropeBoard" class="rope-board"></div>
+
+                <button id="pullBtn">Pull</button>
+
+            </div>
+
+        </div>
+    </div>
+    <footer>
+        &copy Copyright 2026 by Dareen Njatou <br>
+        Last modified on
+        <script>document.write(document.lastModified)</script>
+    </footer>
+</body>
+
+</html>

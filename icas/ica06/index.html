@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<title>CMPE2550 – ICA06 [ASP]</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<header>
+<h1>CMPE2550 – ICA06 [ASP]</h1>
+</header>
+
+
+<main>
+
+<section class="welcome-box">
+<h2 id="welcome-message">Welcome to Tim Hortons</h2>
+</section>
+
+
+<section class="location-box">
+
+<h3>Select the location</h3>
+
+<select id="location-select">
+<option>Select location...</option>
+</select>
+
+</section>
+
+
+<section class="menu-box">
+
+<h3>Select your items from the Menu</h3>
+
+<ol id="menu-list">
+<li>Muffins - $2.29</li>
+<li>Croissants - $2.19</li>
+<li>Cookies - $1.49</li>
+<li>Iced Coffee - $2.49</li>
+<li>Pumpkin Spice Iced Capp - $4.29</li>
+<li>Caramel Toffee Cold Brew - $3.99</li>
+</ol>
+
+</section>
+
+
+<section class="order-box">
+
+<h3>Order Processing</h3>
+
+<div class="form-row">
+<label>Name</label>
+<input type="text" id="customer-name">
+</div>
+
+<div class="form-row">
+<label>Item Ordered</label>
+<select id="item-select"></select>
+</div>
+
+<div class="form-row">
+<label>How many items</label>
+<input type="number" id="quantity" min="1">
+</div>
+
+<div class="form-row">
+<label>Payment Method</label>
+<select id="payment">
+<option>Cash</option>
+<option>Debit</option>
+<option>Credit</option>
+</select>
+</div>
+
+<button id="place-order" class="btn">Place Order</button>
+
+</section>
+
+
+<section id="order-details"></section>
+
+
+</main>
+
+
+<footer>
+© Copyright 2026 by Dareen Njatou <br>
+Last modified on
+<script>document.write(document.lastModified)</script>
+</footer>
+
+</body>
+
+</html>
