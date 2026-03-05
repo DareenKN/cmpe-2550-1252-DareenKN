@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="script.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <form action="https://localhost:7192/withData" method="get">
+        <label>Name : <input type="text" id="name" name="name"></label>
+        <label>Location : <input type="text" id="location" name="location"></label>
+        <label>Age : <input type="number" id="age" name="age"></label>
+        <button type="submit">Submit!</button>
+    </form>
+    <button id="submitPost" type="button">Submit Post!</button>
+    <div id="output"></div>
+</body>
+</html>

@@ -121,27 +121,19 @@ header h1 {
 
 /* ===== Buttons ===== */
 
-.btn{
-
+button{
 padding:10px 24px;
-
 border:none;
 border-radius:8px;
-
 cursor:pointer;
-
 background:linear-gradient(135deg,#6b3fa0,#8a63c9);
 
 color:white;
-
 font-size:16px;
-
 box-shadow:
 0 3px 0 #4a2c74,
 0 6px 14px rgba(0,0,0,0.35);
-
 transition:0.15s ease;
-
 }
 
 .btn:hover{
@@ -156,67 +148,49 @@ transform:translateY(1px);
 /* ===== Game Board ===== */
 
 .game-area{
-
 background:#ffffff;
-
 border:2px solid #7a57b6;
-
 border-radius:12px;
-
 padding:20px;
 
 display:flex;
 flex-direction:column;
 align-items:center;
 gap:20px;
-
 }
 
 
 /* grid board */
 
 .board{
-
 display:grid;
-
 grid-template-columns:repeat(65,12px);
-
 gap:1px;
-
 background:#7a57b6;
-
 padding:4px;
-
 }
 
 
 /* cells */
 
 .cell{
-
 width:12px;
 height:12px;
-
 background:#ffffff;
-
 }
 
 
 /* rope */
 
 .rope{
-
 background:#4caf50;
-
 }
 
 
 /* ===== Pull Button ===== */
 
 .pull-btn{
-
 margin-top:10px;
-
 }
 
 
