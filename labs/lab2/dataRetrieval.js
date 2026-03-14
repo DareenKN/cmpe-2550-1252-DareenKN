@@ -11,10 +11,10 @@ let edited_title_id = null;
 let originalRowData = {};
 
 $(document).ready(function () {
-    $('.data-section').hide();
-    GetAllAuthors();
-    AddTypesForm();
-    LoadAuthors();
+    // $('.data-section').hide();
+    // GetAllAuthors();
+    // AddTypesForm();
+    // LoadAuthors();
 });
 
 
