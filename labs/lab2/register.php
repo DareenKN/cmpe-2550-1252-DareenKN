@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             if (isset($_SESSION["username"]) && $_SESSION["username"] == $username && password_verify($password, $_SESSION["hash"])) {
                 $output["status"] = "Login success";
-                header("Location: login.php");
+                header("Location: index.php");
             } else {
                 $output["status"] = "Login failed";
             }

@@ -1,5 +1,14 @@
 <?php
-error_log("Inside Login.php");
+error_log("Inside index.php");
+session_start();
+// If logout button is pressed, destroy the session and redirect to register page
+if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST["action"] == "logout") {
+
+    session_destroy();
+
+    header("Location: register.php");
+    exit();
+}
 
 ?>
 
@@ -25,9 +34,11 @@ error_log("Inside Login.php");
         <section class="auth-container">
 
             <div class="auth-card">
-
-                <button>Logout</button>
-
+                <form method="POST">
+                    <center>
+                        <button class="btn" type="submit" name="action" value="logout" id="btn-logout">Logout</button>
+                    </center>
+                </form>
                 <div id="auth-status">
                     Page Status: Welcome
                 </div>
