@@ -31,8 +31,8 @@ CREATE TABLE roles (
 
 -- USER ROLES LINK TABLE
 CREATE TABLE user_roles (
-    user_id INT,
-    role_id INT,
+    user_id INT NOT NULL,
+    role_id INT NOT NULL, 
     PRIMARY KEY(user_id, role_id),
     FOREIGN KEY(user_id) REFERENCES users(user_id) ON DELETE CASCADE,
     FOREIGN KEY(role_id) REFERENCES roles(role_id) ON DELETE CASCADE

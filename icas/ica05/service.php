@@ -107,30 +107,20 @@ function GetAllAuthors()
     error_log("Something went wrong with the query!");
 
   // Set message based on number of authors retrieved
-  switch (count($output["authors"])) {
-    case 0:
-      $output["message"] = "No author records found.";
-      break;
-    case 1:
-      $output["message"] = "Retrieved: 1 author record.";
-      break;
-    default:
-      $output["message"] = "Retrieved: " . count($output["authors"]) . " author records.";
-      break;
-  }
+  $output["message"] = "Retrieved: " . count($output["authors"]) . " author records.";
 }
 
 function GetAuthorNames()
 {
   global $output;
-
-  $query = "SELECT au_id, CONCAT(au_lname, ', ', au_fname) FROM authors ORDER BY au_lname";
-
-  if ($result = mySqlQuery($query)) {
-    $output["authors"] = $result->fetch_all();
-  } else {
-    $output["error"] = "Failed to retrieve authors";
+  $query = "SELECT au_id, CONCAT(au_lname, ', ', au_fname) AS author_name FROM authors ORDER BY au_lname";
+  $result = mySqlQuery($query);
+  if (!$result) {
+    $output["error"] = "Failed to retrieve author names";
+    return;
   }
+
+  $output["authors"] = $result->fetch_all();
 }
 
 
@@ -153,12 +143,10 @@ function GetTitlesByAuthor()
   $au_id = $clean_get["au_id"];
 
   // Query to get titles by author ID
-  $query = "
-        SELECT t.title_id, t.title, t.type, t.price
-        FROM titles t
-        JOIN titleauthor ta ON t.title_id = ta.title_id
-        WHERE ta.au_id = '$au_id'
-    ";
+  $query = "SELECT t.title_id, t.title, t.type, t.price
+            FROM titles t
+              JOIN titleauthor ta ON t.title_id = ta.title_id
+            WHERE ta.au_id = '$au_id'";
 
   // Execute query and fetch results
   if ($queryOutput = mySqlQuery($query)) {
@@ -168,17 +156,7 @@ function GetTitlesByAuthor()
   }
 
   // Set message based on number of titles retrieved
-  switch (count($output["titles"])) {
-    case 0:
-      $output["message"] = "No titles found for the specified author.";
-      break;
-    case 1:
-      $output["message"] = "Retrieved: 1 title record.";
-      break;
-    default:
-      $output["message"] = "Retrieved: " . count($output["titles"]) . " title records.";
-      break;
-  }
+  $output["message"] = "Retrieved: " . count($output["titles"]) . " title records.";
 }
 
 /**
@@ -203,13 +181,13 @@ function DeleteTitle()
 
   // Ensure no issue occured when deleting the titleauthor
   $result1 = -1;
-  if ($result1 = mySqlNonQuery(($query1)) >= 0) {
+  if ($result1 = mySqlNonQuery($query1) >= 0) {
     error_log("$result1 records were successfully deleted in titleAuthors");
     $output["message"] = "$result1 records were succesfully deleted in titleAuthors";
 
     // Ensure no issue occur with deleting titles
     $result2 = -1;
-    if ($result2 = mySqlNonQuery(($query2)) >= 0) {
+    if ($result2 = mySqlNonQuery($query2) >= 0) {
       error_log("$result2 records were successfully deleted");
       $output["message"] = "$result2 records were succesfully deleted";
     } else {
@@ -259,12 +237,13 @@ function EditTitle()
 
   // Retrieve title details
   $title_id = $clean_get["title_id"];
-  $query_title = "SELECT title, type, price FROM titles WHERE title_id = '$title_id'";
-  if ($queryOutput = mySqlQuery($query_title)) {
-    $titleData = $queryOutput->fetch_assoc();
-    $output["title"] = $titleData["title"];
-    $output["type"] = $titleData["type"];
-    $output["price"] = $titleData["price"];
+  $query = "SELECT title, type, price FROM titles WHERE title_id = '$title_id'";
+  if ($result = mySqlQuery($query)) {
+    $row = $result->fetch_assoc();
+    error_log(print_r($row, true));
+    $output["title"] = $row["title"];
+    $output["type"] = $row["type"];
+    $output["price"] = $row["price"];
   } else {
     $output["error"] = "Failed to retrieve title details";
     return;
@@ -308,8 +287,8 @@ function UpdateTitle()
 
   // Update title details
   $query = "UPDATE titles 
-              SET title = '$title', type = '$type', price = '$price' 
-              WHERE title_id = '$title_id'";
+            SET title = '$title', type = '$type', price = '$price' 
+            WHERE title_id = '$title_id'";
 
   // Execute update query
   $result = mySQLNonQuery($query);
@@ -363,23 +342,19 @@ function AddTitle()
   $title_id = $clean_post["title_id"];
   $title = $clean_post["title"];
   $type = $clean_post["type"];
-  $price = $clean_post["price"];
+  $price = (float)$clean_post["price"];
   $authors = $clean_post["authors"]; // array
 
   /* -----------------------------
      Insert title ONLY if missing
   ----------------------------- */
 
-  $exists = mySqlQuery(
-    "SELECT title_id FROM titles WHERE title_id = '$title_id'"
-  );
+  $exists = mySqlQuery("SELECT title_id FROM titles WHERE title_id = '$title_id'");
 
   if (!$exists || $exists->num_rows === 0) {
 
-    $query = "
-            INSERT INTO titles (title_id, title, type, price)
-            VALUES ('$title_id', '$title', '$type', '$price')
-        ";
+    $query = "INSERT INTO titles (title_id, title, type, price)
+              VALUES ('$title_id', '$title', '$type', '$price')";
 
     if (mySqlNonQuery($query) < 1) {
       $output["error"] = "Failed to insert title.";
@@ -389,20 +364,20 @@ function AddTitle()
 
   foreach ($authors as $au_id) {
 
-    $check = mySqlQuery("
-            SELECT 1 FROM titleauthor
-            WHERE au_id = '$au_id'
-              AND title_id = '$title_id'
-        ");
+    $check = mySqlQuery(" SELECT 1 FROM titleauthor
+                          WHERE au_id = '$au_id'
+                          AND title_id = '$title_id'");
 
     if ($check && $check->num_rows > 0) {
       continue; // already linked
     }
-
-    mySqlNonQuery("
-            INSERT INTO titleauthor (au_id, title_id)
-            VALUES ('$au_id', '$title_id')
-        ");
+    $query = "INSERT INTO titleauthor (au_id, title_id)
+              VALUES ('$au_id', '$title_id')";
+              
+    if (mySqlNonQuery($query) < 1) {
+      $output["error"] = "Failed to link title with author ID: $au_id";
+      return;
+    }
   }
 
   $output["message"] = "Book and author links saved successfully.";

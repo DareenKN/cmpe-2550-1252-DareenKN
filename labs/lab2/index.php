@@ -1,15 +1,19 @@
 <?php
 error_log("Inside index.php");
 session_start();
-// If logout button is pressed, destroy the session and redirect to register page
-if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST["action"] == "logout") {
 
-    session_destroy();
-
+if (!isset($_SESSION["username"])) {
     header("Location: register.php");
     exit();
 }
 
+$username = $_SESSION["username"];
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST["action"] == "logout") {
+    session_destroy();
+    header("Location: register.php");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -34,13 +38,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST["action"] == "logout") {
         <section class="auth-container">
 
             <div class="auth-card">
-                <form method="POST">
-                    <center>
-                        <button class="btn" type="submit" name="action" value="logout" id="btn-logout">Logout</button>
-                    </center>
-                </form>
-                <div id="auth-status">
-                    Page Status: Welcome
+
+                <div class="menu-container">
+
+                    <div class="menu-row">
+                        <div class="menu-left">
+                            <a href="user_management.php">User Management</a>
+                            <a href="role_management.php">Role Management</a>
+                        </div>
+
+                        <div class="menu-right">
+                            <a href="messages.php">Messages</a>
+                        </div>
+                    </div>
+
+                    <form method="POST" class="logout-form">
+                        <button class="btn" type="submit" name="action" value="logout">Logout</button>
+                    </form>
+
+                    <div id="auth-status">
+                        Page Status : Welcome <?php echo $username; ?>!
+                    </div>
+
                 </div>
 
             </div>

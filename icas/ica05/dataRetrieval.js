@@ -49,18 +49,18 @@ function CallAJAX(url, method, dataType, data, successMethod, errorMethod) {
 *FunctionName:    GetAllAuthorsSuccess
 *Description:     Success method for GetAllAuthors AJAX call 
 */
-function GetAllAuthorsSuccess(returnedData) {
-    console.log(returnedData);
+function GetAllAuthorsSuccess(data) {
+    console.log(data);
 
     let tbody = $("#authors-body");
     tbody.empty();
 
-    if (!returnedData.authors || returnedData.authors.length === 0) {
+    if (!data.authors || data.authors.length === 0) {
         $('.data-section').hide();
         return;
     }
 
-    returnedData.authors.forEach(author => {
+    data.authors.forEach(author => {
         // Create table row for each author
         let row = `<tr>
                 <td>
@@ -75,7 +75,7 @@ function GetAllAuthorsSuccess(returnedData) {
             </tr>`;
 
         tbody.append(row);
-        $('#status').html(returnedData.message);
+        $('#status').html(data.message);
     });
 }
 
@@ -100,16 +100,16 @@ function GetTitlesByAuthor() {
  * FunctionName:    GetTitlesByAuthorSuccess
  * Description:     Success method for GetTitlesByAuthor AJAX call
  */
-function GetTitlesByAuthorSuccess(returnedData) {
-    console.log(returnedData);
+function GetTitlesByAuthorSuccess(data) {
+    console.log(data);
 
     let tbody = $("#books-body");
     tbody.empty();
 
     // If no titles returned, show message and hide table
-    if (!returnedData.titles || returnedData.titles.length === 0) {
+    if (!data.titles || data.titles.length === 0) {
         $('.data-section').hide();
-        $('#error_status').html(returnedData.message);
+        $('#error_status').html(data.message);
         return;
     }
     // Populate titles table
@@ -117,7 +117,7 @@ function GetTitlesByAuthorSuccess(returnedData) {
     $('.data-section').show();
 
     $('#bookHeading').html(`Books for author: ${currentAuthorId}`);
-    returnedData.titles.forEach(book => {
+    data.titles.forEach(book => {
 
         let row = `<tr>
                 <td id="btn-${book[0]}">
@@ -133,7 +133,7 @@ function GetTitlesByAuthorSuccess(returnedData) {
         tbody.append(row);
     });
     // Update status message
-    $('#book-status').html(returnedData.message);
+    $('#book-status').html(data.message);
 }
 
 /**
@@ -183,28 +183,28 @@ function EditTitle() {
 
     CallAJAX("service.php", "get", "json",
         { action: "EditTitle", title_id: title_id },
-        function (returnedData) {
+        function (data) {
             $('#error_status').empty();
-            console.log(returnedData);
+            console.log(data);
 
-            if (hasError(returnedData)) return;
+            if (hasError(data)) return;
             if (edited_title_id === null) return;
 
             const title_id = edited_title_id;
 
             originalRowData[title_id] = {
-                title: returnedData.title,
-                price: returnedData.price,
-                type: returnedData.type
+                title: data.title,
+                price: data.price,
+                type: data.type
             };
 
             console.log("Editing title ID:", title_id);
 
             // Update status message
-            $('#book-status').html(returnedData.message);
+            $('#book-status').html(data.message);
 
             // Render edit form and bind handlers
-            renderEdit(title_id, returnedData);
+            renderEdit(title_id, data);
         }, ErrorMethod);
 }
 
@@ -219,6 +219,7 @@ function hasError(data) {
         $('#book-status').html(data.error);
         return true;
     }
+    $('#book-status').html("");
     return false;
 }
 
@@ -250,7 +251,7 @@ function renderEdit(title_id, data) {
  * Description:     Resets the row buttons and infos when cancel is clicked
  */
 function CancelUpdate() {
-    $('#error_status').empty();;
+    $('#error_status').empty();
     edited_title_id = null;
 
     let title_id = $(this).data("title");
@@ -265,6 +266,9 @@ function CancelUpdate() {
     $(`#title-${title_id}`).html(original.title);
     $(`#price-${title_id}`).html(original.price);
     $(`#type-${title_id}`).html(original.type);
+
+    // Reset status
+    $('#book-status').html("Edit cancelled.");
 }
 
 /** 
@@ -291,16 +295,16 @@ function UpdateTitle() {
             price: $(`#price-input-${title_id}`).val(),
             type: $(`#types-select-${title_id}`).val()
         },
-        function (returnedData) {
+        function (data) {
             $('#error_status').empty();
-            console.log(returnedData);
+            console.log(data);
 
-            if (returnedData.error) {
-                $('#error_status').html(returnedData.error);
+            if (data.error) {
+                $('#error_status').html(data.error);
                 return;
             }
 
-            $('#book-status').html(returnedData.message);
+            $('#book-status').html(data.message);
 
             // Refresh the titles table after update
             let au_id = currentAuthorId;

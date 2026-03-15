@@ -1,8 +1,10 @@
 <?php
+require_once "db.php";
+require_once "functions.php";
 session_start();
 error_log("Inside Register.php");
 
-$output = [];
+$status = "";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     error_log("In main lgic");
@@ -11,33 +13,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $action = $_POST['action'];
 
     if ($username == '') {
-        $output['status'] = "No username supplied";
-        error_log(json_encode($output));
+        $status = "No username supplied";
+        error_log($status);
     } elseif ($password == '') {
-        $output['status'] = "No password supplied";
-        error_log(json_encode($output));
+        if (userCheck($username) && $action == "register") {
+            $status = "User already exists";
+            error_log($status);
+        } else
+            $status = "No password supplied";
+        error_log($status);
     } else {
-
-        $secret = password_hash($password, PASSWORD_DEFAULT);
         error_log(("Password: $password"));
-        error_log("Encoded : $secret");
 
         if ($action == "register") {
-
-            $_SESSION["username"] = $username;
-            $_SESSION["hash"] = $secret;
-
-            $output["status"] = "Registered";
-            error_log(json_encode($output));
+            $success = RegisterCheck($username, $password);
+            if ($success) {
+                $_SESSION["username"] = $username;
+            }
         }
 
         if ($action == "login") {
-
-            if (isset($_SESSION["username"]) && $_SESSION["username"] == $username && password_verify($password, $_SESSION["hash"])) {
-                $output["status"] = "Login success";
+            $success = LoginCheck($username, $password);
+            if ($success) {
+                $_SESSION["username"] = $username;
                 header("Location: index.php");
-            } else {
-                $output["status"] = "Login failed";
             }
         }
     }
@@ -56,7 +55,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 
 <body>
-
     <header>
         <h1>Lab02 – Register / Login</h1>
     </header>
@@ -70,7 +68,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <form method="POST">
                     <div class="form-row">
                         <label for="username">User Name:</label>
-                        <input type="text" name="username" id="username" placeholder="Supply a username">
+                     <input type="text" name="username" id="username" placeholder="Supply a username"
+                            value="<?php echo $username ?? '' ?>">
                     </div>
 
                     <div class="form-row">
@@ -86,9 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                     <div id="auth-status">
                         Page Status:
-                        <?php
-                        if (isset($output["status"]))
-                            echo $output["status"]; ?>
+                        <?php echo $status ?? ''; ?>
                     </div>
                 </form>
             </div>
