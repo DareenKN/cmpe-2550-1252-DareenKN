@@ -42,14 +42,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST["action"] == "logout") {
                 <div class="menu-container">
 
                     <div class="menu-row">
-                        <div class="menu-left">
-                            <a href="user_management.php">User Management</a>
-                            <a href="role_management.php">Role Management</a>
-                        </div>
+                        <?php if ($_SESSION["rank"] <= 2) { // only Root, Admin, or Moderator can see user management link
+                                echo '<p><a href="user_management.php">User Management</a></p><br>';
+                                echo '<p><a href="role_management.php">Role Management</a></p><br>';
+                            } ?>
+                        <p><a href="messages.php">Messages</a></p>
 
-                        <div class="menu-right">
-                            <a href="messages.php">Messages</a>
-                        </div>
                     </div>
 
                     <form method="POST" class="logout-form">

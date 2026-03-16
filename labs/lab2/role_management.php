@@ -9,6 +9,11 @@ if (!isset($_SESSION["username"])) {
     exit();
 }
 
+if ($_SESSION["rank"] > 1) { // only Root or Admin allowed
+    header("Location: index.php?status=Not authorized");
+    exit();
+}
+
 $username = $_SESSION["username"];
 ?>
 

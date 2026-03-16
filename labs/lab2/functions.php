@@ -67,6 +67,18 @@ function LoginCheck($user, $pass)
 
         if (password_verify($pass, $hash)) {
             $status = "Login success";
+
+            $query =   "SELECT r.role_name, r.role_rank
+                        FROM users u
+                        JOIN user_roles ur ON u.user_id = ur.user_id
+                        JOIN roles r ON ur.role_id = r.role_id
+                        WHERE u.username='$user'
+                        ";
+            $row = mySqlQuery($query)->fetch_assoc();
+            $_SESSION["username"] = $user;
+            $_SESSION["role"] = $row["role_name"];
+            $_SESSION["rank"] = $row["role_rank"];
+
             error_log($status);
             return true;
         }
@@ -76,12 +88,13 @@ function LoginCheck($user, $pass)
     return false;
 }
 
-function GetRoles(){
-  $query_roles = "SELECT DISTINCT role_name FROM roles";
+function GetRoles()
+{
+    $query_roles = "SELECT DISTINCT role_name FROM roles";
     if ($roles = mySqlQuery($query_roles)) {
-      return $roles->fetch_all();
+        return $roles->fetch_all();
     } else {
-      return false;
+        return false;
     }
 }
 ?>

@@ -1,21 +1,14 @@
 /**
- * CMPE2550 – LAB 02 – MySQL Data Manipulation via AJAX
+ * CMPE2550 – LAB 02 – Authentication/Authorization
  * Name: Dareen Kinga Njatou
  * dataRetrieval.js
  * Description: JavaScript file to retrieve authors and their books from MySQL database via AJAX
  * Date: February 05, 2026
  */
 
-let currentAuthorId = null;
-let edited_title_id = null;
-let originalRowData = {};
-
 $(document).ready(function () {
-  // $('.data-section').hide();
   $("#addUser").click(AddUser);
   GetAllUsers();
-  // AddTypesForm();
-  // LoadAuthors();
 });
 
 
@@ -44,26 +37,15 @@ function GetAllUsersSuccess(data) {
     });
 
     let row = `<tr>
-                <td>
-                  <button class="btn btn-delete" data-user="${user.user_id}" onclick="DeleteUser(${user.user_id})">Delete</button>
-                </td>
+                <td><button class="btn btn-delete" data-user="${user.user_id}" onclick="DeleteUser(${user.user_id})">Delete</button></td>
 
                 <td>${user.user_id}</td>
                 <td>${user.username}</td>
                 <td>${user.password_hash}</td>
 
-                <td>
-                  <select class="role-select" data-user="${user.user_id}">
-                    ${options}
-                  </select>
-                </td>
-
-                <td>
-                  <button class="btn btn-change-role" data-user="${user.user_id} " onclick="ChangeUserRole(${user.user_id})">
-                    Change Role
-                  </button>
-                </td>
-            </tr>`;
+                <td><select class="role-select" data-user="${user.user_id}">${options}</select></td>                
+                <td><button class="btn btn-change-role" data-user="${user.user_id} " onclick="ChangeUserRole(${user.user_id})">Change Role</button></td>
+              </tr>`;
     tbody.append(row);
     $("#status").html(data.message);
   });

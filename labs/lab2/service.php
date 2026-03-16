@@ -107,6 +107,7 @@ function GetAllRoles()
 
 function AddUser()
 {
+  session_start();
   global $output, $clean_post;
 
   $username = $clean_post["username"] ?? "";
@@ -119,7 +120,7 @@ function AddUser()
   }
   if (empty($password)) {
     if (userCheck($username)) {
-    $output["error"] = "Username already exists";
+      $output["error"] = "Username already exists";
     } else {
       $output["error"] = "Password is required";
     }
@@ -133,6 +134,21 @@ function AddUser()
   if (!userCheck($username)) {
     $secret = password_hash($password, PASSWORD_DEFAULT);
     error_log("Encoded : $secret");
+
+    // Get current user's rank for authorization check
+    $current_rank = $_SESSION["rank"] ?? 999; // default to lowest rank
+    $query = "SELECT role_rank FROM roles WHERE role_name='$role'";
+    $target_rank = mySqlQuery($query)->fetch_assoc()["role_rank"] ?? 999; // default to lowest rank if not found
+
+    if ($target_rank < $current_rank) {
+      $output["error"] = "Unauthorized: Cannot assign a role higher than your own rank";
+      return;
+    }
+
+    if ($target_rank === $current_rank) {
+      $output["error"] = "Unauthorized: Cannot assign a role equal to your own rank";
+      return;
+    }
 
     $query = "INSERT INTO users (username, password_hash) VALUES ('$username', '$secret')";
     if (mySQLNonQuery($query) < 1) {
@@ -213,6 +229,8 @@ function DeleteUser()
 
 function ChangeUserRole()
 {
+  session_start();
+  $current_rank = $_SESSION["rank"] ?? 999; // default to lowest rank if not set
   global $output, $clean_post;
 
   if (!isset($clean_post["user_id"]) || !isset($clean_post["new_role"])) {
@@ -220,26 +238,34 @@ function ChangeUserRole()
     return;
   }
 
-  $user_id = $clean_post["user_id"];
+  $user_id = (int)$clean_post["user_id"];
   $new_role = $clean_post["new_role"];
-
-  if (empty($user_id)) {
-    $output["error"] = "User ID is required for role change";
-    return;
-  }
 
   if (empty($new_role)) {
     $output["error"] = "New role is required for role change";
     return;
   }
 
+  $query = "SELECT role_rank FROM roles WHERE role_name='$new_role'";
+  $target_rank = mySqlQuery($query)->fetch_assoc()["role_rank"] ?? 999; // default to lowest rank if not found
+  
+   if ($target_rank < $current_rank) {
+    $output["error"] = "Unauthorized: Cannot assign a role higher than your own rank";
+    return;
+  }
+
+  if ($target_rank === $current_rank) {
+    $output["error"] = "Unauthorized: Cannot assign a role equal to your own rank";
+    return;
+  }
+
   $query = "UPDATE user_roles SET role_id = (SELECT role_id FROM roles WHERE role_name='$new_role') 
             WHERE user_id = '$user_id'";
-  $result = mySQLNonQuery($query); 
+  $result = mySQLNonQuery($query);
   if ($result >= 0) {
     $output["message"] = "User role updated successfully";
   } else {
-    error_log("Error updating user role: " . $result ."");
+    error_log("Error updating user role: " . $result . "");
     $output["error"] = "Failed to update user role";
   }
 }

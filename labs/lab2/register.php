@@ -35,7 +35,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($action == "login") {
             $success = LoginCheck($username, $password);
             if ($success) {
-                $_SESSION["username"] = $username;
                 header("Location: index.php");
             }
         }
