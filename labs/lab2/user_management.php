@@ -20,6 +20,8 @@ $username = $_SESSION["username"];
     <title>Lab02 – User Management</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="dataRetrieval.js"></script>
     <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -53,17 +55,19 @@ $username = $_SESSION["username"];
                     <div class="form-row">
                         <label for="role">Role :</label>
                         <select name="role" id="role">
-                            <option value="Member">Member</option>
-                            <option value="Administrator">Administrator</option>
-                            <option value="Root">Root</option>
+                            <?php
+                            foreach (GetRoles() as $role) {
+                                echo "<option value='$role[0]'>$role[0]</option>";
+                            }?>
                         </select>
                     </div>
 
                     <div class="form-row">
-                        <button class="btn" type="submit" name="action" value="addUser">Add User</button>
+                        <button class="btn" type="button" id="addUser">Add User</button>
                     </div>
 
                 </form>
+                <center><p id="form-status"></p></center>
 
             </div>
 
@@ -79,72 +83,13 @@ $username = $_SESSION["username"];
                             <th>UserID</th>
                             <th>UserName</th>
                             <th>Hashed Password</th>
-                            <th>Change Role</th>
+                            <th colspan="2">Change Role</th>
                         </tr>
                     </thead>
-
-                    <tbody>
-
-                        <?php
-                        $query = "SELECT u.user_id, u.username, u.password_hash, r.role_name
-                                  FROM users u
-                                    JOIN user_roles ur ON u.user_id = ur.user_id
-                                    JOIN roles r ON ur.role_id = r.role_id";
-                        $result = mySqlQuery($query);
-                        $count = 0;
-                        if ($result) {
-                            while ($row = $result->fetch_assoc()) {
-                                $count++;
-                                $user_id = $row["user_id"];
-                                $user_name = $row["username"];
-                                $password_hash = $row["password_hash"];
-                                $current_role = $row["role_name"];
-
-                                echo "<tr>";
-
-                                echo "<td>
-                                        <form method='POST'>
-                                            <button class='btn' name='delete_user' value='$user_id'>Delete</button>
-                                        </form>
-                                    </td>";
-
-                                echo "<td>$user_id</td>";
-                                echo "<td>$user_name</td>";
-                                echo "<td>$password_hash</td>";
-
-                                echo "<td>
-                                        <form method='POST'>
-                                        <input type='hidden' name='user_id' value='$user_id'>
-                                        <select name='new_role'>";
-
-                                $roles = mySQLQuery("SELECT role_name FROM roles");
-                                $roleList = [];
-                                while ($role = $roles->fetch_assoc()) {
-                                    $roleList[] = $role["role_name"];
-                                }
-
-                                foreach ($roleList as $role_name) {
-                                    $selected = ($role_name == $current_role) ? "selected" : "";
-
-                                    echo "<option value='$role_name' $selected>$role_name</option>";
-                                }
-
-                                echo "</select>
-                                        <button name='change_role'>Change</button>
-                                    </form>
-                                </td>";
-
-                                echo "</tr>";
-
-                            }
-                        }
-                        ?>
-
-                    </tbody>
-
+                    <tbody></tbody>
                 </table>
 
-                <center><p id="status">Retrieved : <?php echo $count; ?> user records</p></center>
+                <center><p id="status"></p></center>
 
                 <p class="back-link">
                     <a href="index.php">Index</a>

@@ -42,7 +42,7 @@ main {
     border-radius: 18px;
     padding: 30px;
 
-    max-width: 700px;
+    max-width: fit-content;
     margin: 80px auto 0 auto;
 
     background: #f0eef7;
@@ -106,13 +106,15 @@ main {
     transition: 0.15s ease;
 }
 
-.btn:hover {
+button:hover {
     transform: translateY(-2px);
 }
 
-.btn:active {
+button:active {
     transform: translateY(1px);
 }
+
+
 
 /* ===== Status ===== */
 #auth-status {
@@ -288,40 +290,34 @@ footer {
     background:#ffffff;
     border-radius:6px;
     overflow:hidden;
-
     box-shadow:0 4px 10px rgba(0,0,0,0.08);
 }
 
 /* Header */
 .users-table th{
-
     background:linear-gradient(135deg,#cbb7e8,#b39adf);
-
     color:#2a2438;
-
     padding:8px 10px;
-
     font-size:16px;
     font-weight:600;
-
-    text-align:left;
-
+    vertical-align: middle;
     border-bottom:2px solid #a088d0;
 }
 
 /* Cells */
 .users-table td{
-
-    padding:7px 8px;
-
+    padding:3px 5px;
     font-size:15px;
-
     font-family:"DM Sans", system-ui, sans-serif;
-
     border-bottom:1px solid #e4dff3;
-
     vertical-align:middle;
+    max-width: fit-content;
+    
+    white-space:nowrap;
 }
+
+
+
 
 /* alternating rows */
 .users-table tbody tr:nth-child(even){
@@ -356,13 +352,12 @@ footer {
 }
 
 /* Password column */
-.users-table th:nth-child(4),
 .users-table td:nth-child(4){
 
     font-family:monospace;
     font-size:13px;
 
-    max-width:260px;
+    max-width:fit-content;
 
     overflow:hidden;
     text-overflow:ellipsis;
@@ -378,17 +373,17 @@ footer {
 }
 
 /* role dropdown */
-.users-table select{
-
-    padding:4px 6px;
-
-    border-radius:5px;
-
-    border:1px solid #b9a6dc;
-
-    margin-right:6px;
-
-    background:#ffffff;
+.users-table select {
+    appearance: none;
+    background-image:
+        linear-gradient(45deg, transparent 50%, #6a3fa0 50%),
+        linear-gradient(135deg, #6a3fa0 50%, transparent 50%);
+    background-position:
+        calc(100% - 14px) 50%,
+        calc(100% - 8px) 50%;
+    background-size: 6px 6px;
+    background-repeat: no-repeat;
+    padding-right: 22px;
 }
 
 /* keep buttons compact inside table */

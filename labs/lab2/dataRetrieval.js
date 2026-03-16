@@ -1,5 +1,5 @@
 /**
- * CMPE2550 – ICA 05 – MySQL Data Manipulation via AJAX
+ * CMPE2550 – LAB 02 – MySQL Data Manipulation via AJAX
  * Name: Dareen Kinga Njatou
  * dataRetrieval.js
  * Description: JavaScript file to retrieve authors and their books from MySQL database via AJAX
@@ -11,10 +11,11 @@ let edited_title_id = null;
 let originalRowData = {};
 
 $(document).ready(function () {
-    // $('.data-section').hide();
-    // GetAllAuthors();
-    // AddTypesForm();
-    // LoadAuthors();
+  // $('.data-section').hide();
+  $("#addUser").click(AddUser);
+  GetAllUsers();
+  // AddTypesForm();
+  // LoadAuthors();
 });
 
 
@@ -22,11 +23,100 @@ $(document).ready(function () {
  * FunctionName:    GetAllAuthors
  * Description:     Retrieves all authors from the database via AJAX call
  */
-function GetAllAuthors() {
-    CallAJAX("service.php", "get", "json",
-        { action: "GetAllAuthors" },
-        GetAllAuthorsSuccess, ErrorMethod);
+function GetAllUsers() {
+  CallAJAX("service.php", "get", "json",
+    { action: "GetAllUsers" },
+    GetAllUsersSuccess, ErrorMethod);
 }
+
+function GetAllUsersSuccess(data) {
+  console.log(data);
+  $('#status').html(data.message);
+  let tbody = $('.users-table tbody');
+  tbody.empty();
+
+  if (hasError(data)) return;
+  data.users.forEach(user => {
+    options = "";
+    data.roles.forEach(role => {
+      let selected = role[0] === user.role_name ? "selected" : "";
+      options += `<option value="${role[0]}" ${selected}>${role[0]}</option>`;
+    });
+
+    let row = `<tr>
+                <td>
+                  <button class="btn btn-delete" data-user="${user.user_id}" onclick="DeleteUser(${user.user_id})">Delete</button>
+                </td>
+
+                <td>${user.user_id}</td>
+                <td>${user.username}</td>
+                <td>${user.password_hash}</td>
+
+                <td>
+                  <select class="role-select" data-user="${user.user_id}">
+                    ${options}
+                  </select>
+                </td>
+
+                <td>
+                  <button class="btn btn-change-role" data-user="${user.user_id} " onclick="ChangeUserRole(${user.user_id})">
+                    Change Role
+                  </button>
+                </td>
+            </tr>`;
+    tbody.append(row);
+    $("#status").html(data.message);
+  });
+}
+
+function DeleteUser(userId) {
+  // if (!confirm("Are you sure you want to delete this user?")) return;
+  let userRole = $(`.role-select[data-user="${userId}"]`).val();
+  console.log("Deleting user:", userId, userRole);
+  CallAJAX("service.php", "post", "json",
+    { action: "DeleteUser", user_id: userId, user_role: userRole },
+    function (data) {
+      console.log(data);
+      if (hasError(data)) return;
+      $('#status').html(data.message);
+      GetAllUsers();
+    }, ErrorMethod);
+}
+
+function AddUser() {
+  const username = $('#username').val();
+  const password = $('#password').val();
+  const role = $('#role').val();
+
+  console.log("Adding user:", username, role);
+
+  CallAJAX("service.php", "post", "json",
+    { action: "AddUser", username: username, password: password, user_role: role },
+    function (data) {
+      console.log(data);
+      if (data.error) {
+        $('#form-status').html(data.error);
+        return;
+      }
+      $('#form-status').html(data.message);
+      GetAllUsers();
+    }, ErrorMethod);
+}
+
+function ChangeUserRole(userId) {
+  const newRole = $(`.role-select[data-user="${userId}"]`).val();
+  console.log("Changing role for user:", userId, "to", newRole);
+
+  CallAJAX("service.php", "post", "json",
+    { action: "ChangeUserRole", user_id: userId, new_role: newRole },
+    function (data) {
+      console.log(data);
+      if (hasError(data)) return;
+      $('#status').html(data.message);
+      GetAllUsers();
+    }, ErrorMethod);
+}
+
 
 // Event delegation for dynamically created buttons
 //$(document).on('click', '.btn-retrieve', GetTitlesByAuthor);
@@ -36,26 +126,7 @@ function GetAllAuthors() {
 *Description:     Generic AJAX call function 
 */
 function CallAJAX(url, method, dataType, data, successMethod, errorMethod) {
-    $.ajax({ url: url, method: method, dataType: dataType, data: data, success: successMethod, error: errorMethod });
-}
-
-
-
-/**
- * FunctionName:    GetTitlesByAuthor
- * Description:     Retrieves all books by a specific author via AJAX call
- */
-function GetTitlesByAuthor() {
-    let au_id = $(this).data("author");
-    currentAuthorId = au_id;
-    console.log("Author ID:", au_id);
-
-    CallAJAX("service.php", "get", "json",
-        {
-            action: "GetTitlesByAuthor",
-            au_id: au_id
-        },
-        GetTitlesByAuthorSuccess, ErrorMethod);
+  $.ajax({ url: url, method: method, dataType: dataType, data: data, success: successMethod, error: errorMethod });
 }
 
 /**
@@ -65,49 +136,20 @@ function GetTitlesByAuthor() {
  * Outputs:         true if error exists, false otherwise
  */
 function hasError(data) {
-    if (data.error) {
-        $('#book-status').html(data.error);
-        return true;
-    }
-    return false;
+  if (data.error) {
+    $('#status').html(data.error);
+    return true;
+  }
+  return false;
 }
-
-
-function AddTypesForm() {
-    CallAJAX("service.php", "get", "json",
-        { action: "GetTypes" },
-        function (data) {
-            console.log(data);
-
-            data.types.forEach(type => {
-                $(`#add-type`).append(`<option value="${type[0]}">${type[0]}</option>`);
-            });
-        },
-        ErrorMethod);
-}
-
-function LoadAuthors() {
-    CallAJAX("service.php", "get", "json",
-        { action: "GetAuthorNames" },
-        function (data) {
-            data.authors.forEach(a => {
-                $("#add-authors").append(
-                    `<option value="${a[0]}">${a[1]}</option>`
-                );
-            });
-        },
-        ErrorMethod
-    );
-}
-
 
 /**
  * FunctionName:    ErrorMethod
  * Description:     Generic error method for AJAX calls
  */
 function ErrorMethod(req, status, error) {
-    console.log("AJAX ERROR", status, error);
-    console.log(req);
+  console.log("AJAX ERROR", status, error);
+  console.log(req);
 
-    $('#status').html(`An error occurred.`);
+  $('#status').html(`An error occurred.`);
 }

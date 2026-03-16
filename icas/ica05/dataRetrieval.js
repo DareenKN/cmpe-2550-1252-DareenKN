@@ -29,7 +29,6 @@ function GetAllAuthors() {
 }
 
 // Event delegation for dynamically created buttons
-$(document).on('click', '.btn-retrieve', GetTitlesByAuthor);
 $(document).on('click', '.btn-delete', DeleteTitle);
 $(document).on('click', '.btn-edit', EditTitle);
 $(document).on('click', '.btn-update', UpdateTitle);
@@ -63,8 +62,8 @@ function GetAllAuthorsSuccess(data) {
     data.authors.forEach(author => {
         // Create table row for each author
         let row = `<tr>
-                <td>
-                    <button class="btn btn-retrieve" data-author="${author[0]}">
+                <td>                
+                    <button class="btn btn-retrieve" onclick = "GetTitlesByAuthor('${author[0]}')">
                         Retrieve
                     </button>
                 </td>
@@ -83,8 +82,7 @@ function GetAllAuthorsSuccess(data) {
  * FunctionName:    GetTitlesByAuthor
  * Description:     Retrieves all books by a specific author via AJAX call
  */
-function GetTitlesByAuthor() {
-    let au_id = $(this).data("author");
+function GetTitlesByAuthor(au_id) {
     currentAuthorId = au_id;
     console.log("Author ID:", au_id);
 
@@ -149,16 +147,10 @@ function DeleteTitle() {
             action: "DeleteTitle",
             title_id: title_id
         },
-        function (data) {
-            console.log(data);
+        function(data){
+            if (hasError(data)) return;
             $('#book-status').html(data.message);
-
-            // Refresh the titles table after deletion
-            let au_id = currentAuthorId;
-            console.log("Refreshing titles for author ID:", au_id);
-            CallAJAX("service.php", "get", "json",
-                { action: "GetTitlesByAuthor", au_id: au_id },
-                GetTitlesByAuthorSuccess, ErrorMethod);
+            GetTitlesByAuthor(currentAuthorId);
         }, ErrorMethod);
 }
 
@@ -276,7 +268,7 @@ function CancelUpdate() {
  * Description:     Calls update function to update title's infos
  */
 function UpdateTitle() {
-    $('#error_status').empty();;
+    $('#error_status').empty();
     edited_title_id = null;
 
     let title_id = $(this).data("title");
@@ -295,23 +287,10 @@ function UpdateTitle() {
             price: $(`#price-input-${title_id}`).val(),
             type: $(`#types-select-${title_id}`).val()
         },
-        function (data) {
-            $('#error_status').empty();
-            console.log(data);
-
-            if (data.error) {
-                $('#error_status').html(data.error);
-                return;
-            }
-
+        function(data){
+            if (hasError(data)) return;
             $('#book-status').html(data.message);
-
-            // Refresh the titles table after update
-            let au_id = currentAuthorId;
-            console.log("Refreshing titles for author ID:", au_id);
-            CallAJAX("service.php", "get", "json",
-                { action: "GetTitlesByAuthor", au_id: au_id },
-                GetTitlesByAuthorSuccess, ErrorMethod);
+            GetTitlesByAuthor(currentAuthorId);
         }, ErrorMethod);
 }
 
@@ -372,15 +351,8 @@ function AddTitleSuccess(data) {
         .html(data.message);
 
     // refresh current author's books
-    if (currentAuthorId) {
-        // Refresh the titles table after deletion
-        let au_id = currentAuthorId;
-
-        console.log("Refreshing titles for author ID:", au_id);
-        CallAJAX("service.php", "get", "json",
-            { action: "GetTitlesByAuthor", au_id: au_id },
-            GetTitlesByAuthorSuccess, ErrorMethod);
-    }
+    if (currentAuthorId)
+        GetTitlesByAuthor(currentAuthorId);
 }
 
 /**

@@ -75,4 +75,13 @@ function LoginCheck($user, $pass)
     error_log($status);
     return false;
 }
+
+function GetRoles(){
+  $query_roles = "SELECT DISTINCT role_name FROM roles";
+    if ($roles = mySqlQuery($query_roles)) {
+      return $roles->fetch_all();
+    } else {
+      return false;
+    }
+}
 ?>
