@@ -95,8 +95,8 @@ section h2 {
    Inline Edit Controls – Books Table ONLY
 ================================ */
 
-.titles-table input,
-.titles-table select {
+.class-table input,
+.class-table select {
     width: 100%;
     height: 27px;
     /* prevents row jump */
@@ -114,7 +114,7 @@ section h2 {
 }
 
 /* Select dropdown arrow styling */
-.titles-table select {
+.class-table select {
     appearance: none;
     background-image:
         linear-gradient(45deg, transparent 50%, #6a3fa0 50%),
@@ -127,35 +127,79 @@ section h2 {
     padding-right: 22px;
 }
 
-/* Keep buttons compact in edit mode */
-.titles-table .btn {
-    padding: 4px 12px;
-    font-size: 13px;
+/* Table base */
+.class-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
 }
 
-/* Keep Title ID compact */
-.titles-table th:nth-child(2),
-.titles-table td:nth-child(2) {
-    width: 1%;
+/* HEADERS */
+.class-table th {
+    text-align: center !important;
+    vertical-align: middle;
+    white-space: normal;   /* allow wrapping */
+    font-weight: 600;
+}
+
+/* DATA */
+.class-table td {
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 10px;
+}
+
+/* Column widths (apply to BOTH) */
+
+/* Class ID */
+.class-table th:nth-child(1),
+.class-table td:nth-child(1) {
+    width: 8%;
     text-align: center;
 }
 
-/* Let Title column take remaining space */
-.titles-table th:nth-child(3),
-.titles-table td:nth-child(3) {
-    width: 50%;
-    white-space: nowrap;
+/* Class Desc */
+.class-table th:nth-child(2),
+.class-table td:nth-child(2) {
+    width: 28%;
     text-align: left;
 }
 
-.titles-table th:nth-child(4),
-.titles-table td:nth-child(4) {
+/* Days */
+.class-table th:nth-child(3),
+.class-table td:nth-child(3) {
+    width: 7%;
+    text-align: center;
+}
+
+/* Start Date */
+.class-table th:nth-child(4),
+.class-table td:nth-child(4) {
+    width: 21%;
+    text-align: center;
+}
+
+/* Instructor ID */
+.class-table th:nth-child(5),
+.class-table td:nth-child(5) {
+    width: 10%;
+    text-align: center;
+}
+
+/* First Name */
+.class-table th:nth-child(6),
+.class-table td:nth-child(6) {
+    width: 14%;
+    text-align: left;
+}
+
+/* Last Name */
+.class-table th:nth-child(7),
+.class-table td:nth-child(7) {
     width: 15%;
-    white-space: normal;
     text-align: left;
 }
-
 
 .btn {
     margin: 0px;

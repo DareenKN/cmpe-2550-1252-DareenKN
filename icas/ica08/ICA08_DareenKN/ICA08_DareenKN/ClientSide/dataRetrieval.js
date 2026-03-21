@@ -12,65 +12,71 @@ let originalRowData = {};
 
 $(document).ready(function () {
     $('.data-section').hide();
-    GetAllAuthors();
-    AddTypesForm();
-    LoadAuthors();
+    GetEFStudents();
 });
 
 
 /**
- * FunctionName:    GetAllAuthors
+ * FunctionName:    GetEFStudents
  * Description:     Retrieves all authors from the database via AJAX call
  */
-function GetAllAuthors() {
-    CallAJAX("service.php", "get", "json",
-        { action: "GetAllAuthors" },
-        GetAllAuthorsSuccess, ErrorMethod);
+function GetEFStudents() {
+    CallAJAX("https://localhost:7178/EFStudents", "get", "json",
+        {},
+        GetEFStudentsSuccess, ErrorMethod);
 }
 
 // Event delegation for dynamically created buttons
-$(document).on('click', '.btn-delete', DeleteTitle);
-$(document).on('click', '.btn-edit', EditTitle);
-$(document).on('click', '.btn-update', UpdateTitle);
-$(document).on('click', '.btn-cancel', CancelUpdate);
-$(document).on("click", "#btn-add", AddTitle);
-
 
 /** 
 *FunctionName:    CallAJAX
 *Description:     Generic AJAX call function 
 */
-function CallAJAX(url, method, dataType, data, successMethod, errorMethod) {
-    $.ajax({ url: url, method: method, dataType: dataType, data: data, success: successMethod, error: errorMethod });
+function CallAJAX(serverURL, reqMethod, serverResponse, data, successHandler, errorHandler) {
+    console.log("Inside MakeAjaxCall function ");
+
+    let ajaxOptions = {};
+    ajaxOptions['url'] = serverURL;                // Destination URL
+    ajaxOptions['type'] = reqMethod;               // GET/POST
+    ajaxOptions['dataType'] = serverResponse;      // HTML/JSON 
+    ajaxOptions['data'] = JSON.stringify(data);    // Client data   -- NEW for ASP PART
+    ajaxOptions['success'] = successHandler;       // Callback function to handle successful case
+    ajaxOptions['error'] = errorHandler;           // Callback function to handle error 
+
+    ajaxOptions['contentType'] = "application/json"; // NEW for ASP PART
+
+    // actually make ajax call
+    $.ajax(ajaxOptions);
+
 }
 
 /** 
-*FunctionName:    GetAllAuthorsSuccess
-*Description:     Success method for GetAllAuthors AJAX call 
+*FunctionName:    GetEFStudentsSuccess
+*Description:     Success method for GetEFStudents AJAX call 
 */
-function GetAllAuthorsSuccess(data) {
+function GetEFStudentsSuccess(data) {
     console.log(data);
 
     let tbody = $("#student-body");
     tbody.empty();
 
-    if (!data.authors || data.authors.length === 0) {
+    if (!data.studentsEF || data.studentsEF.length === 0) {
         $('.data-section').hide();
         return;
     }
 
-    data.authors.forEach(author => {
+    data.studentsEF.forEach(st => {
         // Create table row for each author
         let row = `<tr>
                 <td>                
-                    <button class="btn btn-retrieve" onclick = "GetTitlesByAuthor('${author[0]}')">
+                    <button class="btn btn-retrieve" onclick = "GetStudClassInfo('${st.student_id}')">
                         Retrieve Class Info
                     </button>
                 </td>
-                <td>${author[0]}</td>
-                <td>${author[1]}</td>
-                <td>${author[2]}</td>
-                <td>${author[3]}</td>
+                <td>${st.student_id}</td>
+                <td>${st.last_name}</td>
+                <td>${st.first_name}</td>
+                <td>${st.school_id}</td>
             </tr>`;
 
         tbody.append(row);
@@ -79,125 +85,55 @@ function GetAllAuthorsSuccess(data) {
 }
 
 /**
- * FunctionName:    GetTitlesByAuthor
+ * FunctionName:    GetStudClassInfo
  * Description:     Retrieves all books by a specific author via AJAX call
  */
-function GetTitlesByAuthor(au_id) {
-    currentAuthorId = au_id;
-    console.log("Author ID:", au_id);
+function GetStudClassInfo(st_id) {
+    console.log("Student ID:", st_id);
 
-    CallAJAX("service.php", "get", "json",
-        {
-            action: "GetTitlesByAuthor",
-            au_id: au_id
-        },
-        GetTitlesByAuthorSuccess, ErrorMethod);
+    CallAJAX("https://localhost:7178/StudentClassInfo?stid=" + parseInt(st_id), "get", "json",
+        {},
+        function (data) {
+            console.log(data);
+            // If no titles returned, show message and hide table
+            if (data.error) {
+                $('.data-section').hide();
+                $('#error_status').html(data.error);
+                return;
+            }
+            GetStudClassInfoSuccess(data, st_id);
+        }, ErrorMethod);
 }
 
 /**
- * FunctionName:    GetTitlesByAuthorSuccess
- * Description:     Success method for GetTitlesByAuthor AJAX call
+ * FunctionName:    GetStudClassInfoSuccess
+ * Description:     Success method for GetStudClassInfo AJAX call
  */
-function GetTitlesByAuthorSuccess(data) {
-    console.log(data);
-
+function GetStudClassInfoSuccess(data, st_id) {
     let tbody = $("#books-body");
     tbody.empty();
 
-    // If no titles returned, show message and hide table
-    if (!data.titles || data.titles.length === 0) {
-        $('.data-section').hide();
-        $('#error_status').html(data.message);
-        return;
-    }
     // Populate titles table
     $('#error_status').empty();
     $('.data-section').show();
 
-    $('#bookHeading').html(`Books for author: ${currentAuthorId}`);
-    data.titles.forEach(book => {
+    $('#bookHeading').html(`Class Information for student: ${st_id}`);
+    data.studClassInfo.forEach(cl => {
 
         let row = `<tr>
-                <td id="btn-${book[0]}">
-                    <button class="btn btn-delete" data-title="${book[0]}">Delete</button>
-                    <button class="btn btn-edit" data-title="${book[0]}">Edit</button>
-                </td>
-                <td>${book[0]}</td>
-                <td id="title-${book[0]}">${book[1]}</td>
-                <td id="type-${book[0]}">${book[2]}</td>
-                <td id="price-${book[0]}">${book[3]}</td>
+                <td>${cl[0]}</td>
+                <td>${cl[1]}</td>
+                <td>${cl[2]}</td>
+                <td>${cl[3]}</td>
+                <td>${cl[4]}</td>
+                <td>${cl[5]}</td>
+                <td>${cl[6]}</td>                
             </tr>`;
 
         tbody.append(row);
     });
     // Update status message
     $('#book-status').html(data.message);
-}
-
-/**
- * FunctionName:    DeleteTitleAuthor
- * Description:     Deletes a specific book via AJAX call
- */
-function DeleteTitle() {
-    let title_id = $(this).data("title");
-    console.log("Title ID to delete:", title_id);
-
-    CallAJAX("service.php", "post", "json",
-        {
-            action: "DeleteTitle",
-            title_id: title_id
-        },
-        function(data){
-            if (hasError(data)) return;
-            $('#book-status').html(data.message);
-            GetTitlesByAuthor(currentAuthorId);
-        }, ErrorMethod);
-}
-
-/**
- * FunctionName:    EditTitle
- * Description:     Edits a specific book via AJAX call
- */
-function EditTitle() {
-    let title_id = $(this).data("title");
-
-    // If another title is being edited, prevent editing a new one
-    console.log("Currently edited title ID:", edited_title_id);
-    if (edited_title_id !== null) {
-        $('#error_status').html("Please finish editing the current title before editing another.");
-        return;
-    }
-
-    console.log("Title ID to edit:", title_id, "from author ID:", currentAuthorId);
-
-    if (title_id !== null && title_id !== undefined)
-        edited_title_id = title_id;
-
-    CallAJAX("service.php", "get", "json",
-        { action: "EditTitle", title_id: title_id },
-        function (data) {
-            $('#error_status').empty();
-            console.log(data);
-
-            if (hasError(data)) return;
-            if (edited_title_id === null) return;
-
-            const title_id = edited_title_id;
-
-            originalRowData[title_id] = {
-                title: data.title,
-                price: data.price,
-                type: data.type
-            };
-
-            console.log("Editing title ID:", title_id);
-
-            // Update status message
-            $('#book-status').html(data.message);
-
-            // Render edit form and bind handlers
-            renderEdit(title_id, data);
-        }, ErrorMethod);
 }
 
 /**
@@ -213,146 +149,6 @@ function hasError(data) {
     }
     $('#book-status').html("");
     return false;
-}
-
-/** 
- * FunctionName:    renderEdit
- * Description:     Renders the edit form for a specific title
- */
-function renderEdit(title_id, data) {
-    $(`#btn-${title_id}`).html(`
-        <button class="btn btn-update" data-title="${title_id}">Update</button>
-        <button class="btn btn-cancel" data-title="${title_id}">Cancel</button>
-    `);
-
-    $(`#title-${title_id}`).html(`<input type="text" id="title-input-${title_id}" value="${data.title}">`);
-    $(`#price-${title_id}`).html(`<input type="text" id="price-input-${title_id}" value="${data.price}">`);
-
-    const $typeCell = $(`#type-${title_id}`);
-    $typeCell.empty().html(`<select id="types-select-${title_id}"></select>`);
-
-    data.types.forEach(type => {
-        $(`#types-select-${title_id}`).append(`<option value="${type[0]}">${type[0]}</option>`);
-    });
-
-    $(`#types-select-${title_id}`).val(data.type);
-}
-
-/** 
- * FunctionName:    CancelUpdate
- * Description:     Resets the row buttons and infos when cancel is clicked
- */
-function CancelUpdate() {
-    $('#error_status').empty();
-    edited_title_id = null;
-
-    let title_id = $(this).data("title");
-
-    $(`#btn-${title_id}`).html(`
-    <button class="btn btn-delete" data-title="${title_id}">Delete</button>
-    <button class="btn btn-edit" data-title="${title_id}">Edit</button>`);
-
-    const original = originalRowData[title_id];
-
-    // Resetting title's info
-    $(`#title-${title_id}`).html(original.title);
-    $(`#price-${title_id}`).html(original.price);
-    $(`#type-${title_id}`).html(original.type);
-
-    // Reset status
-    $('#book-status').html("Edit cancelled.");
-}
-
-/** 
- * FunctionName:    UpdateTitle
- * Description:     Calls update function to update title's infos
- */
-function UpdateTitle() {
-    $('#error_status').empty();
-    edited_title_id = null;
-
-    let title_id = $(this).data("title");
-    console.log(
-        "Updated Title ID:", title_id,
-        "Title:", $(`#title-input-${title_id}`).val(),
-        "Price:", $(`#price-input-${title_id}`).val(),
-        "Type:", $(`#types-select-${title_id}`).val()
-    );
-
-    CallAJAX("service.php", "post", "json",
-        {
-            action: "UpdateTitle",
-            title_id: title_id,
-            title: $(`#title-input-${title_id}`).val(),
-            price: $(`#price-input-${title_id}`).val(),
-            type: $(`#types-select-${title_id}`).val()
-        },
-        function(data){
-            if (hasError(data)) return;
-            $('#book-status').html(data.message);
-            GetTitlesByAuthor(currentAuthorId);
-        }, ErrorMethod);
-}
-
-function AddTypesForm() {
-    CallAJAX("service.php", "get", "json",
-        { action: "GetTypes" },
-        function (data) {
-            console.log(data);
-
-            data.types.forEach(type => {
-                $(`#add-type`).append(`<option value="${type[0]}">${type[0]}</option>`);
-            });
-        },
-        ErrorMethod);
-}
-
-function LoadAuthors() {
-    CallAJAX("service.php", "get", "json",
-        { action: "GetAuthorNames" },
-        function (data) {
-            data.authors.forEach(a => {
-                $("#add-authors").append(
-                    `<option value="${a[0]}">${a[1]}</option>`
-                );
-            });
-        },
-        ErrorMethod
-    );
-}
-
-function AddTitle() {
-    CallAJAX("service.php", "post", "json",
-        {
-            action: "AddTitle",
-            title_id: $("#add-title-id").val().trim(),
-            title: $("#add-title").val().trim(),
-            type: $("#add-type").val(),
-            price: $("#add-price").val(),
-            authors: $("#add-authors").val()
-        },
-        AddTitleSuccess, ErrorMethod);
-}
-
-
-function AddTitleSuccess(data) {
-    console.log(data);
-    if (data.error) {
-        $("#add-status")
-            .removeClass("success")
-            .addClass("error")
-            .html(data.error);
-        return;
-    }
-
-    $("#add-status")
-        .removeClass("error")
-        .addClass("success")
-        .html(data.message);
-
-    // refresh current author's books
-    if (currentAuthorId)
-        GetTitlesByAuthor(currentAuthorId);
 }
 
 /**

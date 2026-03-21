@@ -2003,23 +2003,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\dkinganjatou1\\.nuget\\packages\\": {},
+    "C:\\Users\\spret\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\demos_Simran\\ADODemo01\\ADO01Project\\ADO01Project\\ADO01Project.csproj",
+      "projectUniqueName": "D:\\Desktop\\NAITHUB\\cmpe-2550-1252-DareenKN\\demos_Simran\\ADODemo01\\ADO01Project\\ADO01Project\\ADO01Project.csproj",
       "projectName": "ADO01Project",
-      "projectPath": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\demos_Simran\\ADODemo01\\ADO01Project\\ADO01Project\\ADO01Project.csproj",
-      "packagesPath": "C:\\Users\\dkinganjatou1\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\demos_Simran\\ADODemo01\\ADO01Project\\ADO01Project\\obj\\",
+      "projectPath": "D:\\Desktop\\NAITHUB\\cmpe-2550-1252-DareenKN\\demos_Simran\\ADODemo01\\ADO01Project\\ADO01Project\\ADO01Project.csproj",
+      "packagesPath": "C:\\Users\\spret\\.nuget\\packages\\",
+      "outputPath": "D:\\Desktop\\NAITHUB\\cmpe-2550-1252-DareenKN\\demos_Simran\\ADODemo01\\ADO01Project\\ADO01Project\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\dkinganjatou1\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\spret\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -2028,7 +2028,6 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -2047,7 +2046,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.300"
+      "SdkAnalysisLevel": "10.0.200"
     },
     "frameworks": {
       "net8.0": {
@@ -2069,6 +2068,24 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[8.0.25, 8.0.25]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[8.0.25, 8.0.25]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[8.0.25, 8.0.25]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[8.0.25, 8.0.25]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -2077,7 +2094,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
