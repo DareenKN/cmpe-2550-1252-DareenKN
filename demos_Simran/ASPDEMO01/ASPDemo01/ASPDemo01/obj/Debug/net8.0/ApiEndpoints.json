@@ -1,7 +1,7 @@
 [
   {
     "ContainingType": "ASPDemo01.Program\u002B\u003C\u003Ec",
-    "Method": "\u003CMain\u003Eb__0_1",
+    "Method": "\u003CMain\u003Eb__1_1",
     "RelativePath": "",
     "HttpMethod": "GET",
     "IsController": false,
@@ -19,7 +19,7 @@
   },
   {
     "ContainingType": "ASPDemo01.Program\u002B\u003C\u003Ec",
-    "Method": "\u003CMain\u003Eb__0_3",
+    "Method": "\u003CMain\u003Eb__1_3",
     "RelativePath": "registerGet",
     "HttpMethod": "GET",
     "IsController": false,
@@ -48,7 +48,7 @@
   },
   {
     "ContainingType": "ASPDemo01.Program\u002B\u003C\u003Ec",
-    "Method": "\u003CMain\u003Eb__0_4",
+    "Method": "\u003CMain\u003Eb__1_4",
     "RelativePath": "registerPost",
     "HttpMethod": "POST",
     "IsController": false,
@@ -72,7 +72,7 @@
   },
   {
     "ContainingType": "ASPDemo01.Program\u002B\u003C\u003Ec",
-    "Method": "\u003CMain\u003Eb__0_2",
+    "Method": "\u003CMain\u003Eb__1_2",
     "RelativePath": "Special",
     "HttpMethod": "GET",
     "IsController": false,

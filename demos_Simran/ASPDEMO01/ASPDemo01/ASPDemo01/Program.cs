@@ -32,7 +32,7 @@ namespace ASPDemo01
 
             var app = builder.Build();
 
-            // Without CORS services will fail upon attempted activatio/ missing addCors internal exception
+            // Without CORS services will fail upon attempted activation missing addCors internal exception
 
             // Need to fix CORS problem encountered with POST AJAX call
             // CORS: Cross origin Resource sharing

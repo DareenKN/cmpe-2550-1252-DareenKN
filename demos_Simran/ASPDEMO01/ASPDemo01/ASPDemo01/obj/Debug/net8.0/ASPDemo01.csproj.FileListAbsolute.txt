@@ -24,3 +24,32 @@ C:\Users\harsimrana\OneDrive - NAIT\Documents\NaitWebDemo1\1242\2550\CMPE2550Cla
 C:\Users\harsimrana\OneDrive - NAIT\Documents\NaitWebDemo1\1242\2550\CMPE2550ClassWork1242\CMPE2550A01\ASPDEMO01\ASPDemo01\ASPDemo01\obj\Debug\net8.0\ASPDemo01.pdb
 C:\Users\harsimrana\OneDrive - NAIT\Documents\NaitWebDemo1\1242\2550\CMPE2550ClassWork1242\CMPE2550A01\ASPDEMO01\ASPDemo01\ASPDemo01\obj\Debug\net8.0\ASPDemo01.genruntimeconfig.cache
 C:\Users\harsimrana\OneDrive - NAIT\Documents\NaitWebDemo1\1242\2550\CMPE2550ClassWork1242\CMPE2550A01\ASPDEMO01\ASPDemo01\ASPDemo01\obj\Debug\net8.0\ref\ASPDemo01.dll
+C:\Users\dkinganjatou1\Downloads\cmpe-2550-1252-DareenKN\demos_Simran\ASPDEMO01\ASPDemo01\ASPDemo01\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\dkinganjatou1\Downloads\cmpe-2550-1252-DareenKN\demos_Simran\ASPDEMO01\ASPDemo01\ASPDemo01\bin\Debug\net8.0\appsettings.json
+C:\Users\dkinganjatou1\Downloads\cmpe-2550-1252-DareenKN\demos_Simran\ASPDEMO01\ASPDemo01\ASPDemo01\bin\Debug\net8.0\ASPDemo01.staticwebassets.endpoints.json
+C:\Users\dkinganjatou1\Downloads\cmpe-2550-1252-DareenKN\demos_Simran\ASPDEMO01\ASPDemo01\ASPDemo01\bin\Debug\net8.0\ASPDemo01.exe
+C:\Users\dkinganjatou1\Downloads\cmpe-2550-1252-DareenKN\demos_Simran\ASPDEMO01\ASPDemo01\ASPDemo01\bin\Debug\net8.0\ASPDemo01.deps.json
+C:\Users\dkinganjatou1\Downloads\cmpe-2550-1252-DareenKN\demos_Simran\ASPDEMO01\ASPDemo01\ASPDemo01\bin\Debug\net8.0\ASPDemo01.runtimeconfig.json
+C:\Users\dkinganjatou1\Downloads\cmpe-2550-1252-DareenKN\demos_Simran\ASPDEMO01\ASPDemo01\ASPDemo01\bin\Debug\net8.0\ASPDemo01.dll
+C:\Users\dkinganjatou1\Downloads\cmpe-2550-1252-DareenKN\demos_Simran\ASPDEMO01\ASPDemo01\ASPDemo01\bin\Debug\net8.0\ASPDemo01.pdb
+C:\Users\dkinganjatou1\Downloads\cmpe-2550-1252-DareenKN\demos_Simran\ASPDEMO01\ASPDemo01\ASPDemo01\obj\Debug\net8.0\rpswa.dswa.cache.json
+C:\Users\dkinganjatou1\Downloads\cmpe-2550-1252-DareenKN\demos_Simran\ASPDEMO01\ASPDemo01\ASPDemo01\obj\Debug\net8.0\ASPDemo01.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\dkinganjatou1\Downloads\cmpe-2550-1252-DareenKN\demos_Simran\ASPDEMO01\ASPDemo01\ASPDemo01\obj\Debug\net8.0\ASPDemo01.AssemblyInfoInputs.cache
+C:\Users\dkinganjatou1\Downloads\cmpe-2550-1252-DareenKN\demos_Simran\ASPDEMO01\ASPDemo01\ASPDemo01\obj\Debug\net8.0\ASPDemo01.AssemblyInfo.cs
+C:\Users\dkinganjatou1\Downloads\cmpe-2550-1252-DareenKN\demos_Simran\ASPDEMO01\ASPDemo01\ASPDemo01\obj\Debug\net8.0\ASPDemo01.csproj.CoreCompileInputs.cache
+C:\Users\dkinganjatou1\Downloads\cmpe-2550-1252-DareenKN\demos_Simran\ASPDEMO01\ASPDemo01\ASPDemo01\obj\Debug\net8.0\ASPDemo01.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\dkinganjatou1\Downloads\cmpe-2550-1252-DareenKN\demos_Simran\ASPDEMO01\ASPDemo01\ASPDemo01\obj\Debug\net8.0\ASPDemo01.sourcelink.json
+C:\Users\dkinganjatou1\Downloads\cmpe-2550-1252-DareenKN\demos_Simran\ASPDEMO01\ASPDemo01\ASPDemo01\obj\Debug\net8.0\rjimswa.dswa.cache.json
+C:\Users\dkinganjatou1\Downloads\cmpe-2550-1252-DareenKN\demos_Simran\ASPDEMO01\ASPDemo01\ASPDemo01\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
+C:\Users\dkinganjatou1\Downloads\cmpe-2550-1252-DareenKN\demos_Simran\ASPDEMO01\ASPDemo01\ASPDemo01\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
+C:\Users\dkinganjatou1\Downloads\cmpe-2550-1252-DareenKN\demos_Simran\ASPDEMO01\ASPDemo01\ASPDemo01\obj\Debug\net8.0\scopedcss\bundle\ASPDemo01.styles.css
+C:\Users\dkinganjatou1\Downloads\cmpe-2550-1252-DareenKN\demos_Simran\ASPDEMO01\ASPDemo01\ASPDemo01\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\dkinganjatou1\Downloads\cmpe-2550-1252-DareenKN\demos_Simran\ASPDEMO01\ASPDemo01\ASPDemo01\obj\Debug\net8.0\staticwebassets.build.json.cache
+C:\Users\dkinganjatou1\Downloads\cmpe-2550-1252-DareenKN\demos_Simran\ASPDEMO01\ASPDemo01\ASPDemo01\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\dkinganjatou1\Downloads\cmpe-2550-1252-DareenKN\demos_Simran\ASPDEMO01\ASPDemo01\ASPDemo01\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\dkinganjatou1\Downloads\cmpe-2550-1252-DareenKN\demos_Simran\ASPDEMO01\ASPDemo01\ASPDemo01\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\dkinganjatou1\Downloads\cmpe-2550-1252-DareenKN\demos_Simran\ASPDEMO01\ASPDemo01\ASPDemo01\obj\Debug\net8.0\ASPDemo01.dll
+C:\Users\dkinganjatou1\Downloads\cmpe-2550-1252-DareenKN\demos_Simran\ASPDEMO01\ASPDemo01\ASPDemo01\obj\Debug\net8.0\refint\ASPDemo01.dll
+C:\Users\dkinganjatou1\Downloads\cmpe-2550-1252-DareenKN\demos_Simran\ASPDEMO01\ASPDemo01\ASPDemo01\obj\Debug\net8.0\ASPDemo01.pdb
+C:\Users\dkinganjatou1\Downloads\cmpe-2550-1252-DareenKN\demos_Simran\ASPDEMO01\ASPDemo01\ASPDemo01\obj\Debug\net8.0\ASPDemo01.genruntimeconfig.cache
+C:\Users\dkinganjatou1\Downloads\cmpe-2550-1252-DareenKN\demos_Simran\ASPDEMO01\ASPDemo01\ASPDemo01\obj\Debug\net8.0\ref\ASPDemo01.dll

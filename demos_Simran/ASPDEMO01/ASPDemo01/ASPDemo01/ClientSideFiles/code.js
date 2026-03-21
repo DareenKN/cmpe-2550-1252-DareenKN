@@ -17,7 +17,7 @@ function PostSubmit()
 
     console.log(data);
 
-    MakeAjaxCall("https://aspdemo01a01-deh4b7a0d6gbbcch.canadacentral-01.azurewebsites.net/registerPost", "POST", data, "JSON", SuccessPost, ErrorHandler);
+    MakeAjaxCall("https://localhost:7019/registerPost", "POST", data, "JSON", SuccessPost, ErrorHandler);
 
 }
 

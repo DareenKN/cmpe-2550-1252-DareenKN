@@ -1,11 +1,1 @@
-{
-  "Version": 1,
-  "Hash": "W0fypD1+OfZBwTmSVRcNqeef8V5lr6Ok0hb3VYZvG4M=",
-  "Source": "ASPDemo01",
-  "BasePath": "_content/ASPDemo01",
-  "Mode": "Default",
-  "ManifestType": "Build",
-  "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
-}
+{"Version":1,"Hash":"AYoB740vNjKD/faSXsAoersuhVeDysm35Z+5rywhsY4=","Source":"ASPDemo01","BasePath":"_content/ASPDemo01","Mode":"Default","ManifestType":"Build","ReferencedProjectsConfiguration":[],"DiscoveryPatterns":[],"Assets":[],"Endpoints":[]}
