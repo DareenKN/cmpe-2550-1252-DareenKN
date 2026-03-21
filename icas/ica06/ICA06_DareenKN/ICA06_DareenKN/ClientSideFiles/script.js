@@ -74,9 +74,11 @@ function GetMenu(location) {
             $(".order-box").show();
             $(".order").show();
             $("#menu-title").html(data.message);
+            $("#item").append(`<option disabled selected>Select an item</option>`);
             data.menu.forEach(m => {
                 $("#menu").append(`<li>${m}</li>`);
-                $("#item").append(`<option value="${m}">${m}</option>`);
+                item = m.split(":")[0].trim();
+                $("#item").append(`<option value="${item}">${item}</option>`);
             });
         }, ErrorMethod);
 }
@@ -97,6 +99,9 @@ function ProcessOrder() {
         function (data) {
             console.log(data);
 
+            $("#order_status").empty();
+            $("#order-details").empty();            
+
             if (data.message) {
                 $("#order_status").html(data.message);
                 return;
@@ -105,6 +110,8 @@ function ProcessOrder() {
             data.order.forEach(o => {
                 $("#order-details").append(`<li>${o}</li>`);
             });
+
+            $("#time").html(data.time);
 
 
         }, ErrorMethod);

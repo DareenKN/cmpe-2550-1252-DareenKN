@@ -80,7 +80,8 @@ namespace ICA06_DareenKN
             {
                 Console.WriteLine("Inside Order");
 
-                string message = "";
+                string time = "";
+                Random randTime = new Random();
                 var orderPlaced = new string[] { };
 
                 if (string.IsNullOrEmpty(i.name))
@@ -104,7 +105,9 @@ namespace ICA06_DareenKN
                     $"Method of Payment: {i.payment}"
                 ];
 
-                return Results.Ok(new { message = message, order = orderPlaced});
+                time = $"Your order will be ready for pickup in {randTime.Next(1, 31)} minute(s)";
+
+                return Results.Ok(new { time = time, order = orderPlaced});
             });
 
             app.Run();
