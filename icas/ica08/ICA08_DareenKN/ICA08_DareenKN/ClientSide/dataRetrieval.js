@@ -65,22 +65,25 @@ function GetEFStudentsSuccess(data) {
         return;
     }
 
-    data.studentsEF.forEach(st => {
+    data.studentsEF.forEach((st, i) => {
         // Create table row for each author
-        let row = `<tr>
+        if (i > 0) {
+
+            let row = `<tr>
                 <td>                
-                    <button class="btn btn-retrieve" onclick = "GetStudClassInfo('${st.student_id}')">
+                    <button class="btn btn-retrieve" onclick = "GetStudClassInfo('${st[0]}')">
                         Retrieve Class Info
                     </button>
                 </td>
-                <td>${st.student_id}</td>
-                <td>${st.last_name}</td>
-                <td>${st.first_name}</td>
-                <td>${st.school_id}</td>
+                <td>${st[0]}</td>
+                <td>${st[1]}</td>
+                <td>${st[2]}</td>
+                <td>${st[3]}</td>
             </tr>`;
 
-        tbody.append(row);
-        $('#status').html(data.message);
+            tbody.append(row);
+            $('#status').html(data.message);
+        }
     });
 }
 

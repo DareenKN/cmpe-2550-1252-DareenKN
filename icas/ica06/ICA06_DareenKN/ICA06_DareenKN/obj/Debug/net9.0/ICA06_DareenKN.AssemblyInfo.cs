@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ICA06_DareenKN")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+79205d9d6e7bc88881b80d88b61fe328d37e7ca2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+47e5a6c4a834da27e12327566d86ccc739d7259c")]
 [assembly: System.Reflection.AssemblyProductAttribute("ICA06_DareenKN")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ICA06_DareenKN")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

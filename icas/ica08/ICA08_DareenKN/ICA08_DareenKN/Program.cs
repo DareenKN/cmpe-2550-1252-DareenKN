@@ -16,7 +16,7 @@ namespace ICA08_DareenKN
 
             app.MapGet("/EFStudents", () =>
             {
-                List<Student> students = ClassTrakDAC.GetEFStudents();
+                var students = ClassTrakDAC.GetEFStudents();
                 string message = $"Retrieved {students.Count} student(s)";
                 return Results.Ok(new { StudentsEF = students, message = message });
             });

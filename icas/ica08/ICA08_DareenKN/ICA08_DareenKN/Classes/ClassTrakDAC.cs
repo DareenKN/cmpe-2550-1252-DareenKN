@@ -18,11 +18,11 @@ namespace ICA08_DareenKN.Classes
             public int school_id { get; set; }
         }
 
-        //public static List<List<string>> GetEFStudents()
-        public static List<Student> GetEFStudents()
+        public static List<List<string>> GetEFStudents()
+        //public static List<Student> GetEFStudents()
         {
-            //List<string> columnHeaders = new List<string>();
-            //List<List<string>> rowData = new List<List<string>>();
+            List<string> columnHeaders = new List<string>();
+            List<List<string>> rowData = new List<List<string>>();
 
             List<Student> _students = new List<Student>();
 
@@ -38,36 +38,36 @@ namespace ICA08_DareenKN.Classes
                 {
                     using (SqlDataReader reader = comm.ExecuteReader())
                     {
-                        //for (int i = 0; i < reader.FieldCount; i++)
-                        //    columnHeaders.Add(reader.GetName(i));
-                        //rowData.Add(columnHeaders);
+                        for (int i = 0; i < reader.FieldCount; i++)
+                            columnHeaders.Add(reader.GetName(i));
+                        rowData.Add(columnHeaders);
 
 
                         while (reader.Read())
                         {
-                            //List<string> row = new List<string>();
+                            List<string> row = new List<string>();
 
-                            //for (int i = 0; i < reader.FieldCount; ++i)
-                            //    row.Add(reader[i]?.ToString());
-                            //rowData.Add(row);
+                            for (int i = 0; i < reader.FieldCount; ++i)
+                                row.Add(reader[i]?.ToString());
+                            rowData.Add(row);
 
-                            Student s = new Student
-                            {
-                                student_id = reader.GetInt32(0),
-                                first_name = reader.GetString(1),
-                                last_name = reader.GetString(2),
-                                school_id = reader.GetInt32(3)
-                            };
+                            //Student s = new Student
+                            //{
+                            //    student_id = reader.GetInt32(0),
+                            //    first_name = reader.GetString(1),
+                            //    last_name = reader.GetString(2),
+                            //    school_id = reader.GetInt32(3)
+                            //};
 
-                            _students.Add(s);
+                            //_students.Add(s);
                         }
                     }
 
                 }
 
             }
-            //return rowData;
-            return _students;
+            return rowData;
+            //return _students;
         }
 
         public static List<List<string>> GetStudentClassInfo(int stid)

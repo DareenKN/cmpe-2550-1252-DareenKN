@@ -1,3 +1,4 @@
+using System.ComponentModel.Design;
 using System.Text.RegularExpressions;
 
 namespace ICA06_DareenKN
@@ -55,22 +56,29 @@ namespace ICA06_DareenKN
             app.MapPost("/Menu", (Info i) =>
             {
                 Console.WriteLine("Inside Menu");
-                var menu = new string[] { };
-                string message = "";
-                if (i.location == "NAIT Campus")
-                {
-                    menu =
-                    [
-                    "Muffins: $2.29",
-                    "Croissants: $2.19",
-                    "Cookies: $1.49",
-                    "Pumpkin Spice Iced Capp: $4.29",
-                    "Caramel Toffee cold Brew: $3.99"
-                    ];
 
-                    message = "Select your items from the Menu";
+                Dictionary<string, string[]> menu = new Dictionary<string, string[]>
+                {
+                   {"NAIT Campus", new string[] { "Muffins: $2.29","Croissants: $2.19","Cookies: $1.49","Pumpkin Spice Iced Capp: $4.29","Caramel Toffee cold Brew: $3.99"} },
+                   { "Downtown Edmonton",new string[] {"Cookies: $1.49","Pumpkin Spice Iced Capp: $4.29","Caramel Toffee cold Brew: $3.99"} },
+                   {"Kingsway Mall",new string[] {"Croissants: $2.19","Cookies: $1.49","Pumpkin Spice Iced Capp: $4.29",} },
+                   { "University Area" ,new string[] { "Muffins: $2.29","Croissants: $2.19","Pumpkin Spice Iced Capp: $4.29",} }
+
+                };
+
+                string message = "";
+                string[] menus = { };
+
+                foreach (KeyValuePair<string, string[]> kvp in menu)
+                {
+                    if (i.location == kvp.Key)
+                    {
+                        menus = kvp.Value;
+                        message = "Select your items from the Menu";
+                    }
                 }
-                else
+
+                if (menus.Count() == 0)
                     message = "No menu at this location for the moment sorry!";
 
                 return Results.Ok(new { menu = menu, message = message });
@@ -90,24 +98,29 @@ namespace ICA06_DareenKN
                 if (string.IsNullOrEmpty(i.item))
                     return Results.Ok(new { message = "No item was selected" });
 
-                if (i.itemsNum == 0)
-                    return Results.Ok(new { message = "The number of items can't be equal to zero" });
+                if (i.itemsNum <= 0)
+                    return Results.Ok(new { message = "The number of items can't be equal or less then zero" });
 
                 if (string.IsNullOrEmpty(i.payment))
                     return Results.Ok(new { message = "No payment method has been provided" });
 
+                string itemName = i.item.Split(":")[0].Trim();
+                double.TryParse(i.item.Split("$")[1].Trim(), out double price);
 
+                double cost = price * i.itemsNum;
+                Console.WriteLine($"The cost is {cost} from {price} {i.item}");
                 orderPlaced =
                 [
                     $"Pick up Location: {i.location}",
-                    $"Item Ordered: {i.item}",
+                    $"Item Ordered: {itemName}",
                     $"Number of Items: {i.itemsNum}",
-                    $"Method of Payment: {i.payment}"
+                    $"Method of Payment: {i.payment}",
+                    $"Total: {cost:C}"
                 ];
 
                 time = $"Your order will be ready for pickup in {randTime.Next(1, 31)} minute(s)";
 
-                return Results.Ok(new { time = time, order = orderPlaced});
+                return Results.Ok(new { time = time, order = orderPlaced });
             });
 
             app.Run();

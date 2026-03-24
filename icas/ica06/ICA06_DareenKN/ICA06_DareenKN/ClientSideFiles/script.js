@@ -75,10 +75,10 @@ function GetMenu(location) {
             $(".order").show();
             $("#menu-title").html(data.message);
             $("#item").append(`<option disabled selected>Select an item</option>`);
-            data.menu.forEach(m => {
+            data.menu[location].forEach(m => {
                 $("#menu").append(`<li>${m}</li>`);
                 item = m.split(":")[0].trim();
-                $("#item").append(`<option value="${item}">${item}</option>`);
+                $("#item").append(`<option value="${m}">${item}</option>`);
             });
         }, ErrorMethod);
 }

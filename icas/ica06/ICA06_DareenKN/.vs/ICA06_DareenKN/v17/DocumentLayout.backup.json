@@ -32,23 +32,21 @@
               "RelativeDocumentMoniker": "ICA06_DareenKN\\ClientSideFiles\\script.js",
               "ToolTip": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\icas\\ica06\\ICA06_DareenKN\\ICA06_DareenKN\\ClientSideFiles\\script.js",
               "RelativeToolTip": "ICA06_DareenKN\\ClientSideFiles\\script.js",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAALAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAALAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2026-03-20T21:57:15.659Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-20T21:57:15.659Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "ICA06_DareenKN",
+              "Title": "ICA06_DareenKN.csproj",
               "DocumentMoniker": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\icas\\ica06\\ICA06_DareenKN\\ICA06_DareenKN\\ICA06_DareenKN.csproj",
               "RelativeDocumentMoniker": "ICA06_DareenKN\\ICA06_DareenKN.csproj",
               "ToolTip": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\icas\\ica06\\ICA06_DareenKN\\ICA06_DareenKN\\ICA06_DareenKN.csproj",
               "RelativeToolTip": "ICA06_DareenKN\\ICA06_DareenKN.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-03-20T21:55:51.842Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-20T21:55:51.842Z"
             },
             {
               "$type": "Document",
@@ -56,9 +54,9 @@
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\icas\\ica06\\ICA06_DareenKN\\ICA06_DareenKN\\Program.cs",
               "RelativeDocumentMoniker": "ICA06_DareenKN\\Program.cs",
-              "ToolTip": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\icas\\ica06\\ICA06_DareenKN\\ICA06_DareenKN\\Program.cs",
-              "RelativeToolTip": "ICA06_DareenKN\\Program.cs",
-              "ViewState": "AgIAAE8AAAAAAAAAAAArwGoAAABOAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\icas\\ica06\\ICA06_DareenKN\\ICA06_DareenKN\\Program.cs*",
+              "RelativeToolTip": "ICA06_DareenKN\\Program.cs*",
+              "ViewState": "AgIAAFUAAAAAAAAAAAAtwGwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-20T21:35:17.314Z",
               "EditorCaption": ""
