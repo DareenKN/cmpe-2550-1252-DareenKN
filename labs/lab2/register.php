@@ -16,13 +16,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $status = "No username supplied";
         error_log($status);
     } elseif ($password == '') {
-        if (userCheck($username) && $action == "register") {
-            $status = "User already exists";
-            error_log($status);
-        } else
+        // if (userCheck($username) && $action == "register") {
+        //     $status = "Error in the username or password";
+        //     error_log($status);
+        // } else
             $status = "No password supplied";
         error_log($status);
     } else {
+        if (userCheck($username) && $action == "register") {
+            $status = "Error in the username or password";
+            error_log($status);}
         error_log(("Password: $password"));
 
         if ($action == "register") {

@@ -283,7 +283,7 @@ footer {
    USERS TABLE
 ================================ */
 
-.users-table{
+.users-table, .roles-table{
     width:100%;
     border-collapse:collapse;
     background:#ffffff;
@@ -293,7 +293,7 @@ footer {
 }
 
 /* Header */
-.users-table th{
+.users-table th, .roles-table th{
     background:linear-gradient(135deg,#cbb7e8,#b39adf);
     color:#2a2438;
     padding:8px 10px;
@@ -387,6 +387,97 @@ footer {
 
 /* keep buttons compact inside table */
 .users-table .btn{
+
+    padding:4px 12px;
+
+    font-size:13px;
+
+    margin-left:4px;
+}
+
+.roles-table td{
+    padding:3px 5px;
+    font-size:15px;
+    font-family:"DM Sans", system-ui, sans-serif;
+    border-bottom:1px solid #e4dff3;
+    vertical-align:middle;
+    max-width: fit-content;
+    
+    white-space:nowrap;
+}
+
+
+
+
+/* alternating rows */
+.roles-table tbody tr:nth-child(even){
+    background:#f4f0fb;
+}
+
+/* hover effect */
+.roles-table tbody tr:hover{
+    background:#e9e1f6;
+}
+
+/* Delete button column */
+.roles-table th:nth-child(1),
+.roles-table td:nth-child(1){
+    width:1%;
+    white-space:nowrap;
+    text-align:center;
+}
+
+/* User ID column */
+.roles-table th:nth-child(2),
+.roles-table td:nth-child(2){
+    width:1%;
+    white-space:nowrap;
+    text-align:center;
+}
+
+/* Username column */
+.roles-table th:nth-child(3),
+.roles-table td:nth-child(3){
+    width:120px;
+}
+
+/* Password column */
+.roles-table td:nth-child(4){
+
+    font-family:monospace;
+    font-size:13px;
+
+    max-width:fit-content;
+
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+/* Change Role column */
+.roles-table th:nth-child(5),
+.roles-table td:nth-child(5){
+
+    width:190px;
+    text-align:center;
+}
+
+/* role dropdown */
+.roles-table select {
+    appearance: none;
+    background-image:
+        linear-gradient(45deg, transparent 50%, #6a3fa0 50%),
+        linear-gradient(135deg, #6a3fa0 50%, transparent 50%);
+    background-position:
+        calc(100% - 14px) 50%,
+        calc(100% - 8px) 50%;
+    background-size: 6px 6px;
+    background-repeat: no-repeat;
+    padding-right: 22px;
+}
+
+/* keep buttons compact inside table */
+.roles-table .btn{
 
     padding:4px 12px;
 

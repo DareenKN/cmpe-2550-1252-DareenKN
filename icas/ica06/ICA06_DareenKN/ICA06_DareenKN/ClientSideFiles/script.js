@@ -13,7 +13,6 @@ $(document).ready(function () {
     Welcome();
     LoadInfo();
     $("#place-order").click(ProcessOrder);
-
 });
 
 /**

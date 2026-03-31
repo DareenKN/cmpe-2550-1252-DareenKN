@@ -1,4 +1,3 @@
-using System.ComponentModel.Design;
 using System.Text.RegularExpressions;
 
 namespace ICA06_DareenKN
@@ -28,104 +27,31 @@ namespace ICA06_DareenKN
 
             app.MapGet("/Welcome", () => "Welcome to Tim Hortons");
 
-            app.MapPost("/Location", (Info l) =>
+            app.MapPost("/Locations", (Locations l) =>
             {
                 Console.WriteLine("Inside Locations");
 
                 var locations = new string[]
                 {
-                    "NAIT Campus",
                     "Downtown Edmonton",
                     "Kingsway Mall",
                     "University Area"
                 };
 
-                //var menu = new string[]
-                //{
-                //    "Iced Capp",
-                //    "Double Double Coffee",
-                //    "Timbits",
-                //    "Bagel with Cream Cheese"
-                //};
-
-                return Results.Ok(new { locations = locations });
-
-
-            });
-
-            app.MapPost("/Menu", (Info i) =>
-            {
-                Console.WriteLine("Inside Menu");
-
-                Dictionary<string, string[]> menu = new Dictionary<string, string[]>
+                var menu = new string[]
                 {
-                   {"NAIT Campus", new string[] { "Muffins: $2.29","Croissants: $2.19","Cookies: $1.49","Pumpkin Spice Iced Capp: $4.29","Caramel Toffee cold Brew: $3.99"} },
-                   { "Downtown Edmonton",new string[] {"Cookies: $1.49","Pumpkin Spice Iced Capp: $4.29","Caramel Toffee cold Brew: $3.99"} },
-                   {"Kingsway Mall",new string[] {"Croissants: $2.19","Cookies: $1.49","Pumpkin Spice Iced Capp: $4.29",} },
-                   { "University Area" ,new string[] { "Muffins: $2.29","Croissants: $2.19","Pumpkin Spice Iced Capp: $4.29",} }
-
+                    "Iced Capp",
+                    "Double Double Coffee",
+                    "Timbits",
+                    "Bagel with Cream Cheese"
                 };
 
-                string message = "";
-                string[] menus = { };
 
-                foreach (KeyValuePair<string, string[]> kvp in menu)
-                {
-                    if (i.location == kvp.Key)
-                    {
-                        menus = kvp.Value;
-                        message = "Select your items from the Menu";
-                    }
-                }
-
-                if (menus.Count() == 0)
-                    message = "No menu at this location for the moment sorry!";
-
-                return Results.Ok(new { menu = menu, message = message });
-            });
-
-            app.MapPost("/Order", (Info i) =>
-            {
-                Console.WriteLine("Inside Order");
-
-                string time = "";
-                Random randTime = new Random();
-                var orderPlaced = new string[] { };
-
-                if (string.IsNullOrEmpty(i.name))
-                    return Results.Ok(new { message = "No name has been provided" });
-
-                if (string.IsNullOrEmpty(i.item))
-                    return Results.Ok(new { message = "No item was selected" });
-
-                if (i.itemsNum <= 0)
-                    return Results.Ok(new { message = "The number of items can't be equal or less then zero" });
-
-                if (string.IsNullOrEmpty(i.payment))
-                    return Results.Ok(new { message = "No payment method has been provided" });
-
-                string itemName = i.item.Split(":")[0].Trim();
-                double.TryParse(i.item.Split("$")[1].Trim(), out double price);
-
-                double cost = price * i.itemsNum;
-                Console.WriteLine($"The cost is {cost} from {price} {i.item}");
-                orderPlaced =
-                [
-                    $"Pick up Location: {i.location}",
-                    $"Item Ordered: {itemName}",
-                    $"Number of Items: {i.itemsNum}",
-                    $"Method of Payment: {i.payment}",
-                    $"Total: {cost:C}"
-                ];
-
-                time = $"Your order will be ready for pickup in {randTime.Next(1, 31)} minute(s)";
-
-                return Results.Ok(new { time = time, order = orderPlaced });
             });
 
             app.Run();
         }
 
-        record Info(string location, string name, string item, int itemsNum, string payment);
+        record Locations();
     }
 }

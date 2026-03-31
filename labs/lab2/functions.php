@@ -46,7 +46,8 @@ function RegisterCheck($user, $pass)
             $success = true;
         }
     } else {
-        $status = "User already exists";
+        //$status = "User already exists";
+        $status = "Error in the username or password";
         error_log($status);
         $success = false;
     }

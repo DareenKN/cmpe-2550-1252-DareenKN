@@ -10,6 +10,12 @@ if (!isset($_SESSION["username"])) {
 }
 
 $username = $_SESSION["username"];
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST["action"] == "logout") {
+    session_destroy();
+    header("Location: register.php");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -58,7 +64,7 @@ $username = $_SESSION["username"];
                             <?php
                             foreach (GetRoles() as $role) {
                                 echo "<option value='$role[0]'>$role[0]</option>";
-                            }?>
+                            } ?>
                         </select>
                     </div>
 
@@ -67,7 +73,9 @@ $username = $_SESSION["username"];
                     </div>
 
                 </form>
-                <center><p id="form-status"></p></center>
+                <center>
+                    <p id="form-status"></p>
+                </center>
 
             </div>
 
@@ -89,13 +97,19 @@ $username = $_SESSION["username"];
                     <tbody></tbody>
                 </table>
 
-                <center><p id="status"></p></center>
+                <center>
+                    <p id="status"></p>
+                </center>
 
                 <p class="back-link">
                     <a href="index.php">Index</a>
                 </p>
 
             </div>
+
+            <form method="POST" class="logout-form">
+                <button class="btn" type="submit" name="action" value="logout">Logout</button>
+            </form>
 
         </section>
 

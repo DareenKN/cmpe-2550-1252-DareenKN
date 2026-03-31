@@ -9,6 +9,7 @@
 $(document).ready(function () {
   $("#addUser").click(AddUser);
   GetAllUsers();
+  GetAllRoles();
 });
 
 
@@ -98,6 +99,42 @@ function ChangeUserRole(userId) {
       GetAllUsers();
     }, ErrorMethod);
 }
+
+function GetAllRoles() {
+  CallAJAX("service.php", "get", "json",
+    { action: "GetAllRoles" },
+    GetAllRolesSuccess, ErrorMethod);
+}
+
+function GetAllRolesSuccess(data) {
+  console.log(data);
+  $('#status').html(data.message);
+  let tbody = $('.roles-table tbody');
+  tbody.empty();
+
+  if (hasError(data)) return;
+  data.roleInfo.forEach(role => {
+    options = "";
+    // data.roles.forEach(role => {
+    //   let selected = role[0] === user.role_name ? "selected" : "";
+    //   options += `<option value="${role[0]}" ${selected}>${role[0]}</option>`;
+    // });
+
+    let row = `<tr>
+                <td><button class="btn btn-delete" data-role="${role.role_id}" onclick="DeleteRole(${role.role_id})">Delete</button></td>
+
+                <td>${role.role_id}</td>
+                <td>${role.role_name}</td>
+                <td>${role.description}</td>
+
+                <td><select class="role-select" data-role="${role.role_rank}">${options}</select></td>                
+                // <td><button class="btn btn-change-role" data-user="${role.user_id} " onclick="ChangeUserRole(${role.user_id})">Change Role</button></td>
+              </tr>`;
+    tbody.append(row);
+    $("#status").html(data.message);
+  });
+}
+
 
 
 // Event delegation for dynamically created buttons

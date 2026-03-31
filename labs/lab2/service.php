@@ -61,6 +61,10 @@ switch ($action) {
     ChangeUserRole();
     break;
 
+  case "GetAllRoles":
+    GetAllRoles();
+    break;
+
   default:
     $output["error"] = "Invalid action specified";
     break;
@@ -91,11 +95,11 @@ function GetAllUsers()
       ];
     }
     $output["message"] = "Retrieved $count user records";
-    GetAllRoles();
+    GetRolesName();
   }
 }
 
-function GetAllRoles()
+function GetRolesName()
 {
   global $output;
   $query_roles = "SELECT DISTINCT role_name FROM roles";
@@ -238,7 +242,7 @@ function ChangeUserRole()
     return;
   }
 
-  $user_id = (int)$clean_post["user_id"];
+  $user_id = (int) $clean_post["user_id"];
   $new_role = $clean_post["new_role"];
 
   if (empty($new_role)) {
@@ -248,8 +252,8 @@ function ChangeUserRole()
 
   $query = "SELECT role_rank FROM roles WHERE role_name='$new_role'";
   $target_rank = mySqlQuery($query)->fetch_assoc()["role_rank"] ?? 999; // default to lowest rank if not found
-  
-   if ($target_rank < $current_rank) {
+
+  if ($target_rank < $current_rank) {
     $output["error"] = "Unauthorized: Cannot assign a role higher than your own rank";
     return;
   }
@@ -267,5 +271,25 @@ function ChangeUserRole()
   } else {
     error_log("Error updating user role: " . $result . "");
     $output["error"] = "Failed to update user role";
+  }
+}
+
+function GetAllRoles()
+{
+  global $output;
+  $query = "SELECT * FROM roles";
+  $result = mySqlQuery($query);
+  $count = 0;
+  if ($result) {
+    while ($row = $result->fetch_assoc()) {
+      $count++;
+      $output["roleInfo"][] = [
+        "role_id" => $row["role_id"],
+        "role_name" => $row["role_name"],
+        "description" => $row["description"],
+        "role_rank" => $row["role_rank"]
+      ];
+    }
+    $output["message"] = "Retrieved $count roles records";
   }
 }
