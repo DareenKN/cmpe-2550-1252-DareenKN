@@ -29,25 +29,23 @@ namespace EF_Demo
                 }
             });
 
-            app.MapPost("/PostCategory", () =>
-            {
-                int id = 12;
+            app.MapPost("/InsertCategory", () => {
+
+                Category c = new Category();
+
+                c.CategoryName = "Test Category";
+                c.Description = "Test Category for Demo";
+
                 using (var db = new Dkinganjatou1NorthwindTradersContext())
                 {
                     try
                     {
-                        if (db.Categories.Find(id) is Category c)
-                        {
-                            c.CategoryName = "UpdatedName";
-                            c.Description = "UpdtedDescription for Demo";
 
-                            db.Categories.Update(c);
-                            db.SaveChanges();
+                        db.Categories.Add(c);
+                        db.SaveChanges();
 
-                            return Results.Ok("Updated Succesfully!");
-                        }
-                        else
-                            return Results.NotFound("Category Not Found");
+                        return Results.Ok("Insert successful");
+
                     }
                     catch (Exception ex)
                     {
@@ -55,6 +53,7 @@ namespace EF_Demo
                         return Results.Problem(ex.Message);
                     }
                 }
+
             });
 
             app.MapPut("/UpdateCategory", () =>
