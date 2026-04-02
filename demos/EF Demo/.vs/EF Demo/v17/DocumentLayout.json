@@ -1,12 +1,88 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\demos\\EF Demo\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{6E28E44A-BCE1-4AA0-8CEF-AF2CC0255E13}|EF Demo\\EF Demo.csproj|c:\\users\\dkinganjatou1\\downloads\\cmpe-2550-1252-dareenkn\\demos\\ef demo\\ef demo\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6E28E44A-BCE1-4AA0-8CEF-AF2CC0255E13}|EF Demo\\EF Demo.csproj|solutionrelative:ef demo\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6E28E44A-BCE1-4AA0-8CEF-AF2CC0255E13}|EF Demo\\EF Demo.csproj|c:\\users\\dkinganjatou1\\downloads\\cmpe-2550-1252-dareenkn\\demos\\ef demo\\ef demo\\models\\dkinganjatou1northwindtraderscontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6E28E44A-BCE1-4AA0-8CEF-AF2CC0255E13}|EF Demo\\EF Demo.csproj|solutionrelative:ef demo\\models\\dkinganjatou1northwindtraderscontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6E28E44A-BCE1-4AA0-8CEF-AF2CC0255E13}|EF Demo\\EF Demo.csproj|c:\\users\\dkinganjatou1\\downloads\\cmpe-2550-1252-dareenkn\\demos\\ef demo\\ef demo\\models\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6E28E44A-BCE1-4AA0-8CEF-AF2CC0255E13}|EF Demo\\EF Demo.csproj|solutionrelative:ef demo\\models\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6E28E44A-BCE1-4AA0-8CEF-AF2CC0255E13}|EF Demo\\EF Demo.csproj|c:\\users\\dkinganjatou1\\downloads\\cmpe-2550-1252-dareenkn\\demos\\ef demo\\ef demo\\ef demo.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{6E28E44A-BCE1-4AA0-8CEF-AF2CC0255E13}|EF Demo\\EF Demo.csproj|solutionrelative:ef demo\\ef demo.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Customer.cs",
+              "DocumentMoniker": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\demos\\EF Demo\\EF Demo\\Models\\Customer.cs",
+              "RelativeDocumentMoniker": "EF Demo\\Models\\Customer.cs",
+              "ToolTip": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\demos\\EF Demo\\EF Demo\\Models\\Customer.cs",
+              "RelativeToolTip": "EF Demo\\Models\\Customer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAByAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-02T16:52:32.361Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Dkinganjatou1NorthwindTradersContext.cs",
+              "DocumentMoniker": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\demos\\EF Demo\\EF Demo\\Models\\Dkinganjatou1NorthwindTradersContext.cs",
+              "RelativeDocumentMoniker": "EF Demo\\Models\\Dkinganjatou1NorthwindTradersContext.cs",
+              "ToolTip": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\demos\\EF Demo\\EF Demo\\Models\\Dkinganjatou1NorthwindTradersContext.cs",
+              "RelativeToolTip": "EF Demo\\Models\\Dkinganjatou1NorthwindTradersContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-02T16:45:31.885Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "EF Demo.csproj",
+              "DocumentMoniker": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\demos\\EF Demo\\EF Demo\\EF Demo.csproj",
+              "RelativeDocumentMoniker": "EF Demo\\EF Demo.csproj",
+              "ToolTip": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\demos\\EF Demo\\EF Demo\\EF Demo.csproj",
+              "RelativeToolTip": "EF Demo\\EF Demo.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-04-02T16:28:11.354Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\demos\\EF Demo\\EF Demo\\Program.cs",
+              "RelativeDocumentMoniker": "EF Demo\\Program.cs",
+              "ToolTip": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\demos\\EF Demo\\EF Demo\\Program.cs",
+              "RelativeToolTip": "EF Demo\\Program.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAUwCsAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-02T16:28:06.563Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }
