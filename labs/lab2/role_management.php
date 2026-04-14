@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST["action"] == "logout") {
 
 <head>
     <meta charset="UTF-8">
-    <title>Lab02 – User Management</title>
+    <title>Lab02 – Role Management</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -49,27 +49,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST["action"] == "logout") {
                 <form method="POST" class="add-user-form">
 
                     <div class="form-row">
-                        <label for="username">UserName :</label>
-                        <input type="text" name="username" id="username" placeholder="Supply a username">
+                        <label for="rolename">Role Name :</label>
+                        <input type="text" name="rolename" id="rolename" placeholder="Supply a role name">
                     </div>
 
                     <div class="form-row">
-                        <label for="password">Password :</label>
-                        <input type="password" name="password" id="password" placeholder="Supply a password">
+                        <label for="desc">Role Description :</label>
+                        <input type="text" name="desc" id="desc" placeholder="Supply a description">
                     </div>
 
                     <div class="form-row">
-                        <label for="role">Role :</label>
-                        <select name="role" id="role">
-                            <?php
-                            foreach (GetRoles() as $role) {
-                                echo "<option value='$role[0]'>$role[0]</option>";
-                            } ?>
-                        </select>
+                        <label for="role">Role Rank:</label>
+                        <input type="number" min="1" name="role" id="role" placeholder="Supply a rank">
                     </div>
 
                     <div class="form-row">
-                        <button class="btn" type="button" id="addUser">Add User</button>
+                        <button class="btn" type="button" id="addRole">Add Role</button>
                     </div>
 
                 </form>
