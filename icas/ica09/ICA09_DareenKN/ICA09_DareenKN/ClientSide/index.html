@@ -1,0 +1,104 @@
+<!-- CMPE2550 - Web Applications
+    Name: Dareen Kinga Njatou
+    ICA09 [ASP] – SQL Server and Data ManipulationK
+    Description:
+    Date: April 14, 2026 -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title> ICA09 [ASP] – SQL Server and Data Manipulation </title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script defer src="dataRetrieval.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1><a href="../../../../../index.html">CMPE2550</a> – ICA09 [ASP ADO] – SQL Server and Data Manipulation </h1>
+    </header>
+
+    <main>
+
+        <!-- AUTHORS SECTION -->
+        <section class="student-section">
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Get Students</th>
+                        <th>StudentID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>School Id</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="student-body">
+                    <tr>
+                        <td>
+                            <button class="btn btn-retrieve" data-author="${author[0]}">
+                                Retrieve Class Info
+                            </button>
+                        </td>
+                        <td>{author[0]}</td>
+                        <td>{author[1]}</td>
+                        <td>{author[2]}</td>
+                        <td>{author[3]}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p id="status"></p>
+            <p id="error_status"></p>
+        </section>
+
+        <!-- BOOKS SECTION -->
+        <section class="data-section">
+            <h2 id="bookHeading">Books</h2>
+
+            <table class="data-table class-table">
+                <thead>
+                    <tr>
+                        <th>Class Id</th>
+                        <th>Class Desc</th>
+                        <th>Days</th>
+                        <th>StartDate</th>
+                        <th>Instructor ID</th>
+                        <th>Instructor FirstName</th>
+                        <th>Instructor LastName</th>
+                    </tr>
+                </thead>
+                <tbody id="books-body">
+                    <tr>
+                        <td> {title[0]} </td>
+                        <td>{title[0]}</td>
+                        <td>{title[1]}</td>
+                        <td>{title[2]}</td>
+                        <td>{title[3]}</td>
+                        <td>{title[3]}</td>
+                        <td>{title[3]}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p id="book-status"></p>
+        </section>
+        <div><p id = "error"></p></div>
+    </main>
+
+    <footer>
+        &copy Copyright 2026 by Dareen Njatou <br>
+        Last modified on
+        <script>document.write(document.lastModified)</script>
+    </footer>
+
+</body>
+
+</html>
