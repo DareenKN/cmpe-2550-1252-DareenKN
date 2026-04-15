@@ -48,7 +48,7 @@ namespace ICA09_DareenKN.Classes
                             List<string> row = new List<string>();
 
                             for (int i = 0; i < reader.FieldCount; ++i)
-                                row.Add(reader[i]?.ToString());
+                                row.Add(reader[i].ToString()??"NULL");
                             rowData.Add(row);
 
                             //Student s = new Student
@@ -110,7 +110,7 @@ namespace ICA09_DareenKN.Classes
 
 
                             for (int i = 0; i < reader.FieldCount; ++i)
-                                row.Add(reader[i]?.ToString());
+                                row.Add(reader[i]?.ToString()??"NULL");
                             rowData.Add(row);
                         }
                     }
@@ -167,26 +167,28 @@ namespace ICA09_DareenKN.Classes
 
             using (SqlConnection conn = new SqlConnection(connection))
             {
-                conn
-            }
-
-            try
-            {
+                conn.Open();
                 string query =
                     $"UPDATE students " +
                     $"SET last_name = '{fn}', first_name = '{ln}', school_id = '{schId}" +
                     $"WHERE student_id = '{st_id}";
 
-                using(SqlCommand comm = new SqlCommand(query, conn))
+                try
+                {
+                    using (SqlCommand comm = new SqlCommand(query, conn))
+                    {
+                        comm.Parameters.AddWithValue("@stid", st_id);
+                        comm.ExecuteNonQuery();
+                    }
+
+                }
+                catch (ArgumentException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    result = -1;
+                }
 
             }
-            catch (ArgumentException ex)
-            {
-                Console.WriteLine(ex.Message);
-                result = -1; 
-            };
-
-
 
             return result;
         }
