@@ -32,22 +32,25 @@ function GetEFStudents() {
 *FunctionName:    CallAJAX
 *Description:     Generic AJAX call function 
 */
-function CallAJAX(serverURL, reqMethod, serverResponse, data, successHandler, errorHandler) {
+function CallAJAX(url, method, dataType, data, successHandler, errorHandler) {
     console.log("Inside MakeAjaxCall function ");
 
-    let ajaxOptions = {};
-    ajaxOptions['url'] = serverURL;                // Destination URL
-    ajaxOptions['type'] = reqMethod;               // GET/POST
-    ajaxOptions['dataType'] = serverResponse;      // HTML/JSON 
-    ajaxOptions['data'] = JSON.stringify(data);    // Client data   -- NEW for ASP PART
-    ajaxOptions['success'] = successHandler;       // Callback function to handle successful case
-    ajaxOptions['error'] = errorHandler;           // Callback function to handle error 
+    let options = {};
 
-    ajaxOptions['contentType'] = "application/json"; // NEW for ASP PART
+    options.url = url;                              // Destination URL
+    options.method = method;          // GET/POST
+
+    if (method.toLowerCase() == "get") options.data = data;// Client data   -- NEW for ASP PART
+    else if (method.toLowerCase() == "post" || method.toLowerCase() == "put") {
+        options.data = JSON.stringify(data);
+        options.contentType = "application/json";   // NEW for ASP PART
+    }
+    options.dataType = dataType;                    // HTML/JSON 
+    options.success = successHandler;               // Callback function to handle successful case
+    options.error = errorHandler;                   // Callback function to handle error 
 
     // actually make ajax call
-    $.ajax(ajaxOptions);
-
+    $.ajax(options);
 }
 
 /** 
@@ -149,16 +152,23 @@ function UpdateStudent(btn, st_id) {
     console.log("Updating student:", st_id);
 
     let row = $(btn).closest("tr");
-    let fn_input = row.find(".fn").val();
-    let ln_input = row.find(".ln").val();
-    let schId_input = row.find(".schId").val();
+    let action = row.find(".action");
+    let fn = row.find(".fn");
+    let ln = row.find(".ln");
+    let schId = row.find(".schId");
+
+    let fn_input = row.find(".fn input").val();
+    let ln_input = row.find(".ln input").val();
+    let schId_input = row.find(".schId input").val();
+
+    console.log(`${fn_input}, ${ln_input}, ${schId_input}`);
 
     CallAJAX(`https://localhost:7131/UpdateStudent/${st_id}`, "put", "json",
         {
             id: parseInt(st_id),
             fn: fn_input,
             ln: ln_input,
-            schId: parseInt(schId_input)
+            schId: schId_input
         },
         function (data) {
             console.log(data);
@@ -168,7 +178,13 @@ function UpdateStudent(btn, st_id) {
                 $('#error_status').html(data.error);
                 return;
             }
-            GetStudClassInfoSuccess(data, st_id);
+
+            $('#error_status').html(data.message);
+            action.html(action.data("Original"));
+            fn.html(fn_input);
+            ln.html(ln_input);
+            schId.html(schId_input);
+            // GetStudClassInfoSuccess(data, st_id);
         }, ErrorMethod);
 }
 
@@ -246,6 +262,5 @@ function hasError(data) {
 function ErrorMethod(req, status, error) {
     console.log("AJAX ERROR", status, error);
     console.log(req);
-
-    $('#status').html(`An error occurred.`);
+    $('#error_status').html(`An error occurred.`);
 }

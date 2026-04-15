@@ -169,16 +169,20 @@ namespace ICA09_DareenKN.Classes
             {
                 conn.Open();
                 string query =
-                    $"UPDATE students " +
-                    $"SET last_name = '{fn}', first_name = '{ln}', school_id = '{schId}" +
-                    $"WHERE student_id = '{st_id}";
+                    "UPDATE students " +
+                    @"SET last_name = @ln, first_name = @fn, school_id = @schId " +
+                    @"WHERE student_id = @stid";
 
                 try
                 {
                     using (SqlCommand comm = new SqlCommand(query, conn))
                     {
                         comm.Parameters.AddWithValue("@stid", st_id);
-                        comm.ExecuteNonQuery();
+                        comm.Parameters.AddWithValue("@ln", ln);
+                        comm.Parameters.AddWithValue("@fn", fn);
+                        comm.Parameters.AddWithValue("@schId", schId);
+                        int rows = comm.ExecuteNonQuery();
+                        if (rows == 0) result = -1;
                     }
 
                 }

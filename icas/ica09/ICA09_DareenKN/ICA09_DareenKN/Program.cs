@@ -14,6 +14,7 @@ namespace ICA09_DareenKN
 
             app.UseCors(x => x.AllowAnyMethod().AllowAnyHeader().SetIsOriginAllowed(origin => true));
 
+            app.MapGet("/", () => "ICA09 [ASP] – SQL Server and Data Manipulation");
 
             app.MapGet("/EFStudents", () =>
             {
@@ -49,9 +50,24 @@ namespace ICA09_DareenKN
                 return Results.Ok(new { message = message, error = error });
             });
 
-            app.MapPut("/UpdateStudent/{id}", (int id, string fn, string ln, int schId) =>
+            app.MapPut("/UpdateStudent/{id}", (int id, StInfo st) =>
             {
-                int success = ClassTrakDAC.UpdateStudent(id, fn, ln, schId);
+                Console.WriteLine("Inside Update Student");
+
+                Console.WriteLine($"{st.fn}, {st.ln}, {st.schId}");
+
+                if (string.IsNullOrEmpty(st.fn))
+                    return Results.Ok(new { error = "No First Name was provided" });
+
+                if (string.IsNullOrEmpty(st.ln))
+                    return Results.Ok(new { error = "No Last Name was provided" });
+
+                bool done = int.TryParse(st.schId, out int schId);
+                if (schId <= 0 || done != true)
+                    return Results.Ok(new { error = "The given school ID needs to be a positive id" });
+
+
+                int success = ClassTrakDAC.UpdateStudent(id, st.fn, st.ln, schId);
                 Console.WriteLine(success);
 
                 string error = "";
@@ -69,3 +85,5 @@ namespace ICA09_DareenKN
         }
     }
 }
+
+record StInfo(string fn, string ln, string schId);

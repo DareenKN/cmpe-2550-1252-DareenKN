@@ -3,16 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\icas\\ica09\\ICA09_DareenKN\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{68F093E9-27BB-4D46-A5F9-3CC5D3F5B539}|ICA09_DareenKN\\ICA09_DareenKN.csproj|c:\\users\\dkinganjatou1\\downloads\\cmpe-2550-1252-dareenkn\\icas\\ica09\\ica09_dareenkn\\ica09_dareenkn\\classes\\classtrakdac.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{68F093E9-27BB-4D46-A5F9-3CC5D3F5B539}|ICA09_DareenKN\\ICA09_DareenKN.csproj|solutionrelative:ica09_dareenkn\\classes\\classtrakdac.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{68F093E9-27BB-4D46-A5F9-3CC5D3F5B539}|ICA09_DareenKN\\ICA09_DareenKN.csproj|c:\\users\\dkinganjatou1\\downloads\\cmpe-2550-1252-dareenkn\\icas\\ica09\\ica09_dareenkn\\ica09_dareenkn\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{68F093E9-27BB-4D46-A5F9-3CC5D3F5B539}|ICA09_DareenKN\\ICA09_DareenKN.csproj|solutionrelative:ica09_dareenkn\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{68F093E9-27BB-4D46-A5F9-3CC5D3F5B539}|ICA09_DareenKN\\ICA09_DareenKN.csproj|c:\\users\\dkinganjatou1\\downloads\\cmpe-2550-1252-dareenkn\\icas\\ica09\\ica09_dareenkn\\ica09_dareenkn\\clientside\\query.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}",
-      "RelativeMoniker": "D:0:0:{68F093E9-27BB-4D46-A5F9-3CC5D3F5B539}|ICA09_DareenKN\\ICA09_DareenKN.csproj|solutionrelative:ica09_dareenkn\\clientside\\query.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}"
+      "AbsoluteMoniker": "D:0:0:{68F093E9-27BB-4D46-A5F9-3CC5D3F5B539}|ICA09_DareenKN\\ICA09_DareenKN.csproj|c:\\users\\dkinganjatou1\\downloads\\cmpe-2550-1252-dareenkn\\icas\\ica09\\ica09_dareenkn\\ica09_dareenkn\\classes\\classtrakdac.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{68F093E9-27BB-4D46-A5F9-3CC5D3F5B539}|ICA09_DareenKN\\ICA09_DareenKN.csproj|solutionrelative:ica09_dareenkn\\classes\\classtrakdac.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{68F093E9-27BB-4D46-A5F9-3CC5D3F5B539}|ICA09_DareenKN\\ICA09_DareenKN.csproj|c:\\users\\dkinganjatou1\\downloads\\cmpe-2550-1252-dareenkn\\icas\\ica09\\ica09_dareenkn\\ica09_dareenkn\\clientside\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -26,55 +22,46 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "query.sql",
-              "DocumentMoniker": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\icas\\ica09\\ICA09_DareenKN\\ICA09_DareenKN\\ClientSide\\query.sql",
-              "RelativeDocumentMoniker": "ICA09_DareenKN\\ClientSide\\query.sql",
-              "ToolTip": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\icas\\ica09\\ICA09_DareenKN\\ICA09_DareenKN\\ClientSide\\query.sql",
-              "RelativeToolTip": "ICA09_DareenKN\\ClientSide\\query.sql",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2026-04-15T00:30:53.067Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ClassTrakDAC.cs",
-              "DocumentMoniker": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\icas\\ica09\\ICA09_DareenKN\\ICA09_DareenKN\\Classes\\ClassTrakDAC.cs",
-              "RelativeDocumentMoniker": "ICA09_DareenKN\\Classes\\ClassTrakDAC.cs",
-              "ToolTip": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\icas\\ica09\\ICA09_DareenKN\\ICA09_DareenKN\\Classes\\ClassTrakDAC.cs",
-              "RelativeToolTip": "ICA09_DareenKN\\Classes\\ClassTrakDAC.cs",
-              "ViewState": "AgIAAHMAAAAAAAAAAAAiwJMAAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-14T19:17:04.849Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\icas\\ica09\\ICA09_DareenKN\\ICA09_DareenKN\\Program.cs",
-              "RelativeDocumentMoniker": "ICA09_DareenKN\\Program.cs",
-              "ToolTip": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\icas\\ica09\\ICA09_DareenKN\\ICA09_DareenKN\\Program.cs",
-              "RelativeToolTip": "ICA09_DareenKN\\Program.cs",
-              "ViewState": "AgIAABwAAAAAAAAAAAAgwEIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-14T19:18:38.689Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
               "Title": "index.html",
               "DocumentMoniker": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\icas\\ica09\\ICA09_DareenKN\\ICA09_DareenKN\\ClientSide\\index.html",
               "RelativeDocumentMoniker": "ICA09_DareenKN\\ClientSide\\index.html",
               "ToolTip": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\icas\\ica09\\ICA09_DareenKN\\ICA09_DareenKN\\ClientSide\\index.html",
               "RelativeToolTip": "ICA09_DareenKN\\ClientSide\\index.html",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-04-14T19:19:55.038Z"
+              "WhenOpened": "2026-04-15T01:41:30.357Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ClassTrakDAC.cs",
+              "DocumentMoniker": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\icas\\ica09\\ICA09_DareenKN\\ICA09_DareenKN\\Classes\\ClassTrakDAC.cs",
+              "RelativeDocumentMoniker": "ICA09_DareenKN\\Classes\\ClassTrakDAC.cs",
+              "ToolTip": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\icas\\ica09\\ICA09_DareenKN\\ICA09_DareenKN\\Classes\\ClassTrakDAC.cs",
+              "RelativeToolTip": "ICA09_DareenKN\\Classes\\ClassTrakDAC.cs",
+              "ViewState": "AgIAAJkAAAAAAAAAAAAEwKwAAABPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-15T01:35:56.285Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\icas\\ica09\\ICA09_DareenKN\\ICA09_DareenKN\\Program.cs",
+              "RelativeDocumentMoniker": "ICA09_DareenKN\\Program.cs",
+              "ToolTip": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\icas\\ica09\\ICA09_DareenKN\\ICA09_DareenKN\\Program.cs",
+              "RelativeToolTip": "ICA09_DareenKN\\Program.cs",
+              "ViewState": "AgIAADEAAAAAAAAAAAAgwDcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-15T01:35:50.705Z",
+              "EditorCaption": ""
             }
           ]
         }
