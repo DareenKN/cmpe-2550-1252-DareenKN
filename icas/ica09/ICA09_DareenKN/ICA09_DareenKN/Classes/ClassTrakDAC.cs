@@ -150,8 +150,43 @@ namespace ICA09_DareenKN.Classes
                         comm.ExecuteNonQuery();
                     }
                 }
-                catch { result = -1; }
+                catch (ArgumentException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    result = -1;
+                }
+                ;
             }
+
+            return result;
+        }
+
+        public static int UpdateStudent(int st_id, string fn, string ln, int schId)
+        {
+            int result = 0;
+
+            using (SqlConnection conn = new SqlConnection(connection))
+            {
+                conn
+            }
+
+            try
+            {
+                string query =
+                    $"UPDATE students " +
+                    $"SET last_name = '{fn}', first_name = '{ln}', school_id = '{schId}" +
+                    $"WHERE student_id = '{st_id}";
+
+                using(SqlCommand comm = new SqlCommand(query, conn))
+
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+                result = -1; 
+            };
+
+
 
             return result;
         }

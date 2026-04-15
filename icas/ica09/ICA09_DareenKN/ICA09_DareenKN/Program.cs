@@ -49,6 +49,22 @@ namespace ICA09_DareenKN
                 return Results.Ok(new { message = message, error = error });
             });
 
+            app.MapPut("/UpdateStudent/{id}", (int id, string fn, string ln, int schId) =>
+            {
+                int success = ClassTrakDAC.UpdateStudent(id, fn, ln, schId);
+                Console.WriteLine(success);
+
+                string error = "";
+                string message = "";
+
+                if (success == -1)
+                    error = "An Error occurred, student was not successfully deleted";
+                else
+                    message = $"Student was successfully updated";
+
+                return Results.Ok(new { error = error, message = message });
+            });
+
             app.Run();
         }
     }

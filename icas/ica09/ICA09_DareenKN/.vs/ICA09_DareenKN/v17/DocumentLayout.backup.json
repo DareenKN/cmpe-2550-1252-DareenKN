@@ -22,19 +22,19 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "index.html",
-              "DocumentMoniker": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\icas\\ica09\\ICA09_DareenKN\\ICA09_DareenKN\\ClientSide\\index.html",
-              "RelativeDocumentMoniker": "ICA09_DareenKN\\ClientSide\\index.html",
-              "ToolTip": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\icas\\ica09\\ICA09_DareenKN\\ICA09_DareenKN\\ClientSide\\index.html",
-              "RelativeToolTip": "ICA09_DareenKN\\ClientSide\\index.html",
-              "ViewState": "AgIAADcAAAAAAAAAAAAAAFkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-04-14T19:19:55.038Z",
+              "DocumentIndex": 0,
+              "Title": "ClassTrakDAC.cs",
+              "DocumentMoniker": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\icas\\ica09\\ICA09_DareenKN\\ICA09_DareenKN\\Classes\\ClassTrakDAC.cs",
+              "RelativeDocumentMoniker": "ICA09_DareenKN\\Classes\\ClassTrakDAC.cs",
+              "ToolTip": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\icas\\ica09\\ICA09_DareenKN\\ICA09_DareenKN\\Classes\\ClassTrakDAC.cs*",
+              "RelativeToolTip": "ICA09_DareenKN\\Classes\\ClassTrakDAC.cs*",
+              "ViewState": "AgIAAI0AAAAAAAAAAAAqwKkAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-14T19:17:04.849Z",
               "EditorCaption": ""
             },
             {
@@ -45,22 +45,22 @@
               "RelativeDocumentMoniker": "ICA09_DareenKN\\Program.cs",
               "ToolTip": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\icas\\ica09\\ICA09_DareenKN\\ICA09_DareenKN\\Program.cs",
               "RelativeToolTip": "ICA09_DareenKN\\Program.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAAAgwCkAAAArAAAAAAAAAA==",
+              "ViewState": "AgIAABwAAAAAAAAAAAAgwDMAAABXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-14T19:18:38.689Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ClassTrakDAC.cs",
-              "DocumentMoniker": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\icas\\ica09\\ICA09_DareenKN\\ICA09_DareenKN\\Classes\\ClassTrakDAC.cs",
-              "RelativeDocumentMoniker": "ICA09_DareenKN\\Classes\\ClassTrakDAC.cs",
-              "ToolTip": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\icas\\ica09\\ICA09_DareenKN\\ICA09_DareenKN\\Classes\\ClassTrakDAC.cs",
-              "RelativeToolTip": "ICA09_DareenKN\\Classes\\ClassTrakDAC.cs",
-              "ViewState": "AgIAAHMAAAAAAAAAAAAUwIMAAABSAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-14T19:17:04.849Z",
+              "DocumentIndex": 2,
+              "Title": "index.html",
+              "DocumentMoniker": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\icas\\ica09\\ICA09_DareenKN\\ICA09_DareenKN\\ClientSide\\index.html",
+              "RelativeDocumentMoniker": "ICA09_DareenKN\\ClientSide\\index.html",
+              "ToolTip": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\icas\\ica09\\ICA09_DareenKN\\ICA09_DareenKN\\ClientSide\\index.html",
+              "RelativeToolTip": "ICA09_DareenKN\\ClientSide\\index.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-04-14T19:19:55.038Z",
               "EditorCaption": ""
             }
           ]

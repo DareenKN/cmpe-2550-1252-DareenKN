@@ -76,9 +76,9 @@ function GetEFStudentsSuccess(data) {
                     </button>
                 </td>
                 <td>${st[0]}</td>
-                <td>${st[1]}</td>
-                <td>${st[2]}</td>
-                <td>${st[3]}</td>
+                <td class="fn">${st[1]}</td>
+                <td class="ln">${st[2]}</td>
+                <td class="schId">${st[3]}</td>
                 <td id="btn-${st[0]}" class="action">
                     <button class="btn btn-delete" data-id="${st[0]}" onclick="DeleteStudent(${st[0]})">Delete</button>
                     <button class="btn btn-edit" data-id="${st[0]}" onclick="EditStudent(this,${st[0]})">Edit</button>
@@ -109,48 +109,67 @@ function DeleteStudent(st_id) {
         }, ErrorMethod);
 }
 
-function EditStudent(btn,st_id) {
+function EditStudent(btn, st_id) {
     console.log("Editing student:", st_id);
 
     let row = $(btn).closest("tr");
     let action = row.find(".action");
-    let firstname = row.find(".action");
-    // let action = row.find(".action");
-    // let action = row.find(".action");
+    let fn = row.find(".fn");
+    let ln = row.find(".ln");
+    let schId = row.find(".schId");
 
     action.data("Original", action.html())
-    action.data("Original", action.html())
-    action.data("Original", action.html())
-    action.data("Original", action.html())
+    fn.data("Original", fn.html())
+    ln.data("Original", ln.html())
+    schId.data("Original", schId.html())
 
-    action.html(`<button class="btn btn-delete" data-id="${st_id}" onclick="DeleteStudent(${st_id})">Update</button>
-                    <button class="btn btn-edit" data-id="${st_id}" onclick="Cancel(this)">Cancel</button>`)
-    
-
-
-
-
-    // CallAJAX(`https://localhost:7131/DeleteStudent/${st_id}`, "post", "json",
-    //     {},
-    //     function (data) {
-    //         console.log(data);
-    //         // If no titles returned, show message and hide table
-    //         if (data.error) {
-    //             $('.data-section').hide();
-    //             $('#error_status').html(data.error);
-    //             return;
-    //         }
-    //         GetStudClassInfoSuccess(data, st_id);
-    //     }, ErrorMethod);
+    action.html(`<button class="btn btn-delete" data-id="${st_id}" onclick="UpdateStudent(this,${st_id})">Update</button>
+                    <button class="btn btn-edit" data-id="${st_id}" onclick="CancelUpdate(this)">Cancel</button>`)
+    fn.html(`<input type="text" value="${fn.data("Original")}">`)
+    ln.html(`<input type="text" value="${ln.data("Original")}">`)
+    schId.html(`<input type="text" value="${schId.data("Original")}">`)
 }
 
-function Cancel(btn){
+function CancelUpdate(btn) {
     console.log("ECanceling");
 
     let row = $(btn).closest("tr");
     let action = row.find(".action");
+    let fn = row.find(".fn");
+    let ln = row.find(".ln");
+    let schId = row.find(".schId");
 
     action.html(action.data("Original"));
+    fn.html(fn.data("Original"));
+    ln.html(ln.data("Original"));
+    schId.html(schId.data("Original"));
+}
+
+function UpdateStudent(btn, st_id) {
+    console.log("Updating student:", st_id);
+
+    let row = $(btn).closest("tr");
+    let fn_input = row.find(".fn").val();
+    let ln_input = row.find(".ln").val();
+    let schId_input = row.find(".schId").val();
+
+    CallAJAX(`https://localhost:7131/UpdateStudent/${st_id}`, "put", "json",
+        {
+            id: parseInt(st_id),
+            fn: fn_input,
+            ln: ln_input,
+            schId: parseInt(schId_input)
+        },
+        function (data) {
+            console.log(data);
+            // If error, hide table and display error
+            if (data.error) {
+                $('.data-section').hide();
+                $('#error_status').html(data.error);
+                return;
+            }
+            GetStudClassInfoSuccess(data, st_id);
+        }, ErrorMethod);
 }
 
 /**

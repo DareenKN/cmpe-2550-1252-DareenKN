@@ -28,3 +28,4 @@ select * from classes
 select * from class_to_student
 where class_id = 99
 ORDER BY student_id
+

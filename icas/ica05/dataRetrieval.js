@@ -225,7 +225,7 @@ function renderEdit(title_id, data) {
         <button class="btn btn-cancel" data-title="${title_id}">Cancel</button>
     `);
 
-    $(`#title-${title_id}`).html(`<input type="text" id="title-input-${title_id}" value="${data.title}">`);
+    $(`#title-${title_id}`).html(`schId`);
     $(`#price-${title_id}`).html(`<input type="text" id="price-input-${title_id}" value="${data.price}">`);
 
     const $typeCell = $(`#type-${title_id}`);
