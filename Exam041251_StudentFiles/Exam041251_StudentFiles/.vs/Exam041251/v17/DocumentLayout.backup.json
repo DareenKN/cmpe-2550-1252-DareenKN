@@ -3,12 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\Exam041251_StudentFiles\\Exam041251_StudentFiles\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F44312F3-DD07-4B3E-9D82-238FD9342769}|Exam041251\\Exam041251.csproj|c:\\users\\dkinganjatou1\\downloads\\cmpe-2550-1252-dareenkn\\exam041251_studentfiles\\exam041251_studentfiles\\exam041251\\restaurantdac.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F44312F3-DD07-4B3E-9D82-238FD9342769}|Exam041251\\Exam041251.csproj|solutionrelative:exam041251\\restaurantdac.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F44312F3-DD07-4B3E-9D82-238FD9342769}|Exam041251\\Exam041251.csproj|c:\\users\\dkinganjatou1\\downloads\\cmpe-2550-1252-dareenkn\\exam041251_studentfiles\\exam041251_studentfiles\\exam041251\\exam4clientsidefiles\\query.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}",
+      "RelativeMoniker": "D:0:0:{F44312F3-DD07-4B3E-9D82-238FD9342769}|Exam041251\\Exam041251.csproj|solutionrelative:exam041251\\exam4clientsidefiles\\query.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F44312F3-DD07-4B3E-9D82-238FD9342769}|Exam041251\\Exam041251.csproj|c:\\users\\dkinganjatou1\\downloads\\cmpe-2550-1252-dareenkn\\exam041251_studentfiles\\exam041251_studentfiles\\exam041251\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F44312F3-DD07-4B3E-9D82-238FD9342769}|Exam041251\\Exam041251.csproj|solutionrelative:exam041251\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F44312F3-DD07-4B3E-9D82-238FD9342769}|Exam041251\\Exam041251.csproj|c:\\users\\dkinganjatou1\\downloads\\cmpe-2550-1252-dareenkn\\exam041251_studentfiles\\exam041251_studentfiles\\exam041251\\restaurantdac.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F44312F3-DD07-4B3E-9D82-238FD9342769}|Exam041251\\Exam041251.csproj|solutionrelative:exam041251\\restaurantdac.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F44312F3-DD07-4B3E-9D82-238FD9342769}|Exam041251\\Exam041251.csproj|c:\\users\\dkinganjatou1\\downloads\\cmpe-2550-1252-dareenkn\\exam041251_studentfiles\\exam041251_studentfiles\\exam041251\\exam4clientsidefiles\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -23,10 +27,6 @@
       "RelativeMoniker": "D:0:0:{F44312F3-DD07-4B3E-9D82-238FD9342769}|Exam041251\\Exam041251.csproj|solutionrelative:exam041251\\exam4clientsidefiles\\script.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F44312F3-DD07-4B3E-9D82-238FD9342769}|Exam041251\\Exam041251.csproj|c:\\users\\dkinganjatou1\\downloads\\cmpe-2550-1252-dareenkn\\exam041251_studentfiles\\exam041251_studentfiles\\exam041251\\exam4clientsidefiles\\query.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}",
-      "RelativeMoniker": "D:0:0:{F44312F3-DD07-4B3E-9D82-238FD9342769}|Exam041251\\Exam041251.csproj|solutionrelative:exam041251\\exam4clientsidefiles\\query.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{F44312F3-DD07-4B3E-9D82-238FD9342769}|Exam041251\\Exam041251.csproj|c:\\users\\dkinganjatou1\\downloads\\cmpe-2550-1252-dareenkn\\exam041251_studentfiles\\exam041251_studentfiles\\exam041251\\exam4clientsidefiles\\query.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame",
       "RelativeMoniker": "D:0:0:{F44312F3-DD07-4B3E-9D82-238FD9342769}|Exam041251\\Exam041251.csproj|solutionrelative:exam041251\\exam4clientsidefiles\\query.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame"
     }
@@ -38,24 +38,28 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 5,
           "Children": [
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            },
+            {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "RestaurantDAC.cs",
               "DocumentMoniker": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\Exam041251_StudentFiles\\Exam041251_StudentFiles\\Exam041251\\RestaurantDAC.cs",
               "RelativeDocumentMoniker": "Exam041251\\RestaurantDAC.cs",
               "ToolTip": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\Exam041251_StudentFiles\\Exam041251_StudentFiles\\Exam041251\\RestaurantDAC.cs",
               "RelativeToolTip": "Exam041251\\RestaurantDAC.cs",
-              "ViewState": "AgIAAE4AAAAAAAAAAAAiwGAAAAA2AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-16T16:14:22.583Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "index.html",
               "DocumentMoniker": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\Exam041251_StudentFiles\\Exam041251_StudentFiles\\Exam041251\\Exam4ClientSideFiles\\index.html",
               "RelativeDocumentMoniker": "Exam041251\\Exam4ClientSideFiles\\index.html",
@@ -67,7 +71,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "script.js",
               "DocumentMoniker": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\Exam041251_StudentFiles\\Exam041251_StudentFiles\\Exam041251\\Exam4ClientSideFiles\\script.js",
               "RelativeDocumentMoniker": "Exam041251\\Exam4ClientSideFiles\\script.js",
@@ -79,7 +83,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "style.css",
               "DocumentMoniker": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\Exam041251_StudentFiles\\Exam041251_StudentFiles\\Exam041251\\Exam4ClientSideFiles\\style.css",
               "RelativeDocumentMoniker": "Exam041251\\Exam4ClientSideFiles\\style.css",
@@ -97,9 +101,10 @@
               "RelativeDocumentMoniker": "Exam041251\\Program.cs",
               "ToolTip": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\Exam041251_StudentFiles\\Exam041251_StudentFiles\\Exam041251\\Program.cs",
               "RelativeToolTip": "Exam041251\\Program.cs",
-              "ViewState": "AgIAAFgAAAAAAAAAAAAgwHUAAABRAAAAAAAAAA==",
+              "ViewState": "AgIAAF4AAAAAAAAAAAAgwBkAAABRAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-08T18:07:37.215Z"
+              "WhenOpened": "2025-12-08T18:07:37.215Z",
+              "EditorCaption": ""
             }
           ]
         },
@@ -109,7 +114,7 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 0,
               "Title": "query.sql ",
               "DocumentMoniker": "C:\\Users\\dkinganjatou1\\Downloads\\cmpe-2550-1252-DareenKN\\Exam041251_StudentFiles\\Exam041251_StudentFiles\\Exam041251\\Exam4ClientSideFiles\\query.sql",
               "RelativeDocumentMoniker": "Exam041251\\Exam4ClientSideFiles\\query.sql",

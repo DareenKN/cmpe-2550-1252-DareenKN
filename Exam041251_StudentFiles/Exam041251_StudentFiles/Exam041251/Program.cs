@@ -44,7 +44,7 @@ namespace Exam041251
                 string error = "";
                 message = "";
                 if (success == -1)
-                    error = "An Error occurred, item was not successfully deleted";
+                    message = "An Error occurred, item was not successfully deleted";
                 else
                     message = $"item has been successfully deleted from the database";
                 return Results.Ok(new { message = message, error = error });
@@ -57,19 +57,19 @@ namespace Exam041251
                 Console.WriteLine($"{st.id}, {st.name}, {st.price}");
 
                 if (st.id == null)
-                    return Results.Ok(new { error = "No First Name was provided" });
+                    return Results.Ok(new { message = "No id was provided" });
 
                 if (st.price == null)
-                    return Results.Ok(new { error = "No First Name was provided" });
+                    return Results.Ok(new { message = "No price was provided" });
 
                 if (string.IsNullOrEmpty(st.name))
-                    return Results.Ok(new { error = "No Last Name was provided" });
+                    return Results.Ok(new { message = "No name was provided" });
 
-                if (st.id <= 0)
-                    return Results.Ok(new { error = "The item School ID must have atleast character" });
+                if (st.id < 0)
+                    return Results.Ok(new { message = "The item ID must be greater than zero" });
 
                 if (st.price <= 0)
-                    return Results.Ok(new { error = "The item School ID must have atleast character" });
+                    return Results.Ok(new { message = "The item price must be greater than zero" });
 
 
                 int success = RestaurantDAC.UpdateItem((int)st.id, st.name, (double)st.price);
@@ -79,7 +79,7 @@ namespace Exam041251
                 string message = "";
 
                 if (success == -1)
-                    error = "An Error occurred, item was not successfully deleted";
+                    message = "An Error occurred, item does not exist";
                 else
                     message = $"item Information has been updated successfully";
 
@@ -92,22 +92,21 @@ namespace Exam041251
 
                 Console.WriteLine($"{st.id}, {st.name}, {st.price}");
 
+
                 if (st.id == null)
-                    return Results.Ok(new { error = "No First Name was provided" });
+                    return Results.Ok(new { message = "No id was provided" });
 
                 if (st.price == null)
-                    return Results.Ok(new { error = "No First Name was provided" });
+                    return Results.Ok(new { message = "No price was provided" });
 
                 if (string.IsNullOrEmpty(st.name))
-                    return Results.Ok(new { error = "No Last Name was provided" });
+                    return Results.Ok(new { message = "No name was provided" });
 
-                if (st.id <= 0)
-                    return Results.Ok(new { error = "The item School ID must have atleast character" });
-               
+                if (st.id < 0)
+                    return Results.Ok(new { message = "The item ID must be greater than zero" });
+
                 if (st.price <= 0)
-                    return Results.Ok(new { error = "The item School ID must have atleast character" });
-
-
+                    return Results.Ok(new { message = "The item price must be greater than zero" });
 
                 string error = "";
                 string message = "";
@@ -115,7 +114,7 @@ namespace Exam041251
                 var success = RestaurantDAC.AddItem((int)st.id, st.name, (double)st.price);
 
                 if (success == -1)
-                    error = "An Error occurred, item was not successfully added";
+                    message = "An Error occurred, item was not successfully added";
                 else
                     message = $"item has been successfully inserted into the database";
 
