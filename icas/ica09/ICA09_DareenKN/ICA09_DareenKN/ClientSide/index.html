@@ -91,6 +91,44 @@
             <p id="book-status"></p>
         </section>
         <div><p id = "error"></p></div>
+        <section class="add-book-section">
+            <h2>Add Student</h2>
+
+            <form id="add-book-form">
+
+                <div class="form-row">
+                    <label for="add-schoolId">School ID:</label>
+                    <input type="text" id="add-schoolId" placeholder="Supply the Student's School ID">
+                </div>
+
+                <div class="form-row">
+                    <label for="add-fn">Student First Name:</label>
+                    <input type="text" id="add-fn" placeholder="Supply the Student's First Name">
+                </div>
+
+                
+                <div class="form-row">
+                    <label for="add-classId">Class ID:</label>
+                    <select id="add-classId" multiple size="5"></select>
+                </div>
+
+
+                <div class="form-row">
+                    <label for="add-ln">Student LastName:</label>
+                    <input type="text" id="add-ln" placeholder="Supply the Student's Last Name">
+                </div>
+
+                <div></div>
+
+                <div class="form-row">
+                    <button type="button" id="btn-add" class="btn">Add Student</button>
+                </div>
+
+            </form>
+
+            <div id="add-status"></div>
+
+        </section>
     </main>
 
     <footer>

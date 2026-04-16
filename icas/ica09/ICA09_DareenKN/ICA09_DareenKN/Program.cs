@@ -36,6 +36,13 @@ namespace ICA09_DareenKN
                 return Results.Ok(new { StudClassInfo = StudClassInfo, message = message, error = error });
             });
 
+            app.MapGet("/ClassIds", () =>
+            {
+                var classIds = ClassTrakDAC.GetClassIds();
+                string message = $"Retrieved {classIds.Count} class ID(s)";
+                return Results.Ok(new { classIds = classIds, message = message });
+            });
+
             app.MapDelete("/DeleteStudent/{id}", (int id) =>
             {
                 int success = ClassTrakDAC.DeleteStudent(id);
@@ -46,7 +53,7 @@ namespace ICA09_DareenKN
                 if (success == -1)
                     error = "An Error occurred, student was not successfully deleted";
                 else
-                    message = $"Student was successfully deleted";
+                    message = $"Student has been successfully deleted from the database";
                 return Results.Ok(new { message = message, error = error });
             });
 
@@ -76,9 +83,42 @@ namespace ICA09_DareenKN
                 if (success == -1)
                     error = "An Error occurred, student was not successfully deleted";
                 else
-                    message = $"Student was successfully updated";
+                    message = $"Student Information has been updated successfully";
 
                 return Results.Ok(new { error = error, message = message });
+            });
+
+            app.MapPost("/AddStudent", (StInfo st) =>
+            {
+                Console.WriteLine("Inside of AddStudent");
+
+                Console.WriteLine($"{st.fn}, {st.ln}, {st.schId}, {st.classId}");
+
+                if (string.IsNullOrEmpty(st.fn))
+                    return Results.Ok(new { error = "No First Name was provided" });
+
+                if (string.IsNullOrEmpty(st.ln))
+                    return Results.Ok(new { error = "No Last Name was provided" });
+
+                bool done = int.TryParse(st.schId, out int schId);
+                if (schId <= 0 || done != true)
+                    return Results.Ok(new { error = "The Student School ID must have atleast character" });
+
+                if(st.classId.Length == 0)
+                    return Results.Ok(new { error = "Select atleast one class" });
+
+
+                string error = "";
+                string message = "";
+
+                var success = ClassTrakDAC.AddStudent(st.fn, st.ln, schId, st.classId, out int st_id);
+
+                if (success == -1)
+                    error = "An Error occurred, student was not successfully added";
+                else
+                    message = $"Student has been successfully inserted into the database";
+
+                return Results.Ok(new { error = error, message = message, newStudentId = st_id});
             });
 
             app.Run();
@@ -86,4 +126,4 @@ namespace ICA09_DareenKN
     }
 }
 
-record StInfo(string fn, string ln, string schId);
+record StInfo(string fn, string ln, string schId, string[] classId);

@@ -13,6 +13,8 @@ let originalRowData = {};
 $(document).ready(function () {
     $('.data-section').hide();
     GetEFStudents();
+    LoadClassIds();
+    $("#btn-add").click(AddStudent);
 });
 
 
@@ -79,8 +81,8 @@ function GetEFStudentsSuccess(data) {
                     </button>
                 </td>
                 <td>${st[0]}</td>
-                <td class="fn">${st[1]}</td>
-                <td class="ln">${st[2]}</td>
+                <td class="fn">${st[2]}</td>
+                <td class="ln">${st[1]}</td>
                 <td class="schId">${st[3]}</td>
                 <td id="btn-${st[0]}" class="action">
                     <button class="btn btn-delete" data-id="${st[0]}" onclick="DeleteStudent(${st[0]})">Delete</button>
@@ -239,6 +241,54 @@ function GetStudClassInfoSuccess(data, st_id) {
     // Update status message
     $('#book-status').html(data.message);
 }
+
+function LoadClassIds() {
+    CallAJAX("https://localhost:7131/ClassIds", "get", "json",
+        {},
+        function (data) {
+            console.log(data);
+            // Populate class IDs dropdown
+            let select = $("#add-classId");
+            select.empty();
+            data.classIds.forEach(id => {
+                select.append(`<option value="${id}">${id}</option>`);
+            });
+        }, ErrorMethod);
+}
+
+function AddStudent() {
+    let fn = $("#add-fn").val();
+    let ln = $("#add-ln").val();
+    let schId = $("#add-schoolId").val();
+    let classId = $("#add-classId").val();
+
+    console.log(`Adding student: ${fn} ${ln}, School ID: ${schId}, Class ID: ${classId}`);
+
+    CallAJAX("https://localhost:7131/AddStudent", "post", "json",
+        {
+            fn: fn,
+            ln: ln,
+            schId: schId,
+            classId: classId
+        },
+        function (data) {
+            console.log(data);
+            if (data.error) {
+                $("#add-status")
+                    .removeClass("success")
+                    .addClass("error")
+                    .html(data.error);
+                return;
+            }
+            $("#add-status")
+                .removeClass("error")
+                .addClass("success")
+                .html(data.message);
+            GetEFStudents();
+            GetStudClassInfo(data.newStudentId);
+        }, ErrorMethod);
+}
+
 
 /**
  * FunctionName:    hasError

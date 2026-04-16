@@ -29,3 +29,11 @@ select * from class_to_student
 where class_id = 99
 ORDER BY student_id
 
+
+select * from classes
+
+SELECT 1 FROM class_to_student WHERE student_id = 642 AND class_id = 99
+
+INSERT INTO students (last_name, first_name, school_id) VALUES ('Dareen', 'Kinga', 304958)
+
+select student_id from students where last_name like 'Dareen' and first_name like 'Kinga'

@@ -2,7 +2,7 @@
 
 namespace ICA09_DareenKN.Classes
 {
-    public static class ClassTrakDAC
+    public static class Rough
     {
         static string connection = "Server=data.cnt.sast.ca,24680;" +
                                     "Database=dkinganjatou1_ClassTrak;" +
@@ -70,28 +70,6 @@ namespace ICA09_DareenKN.Classes
             //return _students;
         }
 
-        public static List<string> GetClassIds()
-        {
-            List<string> rowData = new List<string>();
-
-            using (SqlConnection conn = new SqlConnection(connection))
-            {
-                conn.Open();
-                string query = "SELECT class_desc FROM classes";
-
-                using (SqlCommand comm = new SqlCommand(query, conn))
-                {
-                    using (SqlDataReader reader = comm.ExecuteReader())
-                    {
-                        while (reader.Read())
-                            rowData.Add(reader[0].ToString() ?? "NULL");
-
-                    }
-                }
-            }
-            return rowData;
-        }
-
         public static List<List<string>> GetStudentClassInfo(int stid)
         {
             List<string> columnHeaders = new List<string>();
@@ -150,9 +128,9 @@ namespace ICA09_DareenKN.Classes
             {
                 conn.Open();
 
-                string query1 = $"DELETE FROM class_to_student WHERE student_id = @stid";
-                string query2 = $"DELETE FROM results WHERE student_id = @stid";
-                string query3 = $"DELETE FROM students WHERE student_id = @stid";
+                string query1 = $"DELETE FROM class_to_student WHERE student_id = {st_id}";
+                string query2 = $"DELETE FROM results WHERE student_id = {st_id}";
+                string query3 = $"DELETE FROM students WHERE student_id = {st_id}";
 
                 try
                 {
@@ -172,7 +150,7 @@ namespace ICA09_DareenKN.Classes
                         comm.ExecuteNonQuery();
                     }
                 }
-                catch (Exception ex)
+                catch (ArgumentException ex)
                 {
                     Console.WriteLine(ex.Message);
                     result = -1;
@@ -219,7 +197,7 @@ namespace ICA09_DareenKN.Classes
             return result;
         }
 
-        public static int AddStudent(string fn, string ln, int schId, string[] classDescs, out int st_id)
+        public static int AddStudent(string fn, string ln, int schId, string[] classIds)
         {
             int result = 0;
 
@@ -227,7 +205,6 @@ namespace ICA09_DareenKN.Classes
             {
                 conn.Open();
                 SqlTransaction trans = conn.BeginTransaction();
-                st_id = 0;
 
                 try
                 {
@@ -243,7 +220,7 @@ namespace ICA09_DareenKN.Classes
                     insertStudent.Parameters.AddWithValue("@fn", fn);
                     insertStudent.Parameters.AddWithValue("@schId", schId);
 
-                    st_id = Convert.ToInt32(insertStudent.ExecuteScalar());
+                    int st_id = Convert.ToInt32(insertStudent.ExecuteScalar());
 
                     if (st_id <= 0)
                     {
@@ -251,52 +228,35 @@ namespace ICA09_DareenKN.Classes
                         return -1;
                     }
 
-                    // 2. Loop through class descriptions
-                    if (classDescs != null)
+                    // 2. Insert class relationships
+                    foreach (var classId in classIds)
                     {
-                        foreach (var desc in classDescs)
+                        // Check if relation exists
+                        SqlCommand checkCmd = new SqlCommand(
+                            "SELECT COUNT(*) FROM class_to_student WHERE student_id = @stid AND class_id = @cid",
+                            conn, trans
+                        );
+                        checkCmd.Parameters.AddWithValue("@stid", st_id);
+                        checkCmd.Parameters.AddWithValue("@cid", classId);
+
+                        int exists = (int)checkCmd.ExecuteScalar();
+
+                        if (exists > 0)
+                            continue;
+
+                        // Insert relation
+                        SqlCommand insertClass = new SqlCommand(
+                            "INSERT INTO class_to_student (student_id, class_id) VALUES (@stid, @cid)",
+                            conn, trans
+                        );
+                        insertClass.Parameters.AddWithValue("@stid", st_id);
+                        insertClass.Parameters.AddWithValue("@cid", classId);
+
+                        int rows = insertClass.ExecuteNonQuery();
+                        if (rows <= 0)
                         {
-                            // 🔍 Get class_id from class_desc
-                            SqlCommand getClassId = new SqlCommand(
-                                "SELECT class_id FROM classes WHERE class_desc = @desc",
-                                conn, trans
-                            );
-                            getClassId.Parameters.AddWithValue("@desc", desc);
-
-                            object resultObj = getClassId.ExecuteScalar();
-
-                            if (resultObj == null)
-                                continue; // class not found
-
-                            int classId = Convert.ToInt32(resultObj);
-
-                            // Check if relation exists
-                            SqlCommand checkCmd = new SqlCommand(
-                                "SELECT COUNT(*) FROM class_to_student WHERE student_id = @stid AND class_id = @cid",
-                                conn, trans
-                            );
-                            checkCmd.Parameters.AddWithValue("@stid", st_id);
-                            checkCmd.Parameters.AddWithValue("@cid", classId);
-
-                            int exists = (int)checkCmd.ExecuteScalar();
-
-                            if (exists > 0)
-                                continue;
-
-                            // Insert relation
-                            SqlCommand insertClass = new SqlCommand(
-                                "INSERT INTO class_to_student (student_id, class_id) VALUES (@stid, @cid)",
-                                conn, trans
-                            );
-                            insertClass.Parameters.AddWithValue("@stid", st_id);
-                            insertClass.Parameters.AddWithValue("@cid", classId);
-
-                            int rows = insertClass.ExecuteNonQuery();
-                            if (rows <= 0)
-                            {
-                                trans.Rollback();
-                                return -1;
-                            }
+                            trans.Rollback();
+                            return -1;
                         }
                     }
 
@@ -316,70 +276,5 @@ namespace ICA09_DareenKN.Classes
         }
 
 
-        //public static int AddStudent(string fn, string ln, int schId, string[] classIds)
-        //{
-        //    int result = 0;
-
-        //    using (SqlConnection conn = new SqlConnection(connection))
-        //    {
-        //        conn.Open();
-
-        //        string query =
-        //            "INSERT INTO students (last_name, first_name, school_id)" +
-        //            "VALUES (@ln, @fn, @schId)";
-
-        //        try
-        //        {
-        //            using (SqlCommand comm = new SqlCommand(query, conn))
-        //            {
-        //                comm.Parameters.AddWithValue("@ln", ln);
-        //                comm.Parameters.AddWithValue("@fn", fn);
-        //                comm.Parameters.AddWithValue("@schId", schId);
-        //                int rows = comm.ExecuteNonQuery();
-        //                if (rows == 0) result = -1;
-        //            }
-
-        //        }
-        //        catch (ArgumentException ex)
-        //        {
-        //            Console.WriteLine(ex.Message);
-        //            result = -1;
-        //            return -1;
-        //        }
-
-        //        // Find the student ID : select student_id from students where last_name like 'Dareen' and first_name like 'Kinga'
-
-        //        foreach (var classId in classIds)
-        //        {
-        //            int check = (int)new SqlCommand($"SELECT 1 FROM class_to_student WHERE student_id = {st_id} AND class_id = {classId}", conn).ExecuteScalar();
-
-        //            if (check > 0)
-        //                continue;
-
-        //            string query2 =
-        //               "INSERT INTO class_to_student (student_id, class_id)" +
-        //               "VALUES (@stid, @classId)";
-
-        //            using (SqlCommand comm = new SqlCommand(query2, conn))
-        //            {
-        //                comm.Parameters.AddWithValue("@stid", st_id);
-        //                comm.Parameters.AddWithValue("@classId", classId);
-        //                int rows = comm.ExecuteNonQuery();
-        //                if (rows < 1) result = -1;
-        //            }
-
-        //        }
-        //    }
-
-        //    return result;
-        //}
-
     }
 }
-
-//SqlCommand cmd = new SqlCommand(
-//    "SELECT COUNT(*) FROM students WHERE student_id = @id", conn
-//);
-//cmd.Parameters.AddWithValue("@id", st_id);
-
-//int check1 = (int)cmd.ExecuteScalar();
