@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Exam 04- Winter 2026 </title>
+        <link rel="stylesheet" href="./style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+        <script src="./script.js"></script>
+    </head>
+    <body>
+        
+        <header>
+            <img src="./images/Tim_Hortons.png" alt="Tim Horton's Logo">
+            <h1>Welcome to Tim Horton <br>Exam 04 - Winter 2026</h1>
+        </header>
+        <main>
+            <!-- Item Retrieval Part --><br>
+            <div class="container">
+                <h2> Revenue Summary by Item</h2>
+               
+                <label for="startDate">Start Date:</label><br>
+                <input type="text" name="startDate" id="startDate" value="2025-06-08" placeholder="2025-06-08" required><br>
+                
+                <label for="endDate">End Date:</label><br>
+                <input type="text" name="endDate" id="endDate" value="2026-07-08" placeholder="2026-07-08" required><br>
+                
+                <button id="RetItem" value="Place"> Show Summary</button>
+                <div class="container1" id="RetItemMessage">
+                    <!-- Show Summary here -->
+                </div>
+            </div>
+          
+            <!-- Item add Part -->
+            <div class="container">
+                <h2> Adding Item</h2>
+                <div class="container1" id="AddItemMessage">
+                
+                </div>
+                <!-- form for item entry -->
+                <label for="id">Item Id:</label><br>
+                <input type="text" name="id" id="id" placeholder="Enter your Item Id" required><br>
+                
+                <label for="ItemName">Item Name:</label><br>   
+                <input type="text" name="ItemName" id="ItemName" placeholder="Enter Item Name" required><br>
+                
+                <label for="ItemPrice">Item Price:</label><br>   
+                <input type="number" name="ItemPrice" id="ItemPrice" value="0.00" min="0" max="100" step="0.01"  required><br>
+            
+                <button id="AddItem" value="Place"> Add Item</button>
+            </div>
+           
+            <!-- Item Update Part -->
+            <div class="container">
+                <h2> Updating Item</h2>
+                <div class="container1" id="UpdateItemMessage">
+                
+                </div>
+                
+                <label for="Iid">Item Id:</label><br>
+                <input type="text" name="Iid" id="Iid" placeholder="Enter your Item Id" required><br>
+                
+                <label for="UItemName">Item Name:</label><br>   
+                <input type="text" name="UItemName" id="UItemName" placeholder="Enter Item Name" required><br>
+                
+                <label for="UItemPrice">Item Price:</label><br>   
+                <input type="number" name="UItemPrice" id="UItemPrice" value="0.00" min="0" max="100" step="0.01"  required><br>
+            
+                <button id="UpdateItem" value="Place"> Update Item</button>
+            </div>
+            
+            <!-- Item Delete Part -->
+            <div class="container">
+                <h2> Delete Item</h2>
+                <div class="container1" id="DeleteItemMessage">
+                
+                </div>
+                
+                <label for="dIid">Item Id:</label><br>
+                <input type="text" name="dIid" id="dIid" placeholder="Enter your Item Id" required><br>
+                
+                <button id="DeleteItem" value="Place"> Delete Item</button>
+            </div>
+        </main>
+        <footer>
+            <p style="text-align: center; color: green;">Copyright &copy; CNT</p>
+        </footer>
+    </body>
+</html>
+
