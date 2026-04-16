@@ -1,0 +1,153 @@
+[
+  {
+    "ContainingType": "ICA11_DareenKN.Program\u002B\u003C\u003Ec",
+    "Method": "\u003CMain\u003Eb__1_1",
+    "RelativePath": "",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ICA11_DareenKN.Program\u002B\u003C\u003Ec",
+    "Method": "\u003CMain\u003Eb__1_4",
+    "RelativePath": "GetOrders/{Cid?}/{lName}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Cid",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "lName",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ICA11_DareenKN.Program\u002B\u003C\u003Ec",
+    "Method": "\u003CMain\u003Eb__1_3",
+    "RelativePath": "Location",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "l",
+        "Type": "ICA11_DareenKN.Program\u002BInfo",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ICA11_DareenKN.Program\u002B\u003C\u003Ec",
+    "Method": "\u003CMain\u003Eb__1_5",
+    "RelativePath": "Menu/{loc}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "loc",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ICA11_DareenKN.Program\u002B\u003C\u003Ec",
+    "Method": "\u003CMain\u003Eb__1_7",
+    "RelativePath": "Order",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "i",
+        "Type": "ICA11_DareenKN.Program\u002BInfo",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ICA11_DareenKN.Program\u002B\u003C\u003Ec",
+    "Method": "\u003CMain\u003Eb__1_6",
+    "RelativePath": "PaymentMethods/{loc}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "loc",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ICA11_DareenKN.Program\u002B\u003C\u003Ec",
+    "Method": "\u003CMain\u003Eb__1_2",
+    "RelativePath": "Welcome",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  }
+]
