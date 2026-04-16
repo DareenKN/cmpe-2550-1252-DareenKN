@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CMPE2550 – ICA10 [ASP] – Data Retrieval</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Link to Ajax and jQuery library-->
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.7.1.js"> </script>
+
+    <link rel="stylesheet" href="css/style.css">
+    <script src="script.js"></script>
+
+</head>
+
+<body>
+
+    <header>
+        <h1><a href="../../../../../index.html">CMPE2550</a> – ICA10 [ASP] - Data Retrieval</h1>
+    </header>
+
+
+    <main>
+
+        <section class="welcome-box">
+            <h2 id="welcome-message"></h2>
+        </section>
+
+        <section style="text-align: left;">
+            <label for="cusId">Customer ID</label><br>
+            <input type="text" id="cusId" style="margin-right: auto;" placeholder="Enter Customer ID">
+        </section>
+
+        <section class="location-box">
+
+            <h3>Select the location</h3>
+
+            <select id="location">
+                <option disabled selected>Select location...</option>
+            </select>
+        </section>
+
+        <!-- BOOKS SECTION -->
+        <section class="data-section">
+            <h3 id="order-table-title"></h3><br>
+
+            <table class="data-table orders-table">
+                <thead>
+                    <tr>
+                        <th>Order Id</th>
+                        <th>Order Date</th>
+                        <th>Payment Method</th>
+                        <th>Item Name</th>
+                        <th>Item Price</th>
+                        <th>Item Count</th>
+                    </tr>
+                </thead>
+                <tbody id="orders-body">
+                    <tr>
+                        <td> {title[0]} </td>
+                        <td>{title[0]}</td>
+                        <td>{title[1]}</td>
+                        <td>{title[2]}</td>
+                        <td>{title[3]}</td>
+                        <td>{title[4]}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p id="order-status"></p>
+        </section>
+        <div>
+            <p id="error"></p>
+        </div>
+
+        <section class="menu-box">
+
+            <h3 id="menu-title"></h3>
+
+            <ol id="menu">
+            </ol>
+
+            <div id="message"></div>
+
+        </section>
+
+
+        <section class="order-box">
+
+            <h3>Order Processing</h3>
+
+            <div class="form-row">
+                <label>Name</label>
+                <input type="text" id="name">
+            </div>
+
+            <div class="form-row">
+                <label>Item Ordered</label>
+                <select id="item">
+                    <option disabled selected>Select Item</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <div class="form-row">
+                    <label>How many items</label>
+                    <input type="number" id="quantity" min="1" value="0">
+                </div>
+
+                <div class="form-row">
+                    <label>Payment Method</label>
+                    <select id="payment">
+                        <option disabled selected>Select Payment Method</option>
+                        <option>Cash</option>
+                        <option>Debit</option>
+                        <option>Credit</option>
+                    </select>
+                </div>
+            </div>
+
+            <center>
+                <div id="order_status"></div>
+            </center>
+
+            <button id="place-order" class="btn">Place Order</button>
+
+        </section>
+
+
+        <section class="order">
+            <ol id="order-details">
+            </ol>
+        </section>
+
+        <div id="time"></div>
+
+    </main>
+
+
+    <footer>
+        © Copyright 2026 by Dareen Njatou <br>
+        Last modified on
+        <script>document.write(document.lastModified)</script>
+    </footer>
+
+</body>
+
+</html>

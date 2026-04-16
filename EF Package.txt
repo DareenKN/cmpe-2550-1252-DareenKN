@@ -1,1 +1,2 @@
-Scaffold-DbContext "Server=data.cnt.sast.ca,24680;Database=dkinganjatou1_Northwind;User Id=dkinganjatou1;Password=NaitKid181; Encrypt=False;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
+Scaffold-DbContext "Server=data.cnt.sast.ca,24680;Database=dkinganjatou1_RestaurantDB;User Id=dkinganjatou1;Password=NaitKid181; Encrypt=False;"Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
+Scaffold-DbContext "Server=data.cnt.sast.ca,24680;Database=sdytiuktest1222_Northwind;User Id=sdytiuk_test;Password=UwanaNo; Encrypt=False;"Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
