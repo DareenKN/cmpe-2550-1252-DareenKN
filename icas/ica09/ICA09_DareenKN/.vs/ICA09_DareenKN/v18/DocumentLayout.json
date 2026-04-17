@@ -15,10 +15,6 @@
       "RelativeMoniker": "D:0:0:{68F093E9-27BB-4D46-A5F9-3CC5D3F5B539}|ICA09_DareenKN\\ICA09_DareenKN.csproj|solutionrelative:ica09_dareenkn\\clientside\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{68F093E9-27BB-4D46-A5F9-3CC5D3F5B539}|ICA09_DareenKN\\ICA09_DareenKN.csproj|d:\\desktop\\naithub\\cmpe-2550-1252-dareenkn\\icas\\ica09\\ica09_dareenkn\\ica09_dareenkn\\rough.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{68F093E9-27BB-4D46-A5F9-3CC5D3F5B539}|ICA09_DareenKN\\ICA09_DareenKN.csproj|solutionrelative:ica09_dareenkn\\rough.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{68F093E9-27BB-4D46-A5F9-3CC5D3F5B539}|ICA09_DareenKN\\ICA09_DareenKN.csproj|d:\\desktop\\naithub\\cmpe-2550-1252-dareenkn\\icas\\ica09\\ica09_dareenkn\\ica09_dareenkn\\clientside\\query.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}",
       "RelativeMoniker": "D:0:0:{68F093E9-27BB-4D46-A5F9-3CC5D3F5B539}|ICA09_DareenKN\\ICA09_DareenKN.csproj|solutionrelative:ica09_dareenkn\\clientside\\query.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}"
     },
@@ -38,20 +34,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 1,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "query.sql ",
-              "DocumentMoniker": "D:\\Desktop\\NAITHUB\\cmpe-2550-1252-DareenKN\\icas\\ica09\\ICA09_DareenKN\\ICA09_DareenKN\\ClientSide\\query.sql",
-              "RelativeDocumentMoniker": "ICA09_DareenKN\\ClientSide\\query.sql",
-              "ToolTip": "D:\\Desktop\\NAITHUB\\cmpe-2550-1252-DareenKN\\icas\\ica09\\ICA09_DareenKN\\ICA09_DareenKN\\ClientSide\\query.sql",
-              "RelativeToolTip": "ICA09_DareenKN\\ClientSide\\query.sql",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2026-04-16T02:40:50.602Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Document",
               "DocumentIndex": 1,
@@ -67,6 +51,31 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ClassTrakDAC.cs",
+              "DocumentMoniker": "D:\\Desktop\\NAITHUB\\cmpe-2550-1252-DareenKN\\icas\\ica09\\ICA09_DareenKN\\ICA09_DareenKN\\Classes\\ClassTrakDAC.cs",
+              "RelativeDocumentMoniker": "ICA09_DareenKN\\Classes\\ClassTrakDAC.cs",
+              "ToolTip": "D:\\Desktop\\NAITHUB\\cmpe-2550-1252-DareenKN\\icas\\ica09\\ICA09_DareenKN\\ICA09_DareenKN\\Classes\\ClassTrakDAC.cs",
+              "RelativeToolTip": "ICA09_DareenKN\\Classes\\ClassTrakDAC.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAPQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-16T01:24:02.746Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "query.sql ",
+              "DocumentMoniker": "D:\\Desktop\\NAITHUB\\cmpe-2550-1252-DareenKN\\icas\\ica09\\ICA09_DareenKN\\ICA09_DareenKN\\ClientSide\\query.sql",
+              "RelativeDocumentMoniker": "ICA09_DareenKN\\ClientSide\\query.sql",
+              "ToolTip": "D:\\Desktop\\NAITHUB\\cmpe-2550-1252-DareenKN\\icas\\ica09\\ICA09_DareenKN\\ICA09_DareenKN\\ClientSide\\query.sql",
+              "RelativeToolTip": "ICA09_DareenKN\\ClientSide\\query.sql",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2026-04-16T02:40:50.602Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 2,
               "Title": "index.html",
               "DocumentMoniker": "D:\\Desktop\\NAITHUB\\cmpe-2550-1252-DareenKN\\icas\\ica09\\ICA09_DareenKN\\ICA09_DareenKN\\ClientSide\\index.html",
@@ -76,38 +85,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
               "WhenOpened": "2026-04-16T01:24:02.608Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ClassTrakDAC.cs",
-              "DocumentMoniker": "D:\\Desktop\\NAITHUB\\cmpe-2550-1252-DareenKN\\icas\\ica09\\ICA09_DareenKN\\ICA09_DareenKN\\Classes\\ClassTrakDAC.cs",
-              "RelativeDocumentMoniker": "ICA09_DareenKN\\Classes\\ClassTrakDAC.cs",
-              "ToolTip": "D:\\Desktop\\NAITHUB\\cmpe-2550-1252-DareenKN\\icas\\ica09\\ICA09_DareenKN\\ICA09_DareenKN\\Classes\\ClassTrakDAC.cs",
-              "RelativeToolTip": "ICA09_DareenKN\\Classes\\ClassTrakDAC.cs",
-              "ViewState": "AgIAAAkBAAAAAAAAAIAwwPQAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-16T01:24:02.746Z",
-              "EditorCaption": ""
-            }
-          ]
-        },
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 0,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Rough.cs",
-              "DocumentMoniker": "D:\\Desktop\\NAITHUB\\cmpe-2550-1252-DareenKN\\icas\\ica09\\ICA09_DareenKN\\ICA09_DareenKN\\Rough.cs",
-              "RelativeDocumentMoniker": "ICA09_DareenKN\\Rough.cs",
-              "ToolTip": "D:\\Desktop\\NAITHUB\\cmpe-2550-1252-DareenKN\\icas\\ica09\\ICA09_DareenKN\\ICA09_DareenKN\\Rough.cs",
-              "RelativeToolTip": "ICA09_DareenKN\\Rough.cs",
-              "ViewState": "AgIAAMIAAAAAAAAAAAAswBQBAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-16T03:12:26.929Z",
               "EditorCaption": ""
             }
           ]
