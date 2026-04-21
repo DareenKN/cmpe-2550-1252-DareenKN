@@ -126,10 +126,11 @@ function AddRole() {
 
 function ChangeUserRole(userId) {
   const newRole = $(`.role-select[data-user="${userId}"]`).val();
-  console.log("Changing role for user:", userId, "to", newRole);
+  const oldRole = $(`.role-select[data-user="${userId}"] option:selected`).text();
+  console.log("Changing role for user:", userId, "to", newRole, "from", oldRole);
 
   CallAJAX("service.php", "post", "json",
-    { action: "ChangeUserRole", user_id: userId, new_role: newRole, older_role: $(`.role-select[data-user="${userId}"]`).data("current-role") },
+    { action: "ChangeUserRole", user_id: userId, new_role: newRole, older_role: oldRole },
     function (data) {
       console.log(data);
       if (hasError(data)) {GetAllUsers(); return;}

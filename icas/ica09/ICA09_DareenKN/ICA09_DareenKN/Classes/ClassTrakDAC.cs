@@ -203,8 +203,11 @@ namespace ICA09_DareenKN.Classes
                         comm.Parameters.AddWithValue("@ln", ln);
                         comm.Parameters.AddWithValue("@fn", fn);
                         comm.Parameters.AddWithValue("@schId", schId);
-                        int rows = comm.ExecuteNonQuery();
-                        if (rows == 0) result = -1;
+                        try
+                        {
+                            int rows = comm.ExecuteNonQuery();
+                            if (rows == 0) result = -1;
+                        }catch(Exception ex) { throw new Exception(ex.Message); }
                     }
 
                 }
