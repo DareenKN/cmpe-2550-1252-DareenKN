@@ -129,10 +129,10 @@ function ChangeUserRole(userId) {
   console.log("Changing role for user:", userId, "to", newRole);
 
   CallAJAX("service.php", "post", "json",
-    { action: "ChangeUserRole", user_id: userId, new_role: newRole },
+    { action: "ChangeUserRole", user_id: userId, new_role: newRole, older_role: $(`.role-select[data-user="${userId}"]`).data("current-role") },
     function (data) {
       console.log(data);
-      if (hasError(data)) return;
+      if (hasError(data)) {GetAllUsers(); return;}
       $('#status').html(data.message);
       GetAllUsers();
     }, ErrorMethod);

@@ -95,7 +95,7 @@ function GetOrders(location) {
                     <td>${o.paymentMethod}</td>
                     <td>${o.itemName}</td>
                     <td>${o.itemPrice}</td>
-                    <td>${o.itemCount}</td>
+                    <td>${o.itemCount}</td>                    
                 </tr>`;
                 tbody.append(row);
             });
@@ -103,6 +103,7 @@ function GetOrders(location) {
 
         }, ErrorMethod);
 }
+
 
 
 /**

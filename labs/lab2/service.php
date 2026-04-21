@@ -314,6 +314,18 @@ function ChangeUserRole()
   $query = "SELECT role_rank FROM roles WHERE role_name='$new_role'";
   $target_rank = mySqlQuery($query)->fetch_assoc()["role_rank"] ?? 999; // default to lowest rank if not found
 
+  // If the older role is same less than current user rank, don't allow the change to prevent privilege escalation by changing to a higher role and then changing other users' roles
+  if (isset($clean_post["older_role"])) {
+    $older_role = $clean_post["older_role"];
+    $query = "SELECT role_rank FROM roles WHERE role_name='$older_role'";
+    $older_role_rank = mySqlQuery($query)->fetch_assoc()["role_rank"] ?? 999; // default to lowest rank if not found
+
+    if ($older_role_rank < $current_rank) {
+      $output["error"] = "Unauthorized: Cannot change role of a user with a role higher than your own rank";
+      return;
+    }
+  }
+
   if ($target_rank < $current_rank) {
     $output["error"] = "Unauthorized: Cannot assign a role higher than your own rank";
     return;

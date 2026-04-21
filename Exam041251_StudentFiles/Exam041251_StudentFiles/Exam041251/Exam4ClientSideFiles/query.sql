@@ -21,5 +21,3 @@ INSERT INTO items (itemid, itemName, itemPrice) VALUES (7, 'TestItem', 1)
 UPDATE items SET itemName = 'change', itemPrice = 6 WHERE itemid = 7
 
 DELETE FROM items WHERE itemid = 7
-
-select

@@ -215,6 +215,32 @@ namespace ICA11_DareenKN
 ;
             });
 
+            
+            app.MapDelete("/DeleteOrder/{orderId}", (int orderId) =>
+            {
+                Console.WriteLine("Inside DeleteOrder");
+
+                using (var db = new Dkinganjatou1RestaurantDbContext())
+                {
+                    var order = db.Orders.Find(orderId);
+                    if (order == null)
+                        return Results.NotFound(new { message = $"Order with ID {orderId} not found" });
+
+                    try
+                    {
+                        db.Orders.Remove(order);
+                        db.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        return Results.Ok(new { message = $"An error occurred while deleting the order: {ex.Message}" });
+                    }
+
+                    return Results.Ok(new { message = $"Order with ID {orderId} has been deleted successfully" });
+                }
+            });
+
+
             app.Run();
         }
 

@@ -19,6 +19,28 @@
   },
   {
     "ContainingType": "ICA11_DareenKN.Program\u002B\u003C\u003Ec",
+    "Method": "\u003CMain\u003Eb__1_8",
+    "RelativePath": "DeleteOrder/{orderId}",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ICA11_DareenKN.Program\u002B\u003C\u003Ec",
     "Method": "\u003CMain\u003Eb__1_4",
     "RelativePath": "GetOrders/{Cid?}/{lName}",
     "HttpMethod": "GET",

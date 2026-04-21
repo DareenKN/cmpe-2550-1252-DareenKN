@@ -101,6 +101,8 @@ function GetOrders(location, cusId) {
                     <td>${o.itemName}</td>
                     <td>${o.itemPrice}</td>
                     <td>${o.itemCount}</td>
+                    // Add a delete button for each order
+                    <td><button class="delete-btn" data-order-id="${o.orderId}" onclick="DeleteOrder(${o.orderId})">Delete</button></td>
                 </tr>`;
                 tbody.append(row);
             });
@@ -110,6 +112,27 @@ function GetOrders(location, cusId) {
 }
 
 
+function DeleteOrder(orderId) {
+    console.log("In Delete Order", orderId);
+    CallAJAX(`https://localhost:7001/DeleteOrder/${orderId}`, "delete", "json",
+        {},
+        function (data) {
+            console.log(data);
+            if (data.error) {
+                $("#error").show()
+                $("#error").removeClass("success")
+                    .addClass("error")
+                    .html(data.error);
+                return;
+            }
+            $("#error").show()
+                .removeClass("error")
+                .addClass("success")
+                .html(data.message);
+            // Refresh the orders list after deletion
+            GetOrders($("#location").val());
+        }, ErrorMethod);
+}
 
 /**
  * FunctionName:    LoadInfo

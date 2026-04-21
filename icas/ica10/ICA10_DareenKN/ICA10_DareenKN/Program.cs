@@ -35,22 +35,22 @@ namespace ICA10_DareenKN
                 using (var db = new Dkinganjatou1RestaurantDbContext())
                 {
                     var locations = db.Locations
-                                      .Select(x=> x.LocationName)
+                                      .Select(x => x.LocationName)
                                       .ToList();
                     string message = $"Retrieved {locations.Count} location(s)";
 
 
                     return Results.Ok(new { locations = locations, message = message });
                 }
-            }); 
+            });
 
             app.MapGet("/GetOrders/{Cid?}/{lName}", (int? Cid, string lName) =>
             {
                 Console.WriteLine("Inside GetOrders");
                 Console.WriteLine($"{Cid} {lName}");
 
-                if(Cid == null)
-                    return Results.Ok(new { messsage = $"No ID was provided"});
+                if (Cid == null)
+                    return Results.Ok(new { messsage = $"No ID was provided" });
 
                 if (string.IsNullOrEmpty(lName))
                     return Results.Ok(new { message = $"No Location was provided" });
@@ -89,9 +89,9 @@ namespace ICA10_DareenKN
                                          .Where(x => x.Cid == Cid)
                                          .Select(x => $"{x.Fname} {x.Lname}")
                                          .ToList().FirstOrDefault();
-                    if (custumername == null)                    
+                    if (custumername == null)
                         return Results.Ok(new { error = $"Customer with ID {Cid} not found" });
-                    
+
                     if (orders.Count > 0)
                         message = $"Orders placed by {custumername} at Location: {lName}";
                     else
@@ -101,15 +101,15 @@ namespace ICA10_DareenKN
                 }
             });
 
-            app.MapGet("/Menu/{loc}",(string loc)=>
+            app.MapGet("/Menu/{loc}", (string loc) =>
             {
                 Console.WriteLine("Inside Menu");
 
                 using (var db = new Dkinganjatou1RestaurantDbContext())
                 {
                     var menu = db.ItemsOffereds
-                                 .Where(x=>x.OfferedStatus && x.Location.LocationName == loc)
-                                 .Select(x=>new
+                                 .Where(x => x.OfferedStatus && x.Location.LocationName == loc)
+                                 .Select(x => new
                                  {
                                      item = x.Item.ItemName,
                                      price = x.Item.ItemPrice
@@ -132,7 +132,7 @@ namespace ICA10_DareenKN
                                           .Distinct()
                                           .ToList();
                     string message = $"Retrieved {paymentMethod.Count} payment Methods";
-                    return Results.Ok(new { paymentMethods = paymentMethod, message = message});
+                    return Results.Ok(new { paymentMethods = paymentMethod, message = message });
                 }
             });
 
