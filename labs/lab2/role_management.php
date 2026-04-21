@@ -9,6 +9,11 @@ if (!isset($_SESSION["username"])) {
     exit();
 }
 
+if($_SESSION["rank"] > 2) {// Only root or admin allowed to access role management
+    header("Location: index.php?status=Not authorized to access role management");
+    exit();
+}
+
 $username = $_SESSION["username"];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST["action"] == "logout") {
@@ -30,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST["action"] == "logout") {
     <script src="dataRetrieval.js"></script>
     <link rel="stylesheet" href="css/style.css">
 </head>
-
+ 
 <body>
 
     <header>
@@ -50,17 +55,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST["action"] == "logout") {
 
                     <div class="form-row">
                         <label for="rolename">Role Name :</label>
-                        <input type="text" name="rolename" id="rolename" placeholder="Supply a role name">
+                        <input type="text" name="rolename" id="roleName" placeholder="Supply a role name">
                     </div>
 
                     <div class="form-row">
                         <label for="desc">Role Description :</label>
-                        <input type="text" name="desc" id="desc" placeholder="Supply a description">
+                        <input type="text" name="desc" id="roleDescription" placeholder="Supply a description">
                     </div>
 
                     <div class="form-row">
-                        <label for="role">Role Rank:</label>
-                        <input type="number" min="1" name="role" id="role" placeholder="Supply a rank">
+                        <label for="rolerank">Role Rank:</label>
+                        <input type="number" min="1" name="role" id="rolerank" placeholder="Supply a rank">
                     </div>
 
                     <div class="form-row">
@@ -82,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST["action"] == "logout") {
 
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>Delete</th>
                             <th>Name</th>
                             <th>Description</th>
                             <th>Role Rank</th>

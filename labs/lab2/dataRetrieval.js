@@ -8,8 +8,10 @@
 
 $(document).ready(function () {
   $("#addUser").click(AddUser);
+  $("#addRole").click(AddRole);
   GetAllUsers();
   GetAllRoles();
+
 });
 
 
@@ -66,6 +68,22 @@ function DeleteUser(userId) {
     }, ErrorMethod);
 }
 
+function DeleteRole(roleId) {
+  // if (!confirm("Are you sure you want to delete this role?")) return;
+  console.log("Deleting role:", roleId);
+  CallAJAX("service.php", "post", "json",
+    { action: "DeleteRole", role_id: roleId },
+    function (data) {
+      console.log(data);
+      if (data.error) {
+        $('#status').html(data.error);
+        return;
+      }
+      $('#status').html(data.message);
+      GetAllRoles();
+    }, ErrorMethod);
+}
+
 function AddUser() {
   const username = $('#username').val();
   const password = $('#password').val();
@@ -83,6 +101,26 @@ function AddUser() {
       }
       $('#form-status').html(data.message);
       GetAllUsers();
+    }, ErrorMethod);
+}
+
+function AddRole() {
+  const roleName = $('#roleName').val();
+  const description = $('#roleDescription').val();
+  const roleRank = $('#rolerank').val();
+
+  console.log("Adding role:", roleName, description, roleRank);
+
+  CallAJAX("service.php", "post", "json",
+    { action: "AddRole", rolename: roleName, desc: description, rolerank: roleRank },
+    function (data) {
+      console.log(data);
+      if (data.error) {
+        $('#form-status').html(data.error);
+        return;
+      }
+      $('#form-status').html(data.message);
+      GetAllRoles();
     }, ErrorMethod);
 }
 
@@ -115,26 +153,34 @@ function GetAllRolesSuccess(data) {
   if (hasError(data)) return;
   data.roleInfo.forEach(role => {
     options = "";
-    // data.roles.forEach(role => {
-    //   let selected = role[0] === user.role_name ? "selected" : "";
-    //   options += `<option value="${role[0]}" ${selected}>${role[0]}</option>`;
-    // });
 
     let row = `<tr>
                 <td><button class="btn btn-delete" data-role="${role.role_id}" onclick="DeleteRole(${role.role_id})">Delete</button></td>
 
-                <td>${role.role_id}</td>
                 <td>${role.role_name}</td>
                 <td>${role.description}</td>
-
-                <td><select class="role-select" data-role="${role.role_rank}">${options}</select></td>                
-                // <td><button class="btn btn-change-role" data-user="${role.user_id} " onclick="ChangeUserRole(${role.user_id})">Change Role</button></td>
+                <td>${role.role_rank}</td>
+                // Make sure the drop down is populated with all roles and the user's current role is selected
+                <td><input class="role-select" type="number" min="1" name="role" id="newrank" placeholder="${role.role_rank}"></input></td>          
+                //<td><button class="btn btn-change-role" data-user="${role.role_id} " onclick="ChangeRole(this,${role.role_id})">Change Role</button></td>
               </tr>`;
     tbody.append(row);
     $("#status").html(data.message);
   });
 }
 
+function ChangeRole(btn,roleId) {
+  const newRank = $(btn).closest("tr").find(".role-select").val();
+  console.log("Changing role rank for role:", roleId, "to", newRank);
+  CallAJAX("service.php", "post", "json",
+    { action: "ChangeRole", role_id: roleId, new_rank: newRank },
+    function (data) {
+      console.log(data);
+      if (hasError(data)) return;
+      $('#status').html(data.message);
+      GetAllRoles();
+    }, ErrorMethod);
+}
 
 
 // Event delegation for dynamically created buttons

@@ -53,8 +53,20 @@ switch ($action) {
     AddUser();
     break;
 
+  case "AddRole":
+    AddRole();
+    break;
+  
+  case "DeleteRole":
+    DeleteRole();
+    break;
+
   case "DeleteUser":
     DeleteUser();
+    break;
+
+  case "ChangeRole":
+    ChangeRole();
     break;
 
   case "ChangeUserRole":
@@ -185,6 +197,55 @@ function AddUser()
   }
 }
 
+function AddRole()
+{
+  global $output, $clean_post;
+
+  $role_name = $clean_post["rolename"] ?? "";
+  $description = $clean_post["desc"] ?? "";
+  $role_rank = $clean_post["rolerank"] ?? "";
+
+  if (empty($role_name)) {
+    $output["error"] = "Role name is required";
+    return;
+  }
+  if (empty($description)) {
+    $output["error"] = "Role description is required";
+    return;
+  }
+  if (empty($role_rank)) {
+    $output["error"] = "Role rank is required";
+    return;
+  }
+
+  $query = "INSERT INTO roles (role_name, description, role_rank) 
+            VALUES ('$role_name', '$description', '$role_rank')";
+  if (mySQLNonQuery($query) < 1) {
+    $output["error"] = "Error adding role";
+  } else {
+    $output["message"] = "Role added successfully";
+  }
+}
+
+function DeleteRole()
+{
+  global $output, $clean_post;
+
+  // Verify that the role doesn't have any users assigned before deletion
+  $query = "SELECT 1 FROM user_roles WHERE role_id = '{$clean_post["role_id"]}'";
+  $result = mySqlQuery($query);
+  if ($result && $result->num_rows > 0) {
+    $output["error"] = "Cannot delete role: Users are assigned to this role";
+    return;
+  }
+  $query = "DELETE FROM roles WHERE role_id = '{$clean_post["role_id"]}'";
+  if (mySQLNonQuery($query) < 1) {
+    $output["error"] = "Error deleting role";
+  } else {
+    $output["message"] = "Role deleted successfully";
+  } 
+}
+
 function DeleteUser()
 {
   global $output, $clean_post;
@@ -274,6 +335,47 @@ function ChangeUserRole()
   }
 }
 
+function ChangeRole()
+{
+  session_start();
+  $current_rank = $_SESSION["rank"] ?? 999; // default to lowest rank if not set
+  global $output, $clean_post;
+
+  if (!isset($clean_post["role_id"])) {
+    $output["error"] = "Role ID is required for role rank change";
+    return;
+  }
+
+  if (!isset($clean_post["new_rank"]) || $clean_post["new_rank"] != "") {
+    $output["error"] = "New rank is required for role rank change";
+    return;
+  }
+
+
+
+  $role_id = (int) $clean_post["role_id"];
+  $new_rank = (int) $clean_post["new_rank"];
+
+  if ($new_rank < $current_rank) {
+    $output["error"] = "Unauthorized: Cannot assign a role rank higher than your own rank";
+    return;
+  }
+
+  if ($new_rank == $current_rank) {
+    $output["error"] = "Unauthorized: Cannot assign a role rank equal to your own rank";
+    return;
+  }
+
+  $query = "UPDATE roles SET role_rank = '$new_rank' WHERE role_id = '$role_id'";
+  $result = mySQLNonQuery($query);
+  if ($result >= 0) {
+    $output["message"] = "Role rank updated successfully" . " New rank: $new_rank" . "curent rank: $current_rank";
+  } else {
+    error_log("Error updating role rank: " . $result . "");
+    $output["error"] = "Failed to update role rank";
+  }
+}
+
 function GetAllRoles()
 {
   global $output;
@@ -290,6 +392,13 @@ function GetAllRoles()
         "role_rank" => $row["role_rank"]
       ];
     }
+
+    // populate the list of roles for dropdowns
+    $result->data_seek(0); // reset result pointer to beginning
+      while ($row = $result->fetch_row()) {
+        $output["roles"][] = $row;
+      }
+
     $output["message"] = "Retrieved $count roles records";
   }
 }
