@@ -1,0 +1,41 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #041e42;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+}
+
+h1 {
+    color: #ff4c00;
+}
+
+#menu button, [type=button] {
+    margin: 10px;
+    padding: 10px 20px;
+    background-color: #ff4c00;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+}
+
+#menu button:hover, [type=button]:hover {
+    background-color: #e03c00;
+}
+
+#content, #statusMessage {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #122c52;
+    border-radius: 8px;
+    border: 1px solid #FF4C00;
+}
+input, label
+{
+    margin: 10px;
+}
+table { font-family : Inconsolata, mono; margin:auto }
+tr { border-top: 1px solid black; }
+th{background-color: #fff; color:#041E42}
+tr:nth-child(Even),button { background-color: #FF4C00; color:#ffffff}
+td, th { padding : 5px 40px; }
