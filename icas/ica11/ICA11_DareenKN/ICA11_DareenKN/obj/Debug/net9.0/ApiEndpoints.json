@@ -156,6 +156,28 @@
   },
   {
     "ContainingType": "ICA11_DareenKN.Program\u002B\u003C\u003Ec",
+    "Method": "\u003CMain\u003Eb__1_9",
+    "RelativePath": "UpdateOrder",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "i",
+        "Type": "ICA11_DareenKN.Program\u002BInfo",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ICA11_DareenKN.Program\u002B\u003C\u003Ec",
     "Method": "\u003CMain\u003Eb__1_2",
     "RelativePath": "Welcome",
     "HttpMethod": "GET",

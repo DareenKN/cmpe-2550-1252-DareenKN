@@ -222,9 +222,9 @@ namespace ICA11_DareenKN
 
                 using (var db = new Dkinganjatou1RestaurantDbContext())
                 {
-                    var order = db.Orders.Find(orderId);
+                    var order = db.Orders.FirstOrDefault(o => o.OrderId == orderId);
                     if (order == null)
-                        return Results.NotFound(new { message = $"Order with ID {orderId} not found" });
+                        return Results.Ok(new { message = $"Order with ID {orderId} not found" });
 
                     try
                     {
@@ -237,6 +237,54 @@ namespace ICA11_DareenKN
                     }
 
                     return Results.Ok(new { message = $"Order with ID {orderId} has been deleted successfully" });
+                }
+            });
+
+            app.MapPut("/UpdateOrder", (Info i) =>
+            {
+                Console.WriteLine("Inside UpdateOrder");
+
+                if (i.Cid == null)
+                    return Results.Ok(new { error = "No customer ID has been provided" });
+
+                if (string.IsNullOrEmpty(i.item))
+                    return Results.Ok(new { error = "No item was selected" });
+
+                if (i.itemsNum == 0)
+                    return Results.Ok(new { error = "The number of items can't be equal to zero" });
+
+                if (string.IsNullOrEmpty(i.payment))
+                    return Results.Ok(new { error = "No payment method has been provided" });
+
+                using (var db = new Dkinganjatou1RestaurantDbContext())
+                {
+                    var order = db.Orders.FirstOrDefault(o => o.Cid == i.Cid);
+                    if (order == null)
+                        return Results.Ok(new { message = $"Order for customer with ID {i.Cid} not found" });
+
+                    var item = db.Items
+                                    .Where(x => x.ItemName == i.item)
+                                    .Select(x => new { x.Itemid, x.ItemPrice })
+                                    .FirstOrDefault();
+
+                    if (item == null)
+                        return Results.Ok(new { error = "Invalid item" });
+
+                    order.Itemid = item.Itemid;
+                    order.ItemCount = i.itemsNum;
+                    order.PaymentMethod = i.payment;
+
+                    try
+                    {
+                        db.Orders.Update(order);
+                        db.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        return Results.Ok(new { message = $"An error occurred while updating the order: {ex.Message}" });
+                    }
+
+                    return Results.Ok(new { message = $"Order for customer with ID {i.Cid} has been updated successfully" });
                 }
             });
 

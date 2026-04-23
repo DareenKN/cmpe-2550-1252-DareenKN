@@ -9,13 +9,14 @@
 $(document).ready(function () {
     console.log("On page onload");
     $("#error").hide();
+    $("#error2").hide();
     $(".data-section").hide();
-    $(".order-box").hide();
+    //$(".order-box").hide();
     $(".order").hide();
     Welcome();
     LoadInfo();
-
-    $("#place-order").click(ProcessOrder);
+    $(document).on("click", "#place-order", ProcessOrder);
+    $(document).on("click", "#update-order", UpdateOrder);
     $("#cusId").on("input", function () { GetOrders($("#location").val(), $(this).val()); })
 
 });
@@ -42,8 +43,11 @@ function LoadInfo() {
         {},
         function (data) {
             console.log(data);
+            $("#pickup-location").empty();
+            $("#pickup-location").append(`<option disabled selected> Select a Pickup Location</option>`);
             data.locations.forEach(l => {
                 $("#location").append(`<option value="${l}">${l}</option>`);
+                $("#pickup-location").append(`<option value="${l}">${l}</option>`);
             });
             $("#location").on("change", function () { GetMenu($(this).val()); })
             $("#location").on("change", function () { GetOrders($(this).val(), $("#cusId").val()); })
@@ -74,6 +78,8 @@ function GetOrders(location, cusId) {
             console.log(data);
 
             if (data.error) {
+
+                $("#error2").hide()
                 $("#error").show()
                 $("#error").removeClass("success")
                     .addClass("error")
@@ -119,18 +125,18 @@ function DeleteOrder(orderId) {
         function (data) {
             console.log(data);
             if (data.error) {
-                $("#error").show()
-                $("#error").removeClass("success")
+                $("#error2").show()
+                $("#error2").removeClass("success")
                     .addClass("error")
                     .html(data.error);
                 return;
             }
-            $("#error").show()
+            // Refresh the orders list after deletion
+            GetOrders($("#location").val(), $("#cusId").val());
+            $("#error2").show()
                 .removeClass("error")
                 .addClass("success")
                 .html(data.message);
-            // Refresh the orders list after deletion
-            GetOrders($("#location").val());
         }, ErrorMethod);
 }
 
@@ -191,7 +197,7 @@ function GetPaymentMethods(location) {
 function ProcessOrder() {
     data1 = {};
 
-    data1.location = $("#location").val();
+    data1.location = $("#pickup-location").val();
     data1.Cid = parseInt($("#cusId2").val());
     data1.item = $("#item").val();
     data1.itemsNum = $("#quantity").val();
@@ -214,15 +220,60 @@ function ProcessOrder() {
                     .html(data.error);
                 return;
             }
-
+            
             data.order.forEach(o => {
                 $("#order-details").append(`<li> ${o}</li>`);
             });
+            // Disable pickup location and customer ID fields after placing the order
+            $("#pickup-location").prop("disabled", true);
+            $("#cusId2").prop("disabled", true);
+            $("#place-order").html("Update Order").attr("id", "update-order");
+            // data.order.forEach(o => {
+            //     $("#order-details").append(`<li> ${o}</li>`);
+            // });
+
+            // $("#order_status").removeClass("error")
+            //     .addClass("success")
+            //     .html(data.time);
+            // GetOrders(data1.location, data1.Cid);
+        }, ErrorMethod);
+}
+
+function UpdateOrder() {
+    data1 = {};
+
+    data1.location = $("#pickup-location").val();
+    data1.Cid = parseInt($("#cusId2").val());
+    data1.item = $("#item").val();
+    data1.itemsNum = $("#quantity").val();
+    data1.payment = $("#payment").val();
+
+    console.log(data1);
+
+    CallAJAX("https://localhost:7001/UpdateOrder", "put", "json",
+        data1,
+        function (data) {
+            console.log(data);
+
+            $("#order_status").empty();
+            $("#order-details").empty();
+
+            if (data.error) {
+                $("#order_status").show()
+                $("#order_status").removeClass("success")
+                    .addClass("error")
+                    .html(data.error);
+                return;
+            }
 
             $("#order_status").removeClass("error")
                 .addClass("success")
                 .html(data.time);
             GetOrders(data1.location, data1.Cid);
+            // Revert back to place order mode
+            $("#pickup-location").prop("disabled", false);
+            $("#cusId2").prop("disabled", false);
+            $("#update-order").html("Place Order").attr("id", "place-order");
         }, ErrorMethod);
 }
 
