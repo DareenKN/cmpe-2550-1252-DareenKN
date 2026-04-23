@@ -1,0 +1,2 @@
+wwwroot\index.html
+D:\Desktop\WebApplication1\WebApplication1\wwwroot\index.html

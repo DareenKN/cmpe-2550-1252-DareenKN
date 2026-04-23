@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee API Tester</title>
+</head>
+<body>
+
+    <!--
+        NOTE: This code was *quickly* put together to showcase an api written using EF Core. 
+        Please do NOT consider it a standard for this course.
+    -->
+    <h1>Employee API Tester</h1>
+
+    <hr />
+    <h2>GET /employees</h2>
+    <button onclick="getAllEmployees()">Get All Employees</button>
+    <pre id="getAllResult"></pre>
+
+    <hr />
+    <h2>GET /employees/{employeeId}</h2>
+    <input type="number" id="empIdGet" placeholder="Employee ID" />
+    <button onclick="getEmployee()">Get Employee</button>
+    <pre id="getOneResult"></pre>
+
+    <hr />
+    <h2>GET /employees/{employeeId}/orders</h2>
+    <input type="number" id="empIdOrdersGet" placeholder="Employee ID" />
+    <input type="datetime-local" id="startDate" />
+    <input type="datetime-local" id="endDate" />
+    <button onclick="getEmployeeOrders()">Get Employee Orders</button>
+    <pre id="getOrdersResult"></pre>
+
+    <hr />
+    <h2>POST /employees</h2>
+    <input type="text" id="firstName" placeholder="First Name" />
+    <input type="text" id="lastName" placeholder="Last Name" />
+    <button onclick="createEmployee()">Create Employee</button>
+    <pre id="createResult"></pre>
+
+    <hr />
+    <h2>POST /employees/{employeeId}/orders</h2>
+    <input type="number" id="empIdOrdersPost" placeholder="Employee ID" />
+    <input type="text" id="shipName" placeholder="Where the order is being shipped" />
+    <input type="number" id="freight" placeholder="Freight Amount" />
+    <input type="datetime-local" id="orderDate" />
+    <button onclick="createEmployeeOrder()">Create Order</button>
+    <pre id="createOrderResult"></pre>
+
+    <hr />
+    <h2>PUT /employees/{id}</h2>
+    <input type="number" id="empIdPut" placeholder="Employee ID" />
+    <input type="text" id="firstNamePut" placeholder="First Name" />
+    <input type="text" id="lastNamePut" placeholder="Last Name" />
+    <button onclick="updateEmployee()">UpdateEmployee</button>
+    <pre id="updateResult"></pre>
+
+    <hr />
+    <h2>DELETE /employees/{id}</h2>
+    <input type="number" id="empIdDel" placeholder="Employee ID" />
+    <button onclick="deleteEmployee()">DeleteEmployee</button>
+    <pre id="deleteResult"></pre>
+
+    <script>
+        const BASE_URL = "https://localhost:7151";  // empty = same host, change to e.g. "https://localhost:5001" if needed
+
+        async function getAllEmployees() {
+            const res = await fetch(`${BASE_URL}/employees`);
+            const data = await res.json();
+            document.getElementById("getAllResult").textContent = JSON.stringify(data, null, 2);
+        }
+
+        async function getEmployee() {
+            const id = document.getElementById("empIdGet").value;
+            const res = await fetch(`${BASE_URL}/employees/${id}`);
+            const data = await res.json();
+            document.getElementById("getOneResult").textContent = JSON.stringify(data, null, 2);
+        }
+
+        async function getEmployeeOrders() {
+            const id = document.getElementById("empIdOrdersGet").value;
+            const startDate = document.getElementById("startDate").value;
+            const endDate = document.getElementById("endDate").value;
+
+            const params = new URLSearchParams();
+            if (startDate) {
+                params.append("startDate", startDate);
+            }
+
+            if (endDate) {
+                params.append("endDate", endDate);
+            }
+
+            const res = await fetch(`${BASE_URL}/employees/${id}/orders?${params}`);
+            const data = await res.json();
+            document.getElementById("getOrdersResult").textContent = JSON.stringify(data, null, 2);
+        }
+
+        async function createEmployee() {
+            const firstName = document.getElementById("firstName").value;
+            const lastName = document.getElementById("lastName").value;
+            const res = await fetch(`${BASE_URL}/employees`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ firstName, lastName })
+            });
+            const data = await res.json();
+            document.getElementById("createResult").textContent = JSON.stringify(data, null, 2);
+        }
+
+        async function createEmployeeOrder() {
+            const id = document.getElementById("empIdOrdersPost").value;
+            const shipName = document.getElementById("shipName").value;
+            const freight = document.getElementById("freight").value;
+            const orderDate = document.getElementById("orderDate").value;
+            const res = await fetch(`${BASE_URL}/employees/${id}/orders`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ shipName, freight, orderDate })
+            });
+            const data = await res.json();
+            document.getElementById("createOrderResult").textContent = JSON.stringify(data, null, 2);
+        }
+
+        async function updateEmployee() {
+            const id = document.getElementById("empIdPut").value;
+            const firstName = document.getElementById("firstNamePut").value;
+            const lastName = document.getElementById("lastNamePut").value;
+            const res = await fetch(`${BASE_URL}/employees/${id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ firstName, lastName })
+            })
+            const data = await res.json();
+            document.getElementById("updateResult").textContent = JSON.stringify(data, null, 2);
+        }
+
+        async function deleteEmployee() {
+            const id = document.getElementById("empIdDel").value;
+            const res = await fetch(`${BASE_URL}/employees/${id}`, {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+            });
+            const data = await res.json();
+            document.getElementById("deleteResult").textContent = JSON.stringify(data, null, 2);
+        }
+    </script>
+</body>
+</html>
