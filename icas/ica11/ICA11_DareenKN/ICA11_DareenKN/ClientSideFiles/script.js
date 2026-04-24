@@ -5,7 +5,7 @@
  * Description: JavaScript file 
  * Date: February 05, 2026
 */
-
+var orderIdent = 0;
 $(document).ready(function () {
     console.log("On page onload");
     $("#error").hide();
@@ -196,7 +196,6 @@ function GetPaymentMethods(location) {
 
 function ProcessOrder() {
     data1 = {};
-
     data1.location = $("#pickup-location").val();
     data1.Cid = parseInt($("#cusId2").val());
     data1.item = $("#item").val();
@@ -227,21 +226,26 @@ function ProcessOrder() {
             // Disable pickup location and customer ID fields after placing the order
             $("#pickup-location").prop("disabled", true);
             $("#cusId2").prop("disabled", true);
+            orderIdent = data.orderIdent;
             $("#place-order").html("Update Order").attr("id", "update-order");
-            // data.order.forEach(o => {
-            //     $("#order-details").append(`<li> ${o}</li>`);
-            // });
+            
+   
+   
+        
+            data.order.forEach(o => {
+                $("#order-details").append(`<li> ${o}</li>`);
+            });
 
             // $("#order_status").removeClass("error")
             //     .addClass("success")
             //     .html(data.time);
-            // GetOrders(data1.location, data1.Cid);
+            GetOrders(data1.location, data1.Cid);
         }, ErrorMethod);
 }
 
 function UpdateOrder() {
     data1 = {};
-
+    data1.orderIdent = orderIdent;
     data1.location = $("#pickup-location").val();
     data1.Cid = parseInt($("#cusId2").val());
     data1.item = $("#item").val();

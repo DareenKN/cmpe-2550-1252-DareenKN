@@ -210,7 +210,7 @@ namespace ICA11_DareenKN
                     ];
                     time = $"Your order will be ready for pickup in {randTime.Next(1, 31)} minute(s)";
 
-                    return Results.Ok(new { time = time, order = orderPlaced });
+                    return Results.Ok(new { time = time, order = orderPlaced, orderIdent = o.OrderId});
                 }
 ;
             });
@@ -258,7 +258,7 @@ namespace ICA11_DareenKN
 
                 using (var db = new Dkinganjatou1RestaurantDbContext())
                 {
-                    var order = db.Orders.FirstOrDefault(o => o.Cid == i.Cid);
+                    var order = db.Orders.FirstOrDefault(o => o.OrderId == i.orderIdent);
                     if (order == null)
                         return Results.Ok(new { message = $"Order for customer with ID {i.Cid} not found" });
 
@@ -292,6 +292,6 @@ namespace ICA11_DareenKN
             app.Run();
         }
 
-        record Info(string location, int? Cid, string item, int itemsNum, string payment);
+        record Info(string location, int? Cid, string item, int itemsNum, string payment, int orderIdent);
     }
 }
